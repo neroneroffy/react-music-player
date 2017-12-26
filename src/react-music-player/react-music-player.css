@@ -1,0 +1,180 @@
+
+@font-face {
+    font-family: 'icomoon';
+    src:  url('../fonts/icomoon.eot?xvuive');
+    src:  url('../fonts/icomoon.eot?xvuive#iefix') format('embedded-opentype'),
+    url('../fonts/icomoon.ttf?xvuive') format('truetype'),
+    url('../fonts/icomoon.woff?xvuive') format('woff'),
+    url('../fonts/icomoon.svg?xvuive#icomoon') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'icomoon' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-44:before {
+    content: "\e900";
+}
+.icon-333:before {
+    content: "\e901";
+}
+.icon-666:before {
+    content: "\e902";
+}
+.icon-777:before {
+    content: "\e903";
+}
+.icon-last:before {
+    content: "\e904";
+}
+.icon-next:before {
+    content: "\e905";
+}
+#react-music-player{
+    width: 100%;
+    background: #fff;
+    box-shadow: 0 -2px 5px #ccc;
+    margin-top: 100px;
+
+}
+.react-music-player-inner{
+    width: 80%;
+    margin:0 auto;
+    height: 80px;
+    padding-top: 18px;
+    position: relative;
+/*    display: flex;
+    justify-content: space-between;
+    align-items: center;*/
+}
+.left-control{
+    width: 15%;
+    display: inline-block;
+    vertical-align: middle;
+
+}
+.left-control span{
+    display: inline-block;
+    vertical-align: middle;
+}
+.left-control .icon-44,.left-control .icon-333{
+    font-size: 30px;
+    margin:0 8px;
+}
+
+.music-box{
+    width: 80%;
+/*    display: flex;
+    justify-content: flex-start;
+    align-items: center;*/
+    display: inline-block;
+    vertical-align: middle;
+
+}
+.music-box .picture {
+    width: 60px;
+    height: 60px;
+    border-radius: 5px;
+    background: #ccc;
+    flex-shrink: 0;
+    display: inline-block;
+    vertical-align: middle;
+}
+.music-box .music-info{
+    width: 86%;
+    margin-left: 15px;
+    font-size: 14px;
+    color: #868686;
+    height: 60px;
+    display: inline-block;
+    vertical-align: middle;
+}
+.music-box .music-info .progress{
+    width: 100%;
+    background: #ccc;
+    height: 3px;
+    margin:10px 0
+}
+.music-box .music-info .music-name{
+    text-align: left;
+}
+.music-box .music-info .time{
+    display: flex;
+    justify-content: space-between;
+}
+.right-control{
+    font-size: 20px;
+    display: inline-block;
+    vertical-align: middle;
+
+}
+
+@media screen and (max-width: 1024px) {
+    .left-control .icon-44,.left-control .icon-333{
+        margin:0 10px
+    }
+    .music-box .music-info{
+        width: 80%;
+        margin-left: 20px;
+
+    }
+
+}
+@media screen and (max-width: 690px) {
+    .music-box .picture{
+        display: none;
+    }
+    .left-control{
+        width: 20%;
+    }
+    .music-box .music-info{
+        width: 90%;
+
+    }
+    .music-box .music-info .time{
+        justify-content: flex-end;
+    }
+    .music-box .music-info .time .remain-time{
+        display: none;
+    }
+    .right-control{
+        display: none;
+    }
+}
+@media screen and (max-width: 530px) {
+
+    .left-control{
+        position: absolute;
+        top:60px;
+        width: 120px;
+    }
+    .left-control span{
+        float: left;
+    }
+    .left-control .icon-44,.left-control .icon-333{
+        font-size: 25px;
+        margin:-3px 8px 0 8px;
+    }
+    .music-box {
+        width: 90%;
+        margin-right: 10px;
+    }
+    .music-box .music-info{
+        width: 100%;
+        margin-left: 0px;
+    }
+
+}
