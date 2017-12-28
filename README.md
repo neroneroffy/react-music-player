@@ -4,10 +4,11 @@
 
 之前基于Vue写了一个播放器，带各种功能，最后把自己绕死了。这次用React重写了个，舍弃了那些没用的功能，只保留了基本功能。并且利用媒体查询适配移动端和手机端。组件之间传值利用props，这个播放器先供自己用，以后会抽离成为一个插件。如果感觉不错给个星星~
 
-[点击查看效果](http://www.wwwprince.cn/build/index.html)
+[点击查看项目](http://www.wwwprince.cn/build/index.html)
 
 图片演示：
-![image](https://github.com/capslocktao/private-project/blob/master/react_cascader/data.jpg)
+
+![image](https://github.com/capslocktao/react-music-player/blob/master/show.gif)
 
 ### 功能
  * 播放，暂停
@@ -22,8 +23,20 @@
  * 播放音乐时封面图片旋转，暂停时停止旋转（只在PC端可查看，移动端隐藏音乐封面图片）
 
 
-
 ### 说明
+```
+git clone git@github.com:capslocktao/react-music-player.git
+
+//安装依赖
+npm install
+
+//启动项目
+npm start
+
+//打包编译
+npm run build
+```
+
 | API           | 说明               | 类型      |
 | ------------- |:------------------:| --------:|
 | info          | 传入组件的歌曲数据    | Array    |
