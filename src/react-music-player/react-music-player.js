@@ -16,7 +16,8 @@ class ReactMusicPlayer extends Component {
             angle:0,
             mouseDown:false,
             musicListShow:false,
-            currentMusic:{}
+            currentMusic:{},
+            isPlayed:false
         };
         this.last = this.last.bind(this);
         this.play = this.play.bind(this);
@@ -91,6 +92,7 @@ class ReactMusicPlayer extends Component {
             audio.play()
             this.setState({
                 isPaused:true,
+                isPlayed:true
             },()=>{
                 rotateTimer = setInterval(()=>{
                     this.setState({
@@ -127,6 +129,9 @@ class ReactMusicPlayer extends Component {
             this.setState({
                 remainTime:this.getTime(remainTime),
             });
+            if(audio.ended){
+                this.next()
+            }
 
         })
         audio.addEventListener('ended',()=>{
@@ -285,7 +290,7 @@ class ReactMusicPlayer extends Component {
             this.play()
         })
     }
-    delMusic(i){
+    delMusic(i,id){
         let audio = this.refs.audio;
         this.setState({})
         if(this.props.info[i].src === this.state.currentMusic.src){
@@ -294,7 +299,7 @@ class ReactMusicPlayer extends Component {
                     currentMusic:this.props.info[i+1]
                 },()=>{
                     this.play()
-                    this.props.onDel(i);
+                    this.props.onDel(i,id);
                 })
             }else if(!this.props.info[i+1] && this.props.info[i-1]){
                 //都删除完了
@@ -306,24 +311,28 @@ class ReactMusicPlayer extends Component {
                 },()=>{
                     this.play()
                 })
-                this.props.onDel(i);
+                this.props.onDel(i,id);
             }else{
                 //都删除完了
                 console.log(`都删除完了`)
                 clearInterval(rotateTimer);
                 audio.currentTime = 0;
                 this.refs.buffered.style.width = 0;
-                this.refs.played.style.width = 0
+                this.refs.played.style.width = 0;
                 this.setState({
                     currentMusic:{},
-                    musicListShow:false
+                    isPlayed:false,
+                    musicListShow:false,
+
+                },()=>{
+                    this.props.onDel(i,id);
                 })
-                this.props.onDel(i);
+
 
             }
         }else{
             console.log(`删除的不是播放的`)
-            this.props.onDel(i);
+            this.props.onDel(i,id);
 
         }
 
@@ -365,7 +374,7 @@ class ReactMusicPlayer extends Component {
                                      onMouseUp={this.mouseUp}
                                      onMouseLeave={this.mouseLeave}
                                 >
-                                    <div className="progress" ref="progress">
+                                    <div className="progress" >
                                         <div className="progress-buffered" ref="buffered" ></div>
                                         <div className="progress-played" ref="played"></div>
                                     </div>
@@ -381,8 +390,9 @@ class ReactMusicPlayer extends Component {
                         <div className="music-list-btn">
                             <span className="icon-menu" onClick={this.showMusicList}></span>
                         </div>
+
                         <div className="right-control">
-                            <div className="volume-control"
+                            <div className="volume-control-wrapper"
                                  onTouchMove={this.moveVolume}
                                  onTouchStart={this.startMoveVolume}
                                  onClick={this.clickChangeVolume}
@@ -390,9 +400,13 @@ class ReactMusicPlayer extends Component {
                                  onMouseMove={this.slideChangeVolume}
                                  onMouseUp={this.mouseUpVolume}
                                  onMouseLeave={this.mouseLeave}
-                                 ref="totalVolume"
                             >
-                                <div className="volume-progress" ref="volumeProgress"></div>
+                                <div className="volume-control"
+                                     ref="totalVolume"
+                                >
+                                    <div className="volume-progress" ref="volumeProgress"></div>
+                                </div>
+
                             </div>
                             <span className="icon-volume"></span>
                         </div>
@@ -407,26 +421,45 @@ class ReactMusicPlayer extends Component {
                     {
                         this.state.musicListShow?
                             <div className="music-list">
-                                {
-                                    this.props.info.map((v,i)=>{
-                                        return (
-                                            <div className="single-music" key={v.src}>                                 <div className="single-music-play">
-                                                <span className={this.state.currentMusic.src === v .src ?"icon-playing":"icon-play"} onClick={this.playThis.bind(this,i)}></span>
-                                            </div>
-                                                <div className="single-music-name">{v.name}</div>
-                                                <div className="single-music-artist">{v.artist}</div>
-                                                <div className="single-music-del">
-                                                    <span className="icon-del" onClick={()=>{this.delMusic(i)}}></span>
+                                <div className="music-list-title">
+                                    <span>播放列表</span>
+                                </div>
+                                <div className="single-music-wrapper">
+                                    {
+                                        this.props.info.map((v,i)=>{
+                                            return (
+                                                <div className="single-music" style={
+                                                    this.state.currentMusic.src === v .src && this.state.isPlayed?{background: "#33beff",color:"#fff"}:null} key={v.src}>
+                                                    <div className="single-music-play">
+                                                        <span className={this.state.currentMusic.src === v .src && this.state.isPlayed?"icon-playing":"icon-play"} onClick={this.playThis.bind(this,i)}></span>
+                                                    </div>
+                                                    <div className="single-music-name">{v.name}</div>
+                                                    <div className="single-music-artist">{v.artist}</div>
+                                                    <div className="single-music-del">
+                                                        <span className="icon-del" onClick={()=>{this.delMusic(i,v.id)}}></span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        )
-                                    })
-                                }
+                                            )
+                                        })
+                                    }
+
+                                </div>
                             </div>
                             :
                             null
                     }
 
+                </ReactCSSTransitionGroup>
+                <ReactCSSTransitionGroup
+                    transitionName="music-list-model"
+                    transitionEnterTimeout={500}
+                    transitionLeaveTimeout={300}
+                >
+                    {
+                        this.state.musicListShow?
+                            <div className="modal" onClick={this.showMusicList}></div>
+                            :null
+                    }
                 </ReactCSSTransitionGroup>
 
             </div>
