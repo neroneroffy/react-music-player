@@ -132,7 +132,6 @@ class ReactMusicPlayer extends Component {
             if(audio.ended){
                 this.next()
             }
-
         })
         audio.addEventListener('ended',()=>{
             clearInterval(rotateTimer)
@@ -172,7 +171,6 @@ class ReactMusicPlayer extends Component {
             this.refs.played.style.width = newWidth * 100 + "%";
             audio.currentTime = newWidth * audio.duration;
         }
-
     }
     //PC端点击事件
     clickChangeTime(e){
