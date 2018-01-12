@@ -61,6 +61,9 @@ class ReactMusicPlayer extends Component {
 
     }
     last(){
+        this.setState({
+            angle:0
+        });
         if(!this.state.currentMusic.src){
             return
         }
@@ -132,12 +135,12 @@ class ReactMusicPlayer extends Component {
             if(audio.ended){
                 this.next()
             }
-        })
-        audio.addEventListener('ended',()=>{
-            clearInterval(rotateTimer)
-        })
+        });
     }
     next(){
+        this.setState({
+            angle:0
+        });
         if(!this.state.currentMusic.src){
             return
         }
@@ -331,7 +334,6 @@ class ReactMusicPlayer extends Component {
         }else{
             console.log(`删除的不是播放的`)
             this.props.onDel(i,id);
-
         }
 
 
