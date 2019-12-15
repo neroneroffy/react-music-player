@@ -1,15 +1,13 @@
-﻿## 一个基于React的适配PC端和移动端的轻量音乐播放器
+﻿﻿## 一个基于React的适配PC端和移动端的轻量音乐播放器
 
-> 技术：React16
+**@ React16.12.0**
 
-之前基于Vue写了一个播放器，带各种功能，最后把自己绕死了。这次用React重写了个，舍弃了那些没用的功能，只保留了基本功能。并且利用媒体查询适配移动端和手机端。组件之间传值利用props，这个播放器先供自己用，以后会抽离成为一个插件。如果感觉不错给个星星~
+两年前的代码，最近用hooks和TypeScript重构了一下
 
-[点击查看项目](http://akongkong.cn/build/)(可能因为会资源问题有歌曲播放不出来，如果发现我会及时解决的，目前是好的)</br>
-[项目文章](https://segmentfault.com/a/1190000012628577)
+[点击查看演示](http://akongkong.cn/build/)</br>
 
-图片演示：
+[技术文章](https://segmentfault.com/a/1190000012628577)
 
-![image](https://github.com/capslocktao/react-music-player/blob/master/show.gif)
 
 ### 功能
  * 播放，暂停
@@ -26,55 +24,53 @@
 
 ### 说明
 ```
-git clone git@github.com:capslocktao/react-music-player.git
+https://github.com/neroneroffy/react-music-player.git
 
 //安装依赖
 npm install
 
 //启动项目
-npm start
+npm run dev
 
-//打包编译
-npm run build
+// 访问
+http://localhost:8080
 ```
 
-| API           | 说明               | 类型      |
-| ------------- |:------------------:| --------:|
-| info          | 传入组件的歌曲数据    | Array    |
-| onDel         | 删除歌曲的回调函数    | Function |
+| API           | 说明                         | 类型     |
+| ------------- |:----------------------------:| --------:|
+| data          | 传入组件的歌曲数据           | Array    |
+| onDelete      | 删除播放列表内歌曲的回调函数 | Function |
 
-info接收的参数类型为一个对象数组
+### usage
+
 ```
-    render() {
-        const songInfo = [
-            {
-                src:"http://fs.w.kugou.com/201712281346/32b6de4127502b0f2defb32a859b7278/G048/M00/1B/0F/EJQEAFYl4ZuAUSEVAEIa293rBH4619.mp3",
-                artist:"陶喆",
-                name:"Melody",
-                img:"http://imge.kugou.com/stdmusic/20150718/20150718174252663587.jpg",
-                id:"66575568441"
-            },
-            {
-                src:"http://fs.w.kugou.com/201712281315/2e497482c4283748d6b3d3e7912caada/G010/M07/1F/1D/qoYBAFUKLG2AFwOuAD6hYqqxfPE635.mp3",
-                artist:"周杰伦",
-                name:"千里之外",
-                img:"http://imge.kugou.com/stdmusic/20170728/20170728122746411503.jpg",
-                id:"43245456534"
-            }
-        ]
-    return (
-      <div className="App">
-          <ReactMusicPlayer
-            info={songInfo}
-            onDel = {this.delSong}
-          />
-      </div>
-    );
+const App = () => {
+  const [ data, setData ] = useState([
+      {
+          src: 'http://neroht.com/%E6%AD%A2%E6%88%98%E4%B9%8B%E6%AE%87-piano.mp3',
+          artist: '张斗完',
+          name: '止战之殇（纯钢琴）',
+          img: 'http://neroht.com/jay.jpg',
+          id: '66575568441',
+      },
+      {
+          src: 'http://neroht.com/%E7%91%BE%E5%A7%9DHikari%20-%20%E5%A4%A7%E6%B0%BF%E6%AD%8C%EF%BC%88%E6%88%8F%E8%85%94%E7%89%88%EF%BC%89%EF%BC%88Cover%EF%BC%9Ailem%EF%BC%89.mp3',
+          artist: '瑾姝Hikari',
+          name: '大氿歌',
+          img: 'http://neroht.com/daguige.jpg',
+          id: '66575568442',
+      }
+  ])
+  // onDelete是当删除播放列表内的歌曲时，触发的函数
+  const onDelete = (index: number, id: string) => {
+      data.splice(index, 1)
+      setData(data)
   }
+
+  return <div className={'wrapper'}>
+      <CoolPlayer onDelete={onDelete} data={data}/>
+  </div>;
+}
 ```
-onDel是当删除播放列表内的歌曲时，触发的函数
-```
-    delSong(i,id){
-        //接收两个参数：i为删除的歌曲在播放列表中的位置；id为删除掉的歌曲的id
-    }
-```
+
+后续会暴露出更多api，支持更灵活的配置
