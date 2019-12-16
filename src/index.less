@@ -56,30 +56,31 @@
 #cool-player{
   width: 100%;
   background: #fff;
+  position: relative;
 }
-.react-music-player-wrapper {
+.cool-player-wrapper {
   width: 100%;
   height: 80px;
   background: #fff;
   position: relative;
-  z-index: 9997;
   box-shadow: 0 0px 5px #ccc;
-}
-.react-music-player-inner{
-  width: 90%;
-  margin:0 auto;
-  height: 80px;
-  padding: 12px;
-  position: relative;
-  z-index: 9999;
-  background: #fff;
+  .cool-player-inner{
+    width: 90%;
+    margin:0 auto;
+    height: 80px;
+    padding: 4px;
+    position: relative;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 
 }
 .left-control{
   width: 8%;
-  display: inline-block;
-  vertical-align: middle;
-  text-align: left;
+  display: flex;
+  align-items: center;
   color: #868686;
 }
 .left-control span{
@@ -91,106 +92,112 @@
   margin:0 8px;
 }
 
-.music-box{
+.cool-play-box {
   width: 70%;
-  /*    display: flex;
-      justify-content: flex-start;
-      align-items: center;*/
-  display: inline-block;
-  vertical-align: middle;
-
-}
-.music-box .picture {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background: #ccc;
-  flex-shrink: 0;
-  display: inline-block;
-  vertical-align: middle;
-  overflow: hidden;
-  position: relative;
-  font-size: 0;
-  margin-left: -80px;
-}
-.music-box .picture img{
-  width: 70px;
-  height: 70px;
-  position: absolute;
-  top:0;
-  right:0;
-  bottom:0;
-  left:0;
-  margin:auto
-}
-.music-box .music-info{
-  width: 80%;
-  margin-left: 15px;
-  font-size: 14px;
-  color: #868686;
-  height: 60px;
-  display: inline-block;
-  vertical-align: middle;
-}
-/*进度条*/
-.music-box .music-info .progress-wrapper{
-  width: 100%;
-  height: 4px;
-  padding:10px 0;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  user-select:none;
-}
-.music-box .music-info .progress{
-  width: 100%;
-  background: #eaeaea;
-  height: 4px;
-  position: relative;
-  border-radius: 5px;
-
-
-}
-/*缓冲进度条*/
-.music-box .music-info .progress .progress-buffered{
-
-  position: absolute;
-  top:0;
-  left:0;
-  height: 4px;
-  background: #c7c7c7;
-  z-index: 9998;
-  border-radius: 5px;
-}
-/*播放进度条*/
-.music-box .music-info .progress .progress-played{
-
-  position: absolute;
-  top:0;
-  left:0;
-  height: 4px;
-  background: linear-gradient(90deg,#01e4ff,#017fff);
-  z-index: 9999;
-  border-radius: 5px;
-}
-.music-box .music-info .music-name{
-  text-align: left;
-}
-.music-box .music-info .time{
+  height: 88px;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  background: #fff;
+  .play-list-btn{
+    margin-right: 10px;
+    margin-left: 24px;
+    font-size: 18px;
+    color: #868686;
+    cursor: pointer;
+  }
+  .picture {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: #ccc;
+    flex-shrink: 0;
+    display: inline-block;
+    vertical-align: middle;
+    overflow: hidden;
+    position: relative;
+    font-size: 0;
+    margin-left: -80px;
+    margin-right: 16px;
+  }
+  .picture img {
+    width: 70px;
+    height: 70px;
+    position: absolute;
+    top:0;
+    right:0;
+    bottom:0;
+    left:0;
+    margin:auto
+  }
+  .picture img{
+    width: 70px;
+    height: 70px;
+    position: absolute;
+    top:0;
+    right:0;
+    bottom:0;
+    left:0;
+    margin:auto
+  }
+  .music-info{
+    width: 90%;
+    color: #868686;
+    font-size: 14px;
+    .music-name{
+      text-align: left;
+    }
+    .time{
+      display: flex;
+      justify-content: flex-end;
+      span{
+        margin:0 2px
+      }
+    }
+  }
+  .progress-wrapper{
+    width: 100%;
+    height: 4px;
+    padding:10px 0;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select:none;
+  }
+  .progress{
+    width: 100%;
+    background: #eaeaea;
+    height: 4px;
+    position: relative;
+    border-radius: 5px;
+    .progress-buffered{
+      position: absolute;
+      top:0;
+      left:0;
+      height: 4px;
+      background: #c7c7c7;
+      border-radius: 5px;
+    }
+    .progress-played{
+      position: absolute;
+      top:0;
+      left:0;
+      height: 4px;
+      background: linear-gradient(90deg,#01e4ff,#017fff);
+      z-index: 9999;
+      border-radius: 5px;
+    }
+  }
 }
-.music-box .music-info .time span{
-  margin:0 2px
-}
-.music-list-btn{
-  display: inline-block;
-  vertical-align: middle;
-  margin-right: 10px;
-  margin-left: 4px;
-  font-size: 18px;
-  color: #868686;
+.cool-play-list-wrapper {
+  height: 88px;
+  background: #fff;
+  position: absolute;
+  width: 70%;
+  left: 50%;
+  margin-left: -36%;
 }
 /*音量控制*/
 .right-control{
@@ -225,94 +232,88 @@
   background:  linear-gradient(90deg,#01e4ff,#017fff);
   height: 4px;
   border-radius: 5px;
-  z-index: 9999;
 }
 /*播放列表*/
-.music-list{
+.play-list{
   position: absolute;
-  left:50%;
-  top:-320px;
-  z-index:9990;
+  right: 8px;
+  top: -327px;
   margin-left: -12.5%;
   width: 25%;
   height: 320px;
   background: #fff;
   border:1px solid #e5e5e5;
-  /*box-shadow: 0px 0px 8px 0 #e2e2e2;*/
-
   padding-top:5px;
   color: #868686;
-}
-.music-list .music-list-title{
-  height: 40px;
-  line-height: 40px;
-  width: 100%;
-  background: #fff;
-  margin:0 auto;
-  border-bottom: 1px solid #ececec;
-  margin-bottom: 10px;
-  text-align: left;
-  position: absolute;
-  top:0;
-  left:0;
-}
-.music-list .music-list-title span{
-  margin-left: 5px;
-}
-.music-list .single-music-wrapper{
-  overflow: auto;
-  height: 260px;
-  padding-bottom: 40px;
-  margin-top: 40px;
-  margin-bottom: 20px;
-}
-.music-list .single-music{
-  height: 36px;
-  line-height: 36px;
-  display: flex;
-  justify-content: space-between;
-  padding:0 10px;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  user-select:none;
-}
-.music-list .single-music div{
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow:ellipsis;
+  .play-list-title{
+    height: 40px;
+    line-height: 40px;
+    width: 100%;
+    background: #fff;
+    margin:0 auto 10px auto;
+    border-bottom: 1px solid #ececec;
+    text-align: left;
+    position: absolute;
+    top:0;
+    left:0;
+    span{
+      margin-left: 5px;
+    }
+  }
+  .single-music-wrapper{
+    overflow: auto;
+    height: 260px;
+    padding-bottom: 40px;
+    margin-top: 40px;
+    margin-bottom: 20px;
+  }
+  .single-music{
+    height: 36px;
+    line-height: 36px;
+    display: flex;
+    justify-content: space-between;
+    padding:0 10px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select:none;
+    div{
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow:ellipsis;
+    }
+  }
+  .single-music-play{
+    width: 10%;
+    text-align: left;
+    margin-right: 10px;
+  }
+  .single-music-name{
+    width: 40%;
+    text-align: left;
+  }
+  .single-music-artist{
+    width: 40%;
+    text-align: left;
+  }
+  .single-music-del{
+    width: 10%;
+    text-align: center;
+  }
 }
 
-
-.music-list .single-music-play{
-  width: 10%;
-  text-align: left;
-  margin-right: 10px;
-}
-.music-list .single-music-name{
-  width: 40%;
-  text-align: left;
-}
-.music-list .single-music-artist{
-  width: 40%;
-  text-align: left;
-}
-.music-list .single-music-del{
-  width: 10%;
-  text-align: center;
-}
-.music-list-show-enter {
+.play-list-show-enter {
   top: 20px;
 }
-.music-list-show-enter.music-list-show-enter-active {
+.play-list-show-enter.play-list-show-enter-active {
   top: -320px;
   transition: all 500ms ease-in;
 }
-.music-list-show-leave {
+.play-list-show-leave {
   top: -320px;
 }
-.music-list-show-leave.music-list-show-leave-active {
+.play-list-show-leave.play-list-show-leave-active {
   top: 20px;
   transition: all 300ms ease-in;
 }
@@ -323,28 +324,27 @@
   background: #000;
   opacity: 0.3;
   position: fixed;
-  z-index: 9000;
   top:0;
   display: none;
 
 }
-.music-list-model-enter {
+.play-list-model-enter {
   opacity: 0;
 }
-.music-list-model-enter.music-list-model-enter-active {
+.play-list-model-enter.play-list-model-enter-active {
   opacity: 0.3;
   transition: all 500ms ease-in;
 }
-.music-list-model-leave {
+.play-list-model-leave {
   opacity: 0.3;
 }
-.music-list-model-leave.music-list-model-leave-active {
+.play-list-model-leave.play-list-model-leave-active {
   opacity: 0;
   transition: all 300ms ease-in;
 }
 
 @media screen and (max-width: 1340px){
-  .music-list{
+  .play-list{
     width: 35%;
     margin-left: -17.5%;
   }
@@ -353,7 +353,7 @@
   }
 }
 @media screen and (min-width: 1024px){
-  .music-box .picture{
+  .cool-play-box  .picture{
     margin-left: 0;
   }
 }
@@ -361,17 +361,17 @@
   .left-control .icon-play,.left-control .icon-pause{
     margin:0 10px
   }
-  .music-box .picture{
+  .cool-play-box .picture{
     margin-left: 0;
   }
-  .music-box .music-info{
+  .cool-play-box .music-info{
     width: 80%;
     margin-left: 20px;
   }
 }
 
 @media screen and (max-width: 980px){
-  .music-list{
+  .play-list{
     width: 50%;
     margin-left: -25%;
   }
@@ -385,27 +385,26 @@
   }
 }
 @media screen and (max-width: 715px) {
-
-  .music-box .picture{
+  .cool-play-box .picture{
     display: none;
   }
   .left-control{
     width: 20%;
   }
-  .music-box{
+  .cool-play-box {
     width: 80%;
   }
-  .music-box .music-info{
+  .cool-play-box .music-info{
     width: 95%;
   }
 
-  .music-list-btn{
+  .play-list-btn{
     position: absolute;
     top: 8px;
     right:12px;
     margin-right: 0;
   }
-  .music-list{
+  .play-list{
     width: 65%;
     margin-left: -32.5%;
   }
@@ -415,7 +414,7 @@
   .modal{
     display: block;
   }
-  .react-music-player-inner{
+  .cool-player-inner{
     padding-top: 8px;
   }
   .left-control{
@@ -434,21 +433,21 @@
     font-size: 20px;
     margin:-2px 8px 0 8px;
   }
-  .music-box {
+  .cool-play-box {
     width: 100%;
     margin-right: 10px;
+    .music-info{
+      width: 100%;
+      margin-left: 0px;
+    }
   }
-  .music-box .music-info{
-    width: 100%;
-    margin-left: 0px;
-  }
-  .music-list{
+  .play-list{
     width: 100%;
     margin-left: -50%;
 
     padding-top:5px
   }
-  .music-list .single-music .single-music-artist{
+  .play-list .single-music .single-music-artist{
     width: 30%;
   }
 

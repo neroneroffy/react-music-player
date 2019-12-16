@@ -3,7 +3,7 @@ import * as ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import './index.less'
 import Timeout = NodeJS.Timeout;
 const { useState, useRef, useEffect } = React
-let rotateTimer: Timeout = undefined
+let rotateTimer: Timeout
 interface ISongs {
     src: string;
     artist: string;
@@ -13,8 +13,9 @@ interface ISongs {
 }
 
 interface IProps {
-    onDelete: (index: number, id: string) => void;
+    onDelete?: (index: number, id: string) => void;
     data: ISongs[];
+    zIndex?: number
 }
 const CoolPlayer = (props: IProps) => {
     const { data } = props
@@ -25,11 +26,13 @@ const CoolPlayer = (props: IProps) => {
     const progressEl = useRef(null)
     const totalVolumeEl = useRef(null)
     const volumeProgressEl = useRef(null)
+    const coolPlayerEl = useRef(null)
+    const musicBoxEl = useRef(null)
+    const playListEl = useRef(null)
+    const coolPlayListWrapper = useRef(null)
 
     const [ isPaused, setPaused ] = useState<boolean>(true);
     const [ totalTime, setTotalTime ] = useState<number | string>(0);
-    const [ playPercentage, setPlayPercentage ] = useState<number>(0);
-    const [ bufferedPercentage, setBufferedPercentage ] = useState<number>(0);
     const [ playedLeft, setPlayedLeft ] = useState<number>(0);
     const [ volumnLeft, setVolumnLeft ] = useState<number>(0);
     const [ remainTime, setRemainTime ] = useState<number | string>(0);
@@ -38,6 +41,15 @@ const CoolPlayer = (props: IProps) => {
     const [ musicListShow, setMusicListShow ] = useState<boolean>(false);
     const [ currentMusic, setCurrentMusic ] = useState<ISongs>(data[0]);
     const [ isPlayed, setIsPlayed ] = useState<boolean>(false);
+
+    useEffect(() => {
+        const { zIndex = 1000 } = props
+        coolPlayerEl.current.style.zIndex = zIndex
+        musicBoxEl.current.style.zIndex = zIndex + 100
+        coolPlayListWrapper.current.style.zIndex = zIndex - 100
+        progressEl.current.style.zIndex = zIndex + 200
+        playedEl.current.style.zIndex = zIndex + 300
+    }, [])
 
     useEffect(() => {
         setCurrentMusic(data[0])
@@ -253,6 +265,7 @@ const CoolPlayer = (props: IProps) => {
     }
     const playThis = (i: number) => {
         setCurrentMusic(data[i])
+        play()
     }
     const delMusic = (i: number, id: string) => {
         const audio = audioEl.current
@@ -283,9 +296,9 @@ const CoolPlayer = (props: IProps) => {
         }
         props.onDelete(i, id)
     }
-    return <div id={'cool-player'}>
-        <div className='react-music-player-wrapper'>
-            <div className='react-music-player-inner' >
+    return <div id={'cool-player'} ref={coolPlayerEl}>
+        <div className='cool-player-wrapper'>
+            <div className='cool-player-inner' >
                 <div className='left-control'>
                     <i className='icon-last' onClick={last}/>
                     {
@@ -296,7 +309,7 @@ const CoolPlayer = (props: IProps) => {
                     }
                     <i className='icon-next' onClick={next}/>
                 </div>
-                <div className='music-box'>
+                <div className='cool-play-box' ref={musicBoxEl}>
                     <div className='picture'>
                         {
                             currentMusic.src ?
@@ -339,11 +352,62 @@ const CoolPlayer = (props: IProps) => {
                             <div className='remain-time'>{ currentMusic.src ? remainTime : '00:00'}</div>
                         </div>
                     </div>
+                    <div className='play-list-btn'>
+                        <i className='icon-menu' onClick={showMusicList}/>
+                    </div>
                 </div>
-                <div className='music-list-btn'>
-                    <i className='icon-menu' onClick={showMusicList}/>
-                </div>
+                <div className='cool-play-list-wrapper' ref={coolPlayListWrapper}>
+                    <ReactCSSTransitionGroup
+                        transitionName='play-list-show'
+                        transitionEnterTimeout={500}
+                        transitionLeaveTimeout={300}
+                    >
+                        {
+                            musicListShow ?
+                                <div className='play-list' ref={playListEl}>
+                                    <div className='play-list-title'>
+                                        <span>播放列表</span>
+                                    </div>
+                                    <div className='single-music-wrapper'>
+                                        {
+                                            data.map((v, i) => {
+                                                return (
+                                                    <div
+                                                        className='single-music'
+                                                        style={ currentMusic.src === v .src && isPlayed ?
+                                                            { background: '#33beff', color: '#fff' }
+                                                            :
+                                                            null}
+                                                        key={v.id}
+                                                        onClick={() => playThis(i)}
+                                                    >
+                                                        <div className='single-music-play'>
+                                                            <i
+                                                                className={currentMusic.src === v .src && isPlayed ?
+                                                                    'icon-playing'
+                                                                    :
+                                                                    'icon-play'
+                                                                }
+                                                            />
+                                                        </div>
+                                                        <div className='single-music-name'>{v.name}</div>
+                                                        <div className='single-music-artist'>{v.artist}</div>
+                                                        <div className='single-music-del'>
+                                                            <i className='icon-del' onClick={() => delMusic(i, v.id)}/>
+                                                        </div>
+                                                    </div>
+                                                )
+                                            })
+                                        }
 
+                                    </div>
+                                </div>
+                                :
+                                null
+                        }
+
+                    </ReactCSSTransitionGroup>
+                </div>
                 <div className='right-control'>
                     <div
                         className='volume-control-wrapper'
@@ -367,58 +431,9 @@ const CoolPlayer = (props: IProps) => {
                 <audio src={currentMusic.src ? currentMusic.src : ''} ref={audioEl}/>
             </div>
         </div>
-        <ReactCSSTransitionGroup
-            transitionName='music-list-show'
-            transitionEnterTimeout={500}
-            transitionLeaveTimeout={300}
-        >
-            {
-                musicListShow ?
-                    <div className='music-list'>
-                        <div className='music-list-title'>
-                            <span>播放列表</span>
-                        </div>
-                        <div className='single-music-wrapper'>
-                            {
-                                data.map((v, i) => {
-                                    return (
-                                        <div
-                                            className='single-music'
-                                            style={ currentMusic.src === v .src && isPlayed ?
-                                                { background: '#33beff', color: '#fff' }
-                                                :
-                                                null}
-                                            key={v.id}
-                                            onClick={() => playThis(i)}
-                                        >
-                                            <div className='single-music-play'>
-                                                <i
-                                                    className={currentMusic.src === v .src && isPlayed ?
-                                                        'icon-playing'
-                                                        :
-                                                        'icon-play'
-                                                    }
-                                                 />
-                                            </div>
-                                            <div className='single-music-name'>{v.name}</div>
-                                            <div className='single-music-artist'>{v.artist}</div>
-                                            <div className='single-music-del'>
-                                                <i className='icon-del' onClick={() => delMusic(i, v.id)}/>
-                                            </div>
-                                        </div>
-                                    )
-                                })
-                            }
 
-                        </div>
-                    </div>
-                    :
-                    null
-            }
-
-        </ReactCSSTransitionGroup>
         <ReactCSSTransitionGroup
-            transitionName='music-list-model'
+            transitionName='play-list-model'
             transitionEnterTimeout={500}
             transitionLeaveTimeout={300}
         >
