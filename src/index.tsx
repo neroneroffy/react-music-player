@@ -30,6 +30,7 @@ const CoolPlayer = (props: IProps) => {
     const musicBoxEl = useRef(null)
     const playListEl = useRef(null)
     const coolPlayListWrapper = useRef(null)
+    const playControlEl = useRef(null)
 
     const [ isPaused, setPaused ] = useState<boolean>(true);
     const [ totalTime, setTotalTime ] = useState<number | string>(0);
@@ -46,6 +47,7 @@ const CoolPlayer = (props: IProps) => {
         const { zIndex = 1000 } = props
         coolPlayerEl.current.style.zIndex = zIndex
         musicBoxEl.current.style.zIndex = zIndex + 100
+        playControlEl.current.style.zIndex = zIndex + 200
         coolPlayListWrapper.current.style.zIndex = zIndex - 100
         progressEl.current.style.zIndex = zIndex + 200
         playedEl.current.style.zIndex = zIndex + 300
@@ -299,7 +301,7 @@ const CoolPlayer = (props: IProps) => {
     return <div id={'cool-player'} ref={coolPlayerEl}>
         <div className='cool-player-wrapper'>
             <div className='cool-player-inner' >
-                <div className='left-control'>
+                <div className='cool-play-control' ref={playControlEl}>
                     <i className='icon-last' onClick={last}/>
                     {
                         !isPaused && currentMusic.src ?
@@ -352,20 +354,20 @@ const CoolPlayer = (props: IProps) => {
                             <div className='remain-time'>{ currentMusic.src ? remainTime : '00:00'}</div>
                         </div>
                     </div>
-                    <div className='play-list-btn'>
+                    <div className='cool-play-list-btn'>
                         <i className='icon-menu' onClick={showMusicList}/>
                     </div>
                 </div>
                 <div className='cool-play-list-wrapper' ref={coolPlayListWrapper}>
                     <ReactCSSTransitionGroup
-                        transitionName='play-list-show'
+                        transitionName='cool-play-list-show'
                         transitionEnterTimeout={500}
                         transitionLeaveTimeout={300}
                     >
                         {
                             musicListShow ?
-                                <div className='play-list' ref={playListEl}>
-                                    <div className='play-list-title'>
+                                <div className='cool-play-list' ref={playListEl}>
+                                    <div className='cool-play-list-title'>
                                         <span>播放列表</span>
                                     </div>
                                     <div className='single-music-wrapper'>
@@ -433,7 +435,7 @@ const CoolPlayer = (props: IProps) => {
         </div>
 
         <ReactCSSTransitionGroup
-            transitionName='play-list-model'
+            transitionName='cool-play-list-model'
             transitionEnterTimeout={500}
             transitionLeaveTimeout={300}
         >

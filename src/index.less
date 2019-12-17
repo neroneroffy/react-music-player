@@ -57,18 +57,18 @@
   width: 100%;
   background: #fff;
   position: relative;
+
 }
 .cool-player-wrapper {
   width: 100%;
   height: 80px;
   background: #fff;
   position: relative;
-  box-shadow: 0 0px 5px #ccc;
+  border-top: 1px solid #e4e4e4;
   .cool-player-inner{
     width: 90%;
-    margin:0 auto;
+    margin: 4px auto 0 auto;
     height: 80px;
-    padding: 4px;
     position: relative;
     background: #fff;
     display: flex;
@@ -77,17 +77,17 @@
   }
 
 }
-.left-control{
+.cool-play-control{
   width: 8%;
   display: flex;
   align-items: center;
   color: #868686;
 }
-.left-control span{
+.cool-play-control span{
   display: inline-block;
   vertical-align: middle;
 }
-.left-control .icon-play,.left-control .icon-pause{
+.cool-play-control .icon-play,.cool-play-control .icon-pause{
   font-size: 30px;
   margin:0 8px;
 }
@@ -98,9 +98,11 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  position: relative;
+  position: absolute;
+  left: 50%;
+  margin-left: -35%;
   background: #fff;
-  .play-list-btn{
+  .cool-play-list-btn{
     margin-right: 10px;
     margin-left: 24px;
     font-size: 18px;
@@ -118,7 +120,6 @@
     overflow: hidden;
     position: relative;
     font-size: 0;
-    margin-left: -80px;
     margin-right: 16px;
   }
   .picture img {
@@ -145,6 +146,7 @@
     width: 90%;
     color: #868686;
     font-size: 14px;
+    position: relative;
     .music-name{
       text-align: left;
     }
@@ -234,18 +236,18 @@
   border-radius: 5px;
 }
 /*播放列表*/
-.play-list{
+.cool-play-list{
   position: absolute;
-  right: 8px;
+  right: 0;
   top: -327px;
   margin-left: -12.5%;
-  width: 25%;
+  width: 40%;
   height: 320px;
   background: #fff;
   border:1px solid #e5e5e5;
   padding-top:5px;
   color: #868686;
-  .play-list-title{
+  .cool-play-list-title{
     height: 40px;
     line-height: 40px;
     width: 100%;
@@ -303,17 +305,17 @@
   }
 }
 
-.play-list-show-enter {
+.cool-play-list-show-enter {
   top: 20px;
 }
-.play-list-show-enter.play-list-show-enter-active {
+.cool-play-list-show-enter.cool-play-list-show-enter-active {
   top: -320px;
   transition: all 500ms ease-in;
 }
-.play-list-show-leave {
+.cool-play-list-show-leave {
   top: -320px;
 }
-.play-list-show-leave.play-list-show-leave-active {
+.cool-play-list-show-leave.cool-play-list-show-leave-active {
   top: 20px;
   transition: all 300ms ease-in;
 }
@@ -328,37 +330,35 @@
   display: none;
 
 }
-.play-list-model-enter {
+.cool-play-list-model-enter {
   opacity: 0;
 }
-.play-list-model-enter.play-list-model-enter-active {
+.cool-play-list-model-enter.cool-play-list-model-enter-active {
   opacity: 0.3;
   transition: all 500ms ease-in;
 }
-.play-list-model-leave {
+.cool-play-list-model-leave {
   opacity: 0.3;
 }
-.play-list-model-leave.play-list-model-leave-active {
+.cool-play-list-model-leave.cool-play-list-model-leave-active {
   opacity: 0;
   transition: all 300ms ease-in;
 }
 
 @media screen and (max-width: 1340px){
-  .play-list{
+  .cool-play-list{
     width: 35%;
     margin-left: -17.5%;
   }
-  .left-control{
+  .cool-play-control{
     width: 12%;
   }
 }
 @media screen and (min-width: 1024px){
-  .cool-play-box  .picture{
-    margin-left: 0;
+  .cool-play-box {
+    margin-left: -30% !important;
   }
-}
-@media screen and (max-width: 1024px) {
-  .left-control .icon-play,.left-control .icon-pause{
+  .cool-play-control .icon-play,.cool-play-control .icon-pause{
     margin:0 10px
   }
   .cool-play-box .picture{
@@ -368,43 +368,71 @@
     width: 80%;
     margin-left: 20px;
   }
-}
 
+}
 @media screen and (max-width: 980px){
-  .play-list{
+  .cool-play-box {
+    .picture {
+      margin-right: 0;
+      margin-left: 8px;
+    }
+  }
+  .cool-play-list{
     width: 50%;
-    margin-left: -25%;
   }
 }
 @media screen and (max-width: 780px){
-  .right-control{
+  .cool-play-box, .cool-play-list-wrapper {
+    right: 0;
+    width: 85%;
+    .picture {
+      margin-right: 8px;
+    }
+  }
+  .right-control {
     display: none;
   }
-  .left-control{
+  .cool-play-control{
     width: 16%;
   }
 }
-@media screen and (max-width: 715px) {
-  .cool-play-box .picture{
-    display: none;
+@media screen and (max-width: 680px) {
+  .cool-play-control{
+    position: absolute;
+    right: 60px;
+    bottom: 16px;
+    width: 13%;
   }
-  .left-control{
-    width: 20%;
+  .cool-play-list-btn {
+    position: absolute;
+    right: 0;
+    bottom: 15px;
+    padding: 8px 0 8px 8px;
+    margin: 0 !important;
   }
   .cool-play-box {
-    width: 80%;
-  }
-  .cool-play-box .music-info{
-    width: 95%;
+    width: 100%;
+    margin-left: -50%;
+    .music-info{
+      width: 95%;
+      height: 60px;
+      margin-left: 16px;
+      .time {
+        display: none;
+      }
+    }
+    .music-name {
+      position: absolute;
+      top: 30px;
+      left: 0;
+    }
+    .progress-wrapper {
+      position: absolute;
+      top: 0px;
+    }
   }
 
-  .play-list-btn{
-    position: absolute;
-    top: 8px;
-    right:12px;
-    margin-right: 0;
-  }
-  .play-list{
+  .cool-play-list{
     width: 65%;
     margin-left: -32.5%;
   }
@@ -414,40 +442,56 @@
   .modal{
     display: block;
   }
-  .cool-player-inner{
-    padding-top: 8px;
+  .cool-player-wrapper .cool-player-inner{
+    width: 100%;
   }
-  .left-control{
-    position: absolute;
-    top:53px;
-    width: 120px;
-    left: 10px;
-  }
+
   .time{
     margin-top: 3px;
   }
-  .left-control span{
+  .cool-play-control span{
     float: left;
   }
-  .left-control .icon-play,.left-control .icon-pause{
+  .cool-play-control .icon-play,.cool-play-control .icon-pause{
     font-size: 20px;
     margin:-2px 8px 0 8px;
   }
-  .cool-play-box {
+  .cool-play-list-wrapper {
     width: 100%;
-    margin-right: 10px;
+    margin-left: -50%;
+  }
+  .cool-play-box {
+    width: 90%;
+    margin-left: -50%;
+    padding: 0 5%;
+    .picture {
+      margin-left: 0;
+    }
     .music-info{
-      width: 100%;
-      margin-left: 0px;
+      width: 98%;
+      margin-left: 8px;
+      .music-name {
+        width: 50%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+    .cool-play-list-btn {
+      right: 5%;
     }
   }
-  .play-list{
+  .cool-play-control {
+    right: 80px;
+    bottom: 23px;
+  }
+  .cool-play-list{
     width: 100%;
     margin-left: -50%;
 
     padding-top:5px
   }
-  .play-list .single-music .single-music-artist{
+  .cool-play-list .single-music .single-music-artist{
     width: 30%;
   }
 
