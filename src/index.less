@@ -66,7 +66,7 @@
   position: relative;
   border-top: 1px solid #e4e4e4;
   .cool-player-inner{
-    width: 90%;
+    width: 70%;
     margin: 4px auto 0 auto;
     height: 80px;
     position: relative;
@@ -238,7 +238,7 @@
 /*播放列表*/
 .cool-play-list{
   position: absolute;
-  right: 0;
+  right: 4px;
   top: -327px;
   margin-left: -12.5%;
   width: 40%;
@@ -259,7 +259,7 @@
     top:0;
     left:0;
     span{
-      margin-left: 5px;
+      margin-left: 12px;
     }
   }
   .single-music-wrapper{
@@ -347,7 +347,7 @@
 
 @media screen and (max-width: 1340px){
   .cool-play-list{
-    width: 35%;
+    width: 50%;
     margin-left: -17.5%;
   }
   .cool-play-control{
@@ -356,7 +356,7 @@
 }
 @media screen and (min-width: 1024px){
   .cool-play-box {
-    margin-left: -30% !important;
+    margin-left: -36% !important;
   }
   .cool-play-control .icon-play,.cool-play-control .icon-pause{
     margin:0 10px
@@ -373,18 +373,24 @@
 @media screen and (max-width: 980px){
   .cool-play-box {
     .picture {
-      margin-right: 0;
-      margin-left: 8px;
+      margin-right: 16px;
     }
   }
   .cool-play-list{
-    width: 50%;
+    width: 60%;
+  }
+  .cool-player-wrapper .cool-player-inner {
+    width: 80%;
+  }
+  .right-control {
+    width: 12%;
   }
 }
 @media screen and (max-width: 780px){
   .cool-play-box, .cool-play-list-wrapper {
     right: 0;
-    width: 85%;
+    width: 80%;
+    padding-left: 8px;
     .picture {
       margin-right: 8px;
     }
@@ -433,7 +439,7 @@
   }
 
   .cool-play-list{
-    width: 65%;
+    width: 100%;
     margin-left: -32.5%;
   }
 }
