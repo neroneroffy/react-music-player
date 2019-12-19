@@ -2,6 +2,8 @@ import * as React from 'react'
 import * as ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import './index.less'
 import Timeout = NodeJS.Timeout;
+import { getLyric } from './utils'
+import lyric from './lyric'
 const { useState, useRef, useEffect } = React
 let rotateTimer: Timeout
 interface ISongs {
