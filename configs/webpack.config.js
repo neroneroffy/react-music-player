@@ -47,7 +47,6 @@ module.exports = {
           name: 'fonts/[name].[hash:8].[ext]'
         }
       }
-
     ]
   },
   resolve: {

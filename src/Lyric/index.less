@@ -1,0 +1,17 @@
+@import '../common/index.less';
+.cool-lyric {
+  margin: 0;
+  padding: @padding-base;
+  list-style: none;
+  overflow-y: auto;
+  height: 290px;
+  scroll-behavior: smooth;
+  .lyric-item {
+    padding: @padding-base 0;
+    font-size: @font-size-base;
+    text-align: center;
+  }
+  .current-lyric {
+    color: #017fff;
+  }
+}

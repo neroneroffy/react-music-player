@@ -3,7 +3,7 @@ import * as ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import './index.less'
 import Timeout = NodeJS.Timeout;
 import { getLyric } from './utils'
-import lyric from './lyric'
+import CoolLyric from './Lyric'
 const { useState, useRef, useEffect } = React
 let rotateTimer: Timeout
 interface ISongs {
@@ -12,12 +12,20 @@ interface ISongs {
     name: string;
     img: string;
     id: string;
+    lyric?: string
+}
+export interface ILyric {
+    time: number | string,
+    lyric: string,
+    current?: boolean
 }
 
 interface IProps {
     onDelete?: (index: number, id: string) => void;
     data: ISongs[];
-    zIndex?: number
+    zIndex?: number;
+    onLyricMatched?: (lyric: ILyric[], currentIndex: number) => void
+    showLyric?: boolean
 }
 const CoolPlayer = (props: IProps) => {
     const { data } = props
@@ -44,6 +52,11 @@ const CoolPlayer = (props: IProps) => {
     const [ musicListShow, setMusicListShow ] = useState<boolean>(false);
     const [ currentMusic, setCurrentMusic ] = useState<ISongs>(data[0]);
     const [ isPlayed, setIsPlayed ] = useState<boolean>(false);
+    const [ lyric, setLyric ] = useState<ILyric[]>([]);
+    const [ lyricIndex, setLyricIndex ] = useState<number>(-1);
+    const { showLyric = true } = props
+    let allLyric: ILyric[] = []
+    let compared: ILyric[] = []
 
     useEffect(() => {
         const { zIndex = 1000 } = props
@@ -97,6 +110,7 @@ const CoolPlayer = (props: IProps) => {
             audio.pause()
         }
         audio.addEventListener('timeupdate', () => {
+
             // 设置播放进度条
             const playPer = audio.currentTime / audio.duration;
             playedEl.current.style.width = playPer * 100 + '%';
@@ -118,6 +132,42 @@ const CoolPlayer = (props: IProps) => {
         });
     }, [isPaused, currentMusic])
 
+    useEffect(() => {
+        const audio = audioEl.current
+        const played: ILyric[] = []
+        const indexArr: number[] = []
+        const lyricList = getLyric(currentMusic.lyric)
+        setLyric(lyricList)
+        audio.addEventListener('timeupdate', () => {
+            const current = audio.currentTime
+            if (currentMusic.lyric) {
+                lyricList.map((item, index) => {
+                    if (item && lyricList[index - 1]) {
+                        if (current >= item.time) {
+                            played.push(lyricList[index - 1])
+                            indexArr.push(index)
+                            props.onLyricMatched(lyricList, indexArr[indexArr.length - 1])
+                        }
+                    }
+                })
+                setLyricIndex(indexArr[indexArr.length - 1])
+            }
+
+            /*if (Math.floor(audio.currentTime * 100) / 100 >= lyricList[0].time) {
+                compared = compared.concat(lyricList.shift())
+                const end = compared[compared.length - 1]
+                setLyricIndex(compared.length - 1)
+                end.current = true
+                if (compared[compared.length - 2]) {
+                    delete compared[compared.length - 2].current
+                }
+                allLyric = compared.concat(lyricList)
+                props.onLyricMatched(allLyric)
+                setLyric(allLyric)
+            }*/
+        })
+    }, [currentMusic])
+
     const play = () => {
         if (!data.length) { return }
         setPaused(false)
@@ -128,6 +178,7 @@ const CoolPlayer = (props: IProps) => {
     }
     const last = () => {
         setAngle(0)
+        setLyricIndex(-1)
         if (!currentMusic.src) {
             return
         }
@@ -143,11 +194,12 @@ const CoolPlayer = (props: IProps) => {
 
     const next = () => {
         setAngle(0)
+        setLyricIndex(-1)
         if (!currentMusic.src) {
             return
         }
         let current
-        current = data.findIndex(item => item.src === currentMusic.src)
+        current = data.findIndex(item => item.id === currentMusic.id)
         if (current < data.length - 1) {
             setCurrentMusic(data[current + 1])
         } else {
@@ -368,43 +420,57 @@ const CoolPlayer = (props: IProps) => {
                     >
                         {
                             musicListShow ?
-                                <div className='cool-play-list' ref={playListEl}>
-                                    <div className='cool-play-list-title'>
-                                        <span>播放列表</span>
-                                    </div>
-                                    <div className='single-music-wrapper'>
-                                        {
-                                            data.map((v, i) => {
-                                                return (
-                                                    <div
-                                                        className='single-music'
-                                                        style={ currentMusic.src === v .src && isPlayed ?
-                                                            { background: '#33beff', color: '#fff' }
-                                                            :
-                                                            null}
-                                                        key={v.id}
-                                                        onClick={() => playThis(i)}
-                                                    >
-                                                        <div className='single-music-play'>
-                                                            <i
-                                                                className={currentMusic.src === v .src && isPlayed ?
-                                                                    'icon-playing'
-                                                                    :
-                                                                    'icon-play'
-                                                                }
-                                                            />
+                                <div className='cool-play-list-lyric' ref={playListEl}>
+                                    <div className={'cool-play-list-component'}>
+                                        <div className='cool-play-list-title'>
+                                            <span>播放列表</span>
+                                        </div>
+                                        <div className='single-music-wrapper'>
+                                            {
+                                                data.map((v, i) => {
+                                                    return (
+                                                        <div
+                                                            className='single-music'
+                                                            style={ currentMusic.src === v .src && isPlayed ?
+                                                                { background: '#33beff', color: '#fff' }
+                                                                :
+                                                                null}
+                                                            key={v.id}
+                                                        >
+                                                            <div className='single-music-play'>
+                                                                <i
+                                                                    className={currentMusic.src === v .src && isPlayed ?
+                                                                        'icon-playing'
+                                                                        :
+                                                                        'icon-play'
+                                                                    }
+                                                                    onClick={() => playThis(i)}
+                                                                />
+                                                            </div>
+                                                            <div
+                                                                className='single-music-name'
+                                                                onClick={() => playThis(i)}
+                                                            >{v.name}</div>
+                                                            <div
+                                                                className='single-music-artist'
+                                                                onClick={() => playThis(i)}
+                                                            >{v.artist}</div>
+                                                            <div className='single-music-del'>
+                                                                <i className='icon-del'
+                                                                   onClick={() => delMusic(i, v.id)}
+                                                                />
+                                                            </div>
                                                         </div>
-                                                        <div className='single-music-name'>{v.name}</div>
-                                                        <div className='single-music-artist'>{v.artist}</div>
-                                                        <div className='single-music-del'>
-                                                            <i className='icon-del' onClick={() => delMusic(i, v.id)}/>
-                                                        </div>
-                                                    </div>
-                                                )
-                                            })
-                                        }
-
+                                                    )
+                                                })
+                                            }
+                                        </div>
                                     </div>
+                                    {
+                                        showLyric && <div className={'cool-play-lyric-component'}>
+                                          <CoolLyric lyric={lyric || []} lyricIndex={lyricIndex}/>
+                                        </div>
+                                    }
                                 </div>
                                 :
                                 null
