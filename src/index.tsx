@@ -6,7 +6,7 @@ import { getLyric } from './utils'
 import CoolLyric from './Lyric'
 const { useState, useRef, useEffect } = React
 let rotateTimer: Timeout
-interface ISongs {
+export interface ISongs {
     src: string;
     artist: string;
     name: string;
@@ -55,8 +55,8 @@ const CoolPlayer = (props: IProps) => {
     const [ lyric, setLyric ] = useState<ILyric[]>([]);
     const [ lyricIndex, setLyricIndex ] = useState<number>(-1);
     const { showLyric = true } = props
-    let allLyric: ILyric[] = []
-    let compared: ILyric[] = []
+    let lyricList: ILyric[] = getLyric(currentMusic.lyric)
+    let indexArr: number[] = []
 
     useEffect(() => {
         const { zIndex = 1000 } = props
@@ -70,22 +70,14 @@ const CoolPlayer = (props: IProps) => {
 
     useEffect(() => {
         setCurrentMusic(data[0])
-        audioEl.current.addEventListener('canplay', () => {
-            // 获取总时间
-            const musicTotalTime = parseInt(audioEl.current.duration, 0);
-            setTotalTime(getTime(musicTotalTime))
-            setRemainTime(getTime(musicTotalTime))
-            setPlayedLeft(playedEl.current.getBoundingClientRect().left)
-            setVolumnLeft(totalVolumeEl.current.getBoundingClientRect().left)
-
-        })
+        audioEl.current.addEventListener('canplay', setInitialTotalTime)
         // 设置初始音量
         volumeProgressEl.current.style.width = '50%';
         audioEl.current.volume = 0.5
 
         return () => {
-            audioEl.current.removeEventlistener('canplay')
-            audioEl.current.removeEventlistener('timeupdate')
+            audioEl.current.removeEventListener('canplay', setInitialTotalTime)
+            audioEl.current.removeEventListener('timeupdate', setProgress)
         }
     }, [])
 
@@ -109,65 +101,61 @@ const CoolPlayer = (props: IProps) => {
         } else {
             audio.pause()
         }
-        audio.addEventListener('timeupdate', () => {
-
-            // 设置播放进度条
-            const playPer = audio.currentTime / audio.duration;
-            playedEl.current.style.width = playPer * 100 + '%';
-            // 设置缓冲进度条
-            const timeRages = audioEl.current.buffered;
-            let bufferedTime = 0
-            if (timeRages.length !== 0) {
-                bufferedTime = timeRages.end(timeRages.length - 1);
-            }
-            const bufferedPer = bufferedTime / audioEl.current.duration;
-            bufferedEl.current.style.width = bufferedPer * 100 + '%';
-            // 设置剩余时间
-            const musicRemainTime = parseInt(`${audio.duration - audio.currentTime}`, 0);
-            setRemainTime(getTime(musicRemainTime))
-
-            if (audio.ended) {
-                next()
-            }
-        });
+        audio.addEventListener('timeupdate', setProgress);
     }, [isPaused, currentMusic])
 
     useEffect(() => {
         const audio = audioEl.current
-        const played: ILyric[] = []
-        const indexArr: number[] = []
-        const lyricList = getLyric(currentMusic.lyric)
+        lyricList = getLyric(currentMusic.lyric)
+        indexArr = []
         setLyric(lyricList)
-        audio.addEventListener('timeupdate', () => {
-            const current = audio.currentTime
-            if (currentMusic.lyric) {
-                lyricList.map((item, index) => {
-                    if (item && lyricList[index - 1]) {
-                        if (current >= item.time) {
-                            played.push(lyricList[index - 1])
-                            indexArr.push(index)
-                            props.onLyricMatched(lyricList, indexArr[indexArr.length - 1])
-                        }
-                    }
-                })
-                setLyricIndex(indexArr[indexArr.length - 1])
-            }
-
-            /*if (Math.floor(audio.currentTime * 100) / 100 >= lyricList[0].time) {
-                compared = compared.concat(lyricList.shift())
-                const end = compared[compared.length - 1]
-                setLyricIndex(compared.length - 1)
-                end.current = true
-                if (compared[compared.length - 2]) {
-                    delete compared[compared.length - 2].current
-                }
-                allLyric = compared.concat(lyricList)
-                props.onLyricMatched(allLyric)
-                setLyric(allLyric)
-            }*/
-        })
+        audio.addEventListener('timeupdate', setLyricHighLight)
+        return () => {
+            audioEl.current.removeEventListener('timeupdate', setLyricHighLight)
+        }
     }, [currentMusic])
+    const setInitialTotalTime = () => {
+        // 获取总时间
+        const musicTotalTime = parseInt(audioEl.current.duration, 0);
+        setTotalTime(getTime(musicTotalTime))
+        setRemainTime(getTime(musicTotalTime))
+        setPlayedLeft(playedEl.current.getBoundingClientRect().left)
+        setVolumnLeft(totalVolumeEl.current.getBoundingClientRect().left)
+    }
+    const setLyricHighLight = () => {
+        const current = audioEl.current.currentTime
+        if (currentMusic.lyric) {
+            lyricList.map((item, index) => {
+                if (item && lyricList[index - 1]) {
+                    if (current >= item.time) {
+                        indexArr.push(index)
+                        props.onLyricMatched(lyricList, indexArr[indexArr.length - 1])
+                    }
+                }
+            })
+            setLyricIndex(indexArr[indexArr.length - 1])
+        }
+    }
+    const setProgress = () => {
+        // 设置播放进度条
+        const playPer = audioEl.current.currentTime / audioEl.current.duration;
+        playedEl.current.style.width = playPer * 100 + '%';
+        // 设置缓冲进度条
+        const timeRages = audioEl.current.buffered;
+        let bufferedTime = 0
+        if (timeRages.length !== 0) {
+            bufferedTime = timeRages.end(timeRages.length - 1);
+        }
+        const bufferedPer = bufferedTime / audioEl.current.duration;
+        bufferedEl.current.style.width = bufferedPer * 100 + '%';
+        // 设置剩余时间
+        const musicRemainTime = parseInt(`${audioEl.current.duration - audioEl.current.currentTime}`, 0);
+        setRemainTime(getTime(musicRemainTime))
+        if (audioEl.current.ended) {
+            next()
+        }
 
+    }
     const play = () => {
         if (!data.length) { return }
         setPaused(false)
@@ -191,7 +179,6 @@ const CoolPlayer = (props: IProps) => {
             setCurrentMusic(data[data.length - 1])
         }
     }
-
     const next = () => {
         setAngle(0)
         setLyricIndex(-1)
@@ -213,6 +200,7 @@ const CoolPlayer = (props: IProps) => {
             const newWidth = (e.pageX - playedLeft) / progressEl.current.offsetWidth;
             playedEl.current.style.width = newWidth * 100 + '%';
             audio.currentTime = newWidth * audio.duration;
+            setLyricHighLight()
         }
     }
     const setTime = (e: React.TouchEvent<HTMLDivElement>) => {
@@ -220,6 +208,7 @@ const CoolPlayer = (props: IProps) => {
         const newWidth = (e.touches[0].pageX - playedLeft) / progressEl.current.offsetWidth;
         playedEl.current.style.width = newWidth * 100 + '%';
         audio.currentTime = newWidth * audio.duration
+
     }
 
     // PC端点击事件
@@ -467,9 +456,11 @@ const CoolPlayer = (props: IProps) => {
                                         </div>
                                     </div>
                                     {
-                                        showLyric && <div className={'cool-play-lyric-component'}>
-                                          <CoolLyric lyric={lyric || []} lyricIndex={lyricIndex}/>
-                                        </div>
+                                        showLyric && <CoolLyric
+                                            lyric={lyric || []}
+                                            lyricIndex={lyricIndex}
+                                            info={currentMusic}
+                                          />
                                     }
                                 </div>
                                 :

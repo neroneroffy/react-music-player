@@ -1,17 +1,57 @@
 @import '../common/index.less';
 .cool-lyric {
-  margin: 0;
-  padding: @padding-base;
-  list-style: none;
-  overflow-y: auto;
-  height: 290px;
-  scroll-behavior: smooth;
-  .lyric-item {
-    padding: @padding-base 0;
-    font-size: @font-size-base;
+  width: 100%;
+  border-left: 1px solid #e5e5e5;
+  h4 {
+    height: 40px;
+    line-height: 45px;
+    margin: 0;
     text-align: center;
+    font-weight: normal;
+    border-bottom: 1px solid #e5e5e5;
   }
-  .current-lyric {
-    color: #017fff;
+  .cool-lyric-cover {
+    width: 100%;
+    background: #fff;
+    height: 20px;
+  }
+  .cool-lyric-content {
+    margin: 0;
+    padding-top: 30px;
+    padding-left: 0;
+    list-style: none;
+    overflow-y: auto;
+    height: 230px;
+    scroll-behavior: smooth;
+    position: relative;
+    .lyric-item {
+      padding: @padding-base 0;
+      font-size: @font-size-base;
+      text-align: center;
+    }
+
+    .current-lyric {
+      color: #017fff;
+    }
   }
 }
+/* 设置滚动条的样式 */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+/* 滚动槽 */
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+}
+
+/* 滚动条滑块 */
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  display: none;
+  background: rgba(0,0,0,0.1);
+}
+::-webkit-scrollbar-thumb:window-inactive {
+  background: rgba(255,0,0,0.4);
+}
+
