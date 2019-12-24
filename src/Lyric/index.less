@@ -25,13 +25,19 @@
     scroll-behavior: smooth;
     position: relative;
     .lyric-item {
+      height: 17px;
+      line-height: 17px;
       padding: @padding-base 0;
-      font-size: @font-size-base;
+      font-size: 12px;
       text-align: center;
+      transition: all ease-in-out .2s;
+      &:first-child {
+        margin-top: 80px;
+      }
     }
-
     .current-lyric {
       color: #017fff;
+      transform: scale(1.2);
     }
   }
 }

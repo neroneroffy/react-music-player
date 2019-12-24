@@ -21,12 +21,6 @@ const CoolLyric = (props: IProps) => {
         <h4>{name} ({artist})</h4>
         <div className='cool-lyric-cover'></div>
         <ul className={'cool-lyric-content'} ref={lyricEl}>
-            <li className={'lyric-item'}></li>
-            <li className={'lyric-item'}></li>
-            <li className={'lyric-item'}></li>
-            <li className={'lyric-item'}></li>
-            <li className={'lyric-item'}></li>
-            <li className={'lyric-item'}></li>
             {
                 lyric.map((v, i) => {
                     return <li
@@ -37,9 +31,6 @@ const CoolLyric = (props: IProps) => {
                     >{v.lyric}</li>
                 })
             }
-            <li className={'lyric-item'}></li>
-            <li className={'lyric-item'}></li>
-            <li className={'lyric-item'}></li>
         </ul>
     </div>
 }
