@@ -7,25 +7,27 @@ import CoolLyric from './Lyric'
 const { useState, useRef, useEffect } = React
 let rotateTimer: Timeout
 export interface ISongs {
-    src: string;
-    artist: string;
-    name: string;
-    img: string;
-    id: string;
+    src: string
+    artist: string
+    name: string
+    img: string
+    id: string
     lyric?: string
 }
 export interface ILyric {
-    time: number | string,
-    lyric: string,
-    current?: boolean
+    time: number | string
+    lyric: string
 }
 
 interface IProps {
-    onDelete?: (index: number, id: string) => void;
-    data: ISongs[];
-    zIndex?: number;
+    onDelete?: (index: number, id: string) => void
+    data: ISongs[]
+    zIndex?: number
     onLyricMatched?: (lyric: ILyric[], currentIndex: number) => void
     showLyric?: boolean
+    onMusicChange?: (id: string) => void
+    lyric?: string
+    lyricLoading?: boolean
 }
 const CoolPlayer = (props: IProps) => {
     const { data } = props
@@ -41,7 +43,6 @@ const CoolPlayer = (props: IProps) => {
     const playListEl = useRef(null)
     const coolPlayListWrapper = useRef(null)
     const playControlEl = useRef(null)
-
     const [ isPaused, setPaused ] = useState<boolean>(true);
     const [ totalTime, setTotalTime ] = useState<number | string>(0);
     const [ playedLeft, setPlayedLeft ] = useState<number>(0);
@@ -54,9 +55,13 @@ const CoolPlayer = (props: IProps) => {
     const [ isPlayed, setIsPlayed ] = useState<boolean>(false);
     const [ lyric, setLyric ] = useState<ILyric[]>([]);
     const [ lyricIndex, setLyricIndex ] = useState<number>(-1);
-    const { showLyric = true } = props
-    let lyricList: ILyric[] = getLyric(currentMusic.lyric)
+    const { showLyric = true, lyric: lyricFromProps = '', lyricLoading = false } = props
+    let lyricList: ILyric[] = getLyric(currentMusic.lyric || lyricFromProps)
     let indexArr: number[] = []
+
+    useEffect(() => {
+        props.onMusicChange(currentMusic.id)
+    }, [currentMusic])
 
     useEffect(() => {
         const { zIndex = 1000 } = props
@@ -74,7 +79,6 @@ const CoolPlayer = (props: IProps) => {
         // 设置初始音量
         volumeProgressEl.current.style.width = '50%';
         audioEl.current.volume = 0.5
-
         return () => {
             audioEl.current.removeEventListener('canplay', setInitialTotalTime)
             audioEl.current.removeEventListener('timeupdate', setProgress)
@@ -106,14 +110,14 @@ const CoolPlayer = (props: IProps) => {
 
     useEffect(() => {
         const audio = audioEl.current
-        lyricList = getLyric(currentMusic.lyric)
+        lyricList = getLyric(currentMusic.lyric || lyricFromProps)
         indexArr = []
         setLyric(lyricList)
         audio.addEventListener('timeupdate', setLyricHighLight)
         return () => {
             audioEl.current.removeEventListener('timeupdate', setLyricHighLight)
         }
-    }, [currentMusic])
+    }, [currentMusic, lyricFromProps])
     const setInitialTotalTime = () => {
         // 获取总时间
         const musicTotalTime = parseInt(audioEl.current.duration, 0);
@@ -124,7 +128,7 @@ const CoolPlayer = (props: IProps) => {
     }
     const setLyricHighLight = () => {
         const current = audioEl.current.currentTime
-        if (currentMusic.lyric) {
+        if (currentMusic.lyric || lyricFromProps) {
             lyricList.map((item, index) => {
                 if (item && lyricList[index - 1]) {
                     if (current >= item.time) {
@@ -460,6 +464,7 @@ const CoolPlayer = (props: IProps) => {
                                             lyric={lyric || []}
                                             lyricIndex={lyricIndex}
                                             info={currentMusic}
+                                            loading={lyricLoading}
                                           />
                                     }
                                 </div>

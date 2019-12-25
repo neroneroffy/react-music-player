@@ -1,7 +1,9 @@
 @import '../common/index.less';
 .cool-lyric {
+  height: 320px;
   width: 100%;
   border-left: 1px solid #e5e5e5;
+  position: relative;
   h4 {
     height: 40px;
     line-height: 45px;
@@ -14,6 +16,12 @@
     width: 100%;
     background: #fff;
     height: 20px;
+  }
+  .cool-lyric-loading {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin: auto
   }
   .cool-lyric-content {
     margin: 0;
