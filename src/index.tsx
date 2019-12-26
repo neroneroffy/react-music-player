@@ -28,9 +28,18 @@ interface IProps {
     onMusicChange?: (id: string) => void
     lyric?: string
     lyricLoading?: boolean
+    lyricPlaceholder?: React.ReactElement | React.ReactNode | string
+    avatarPlaceholder?: React.ReactElement | React.ReactNode
 }
 const CoolPlayer = (props: IProps) => {
     const { data } = props
+    const initialMusic = {
+        src: '',
+        artist: '',
+        name: '',
+        img: '',
+        id: '',
+    }
     const audioEl = useRef(null)
     const musicAvatarEl = useRef(null)
     const bufferedEl = useRef(null)
@@ -51,16 +60,23 @@ const CoolPlayer = (props: IProps) => {
     const [ angle, setAngle ] = useState<number>(0);
     const [ mouseDown, setMouseDown ] = useState<boolean>(false);
     const [ musicListShow, setMusicListShow ] = useState<boolean>(false);
-    const [ currentMusic, setCurrentMusic ] = useState<ISongs>(data[0]);
+    const [ currentMusic, setCurrentMusic ] = useState<ISongs>(data[0] || initialMusic);
     const [ isPlayed, setIsPlayed ] = useState<boolean>(false);
     const [ lyric, setLyric ] = useState<ILyric[]>([]);
     const [ lyricIndex, setLyricIndex ] = useState<number>(-1);
-    const { showLyric = true, lyric: lyricFromProps = '', lyricLoading = false } = props
+    const { showLyric = true,
+        lyric: lyricFromProps = '',
+        lyricLoading = false,
+        lyricPlaceholder,
+        avatarPlaceholder = null,
+    } = props
     let lyricList: ILyric[] = getLyric(currentMusic.lyric || lyricFromProps)
     let indexArr: number[] = []
 
     useEffect(() => {
-        props.onMusicChange(currentMusic.id)
+        if (data.length) {
+            props.onMusicChange(currentMusic.id)
+        }
     }, [currentMusic])
 
     useEffect(() => {
@@ -74,7 +90,7 @@ const CoolPlayer = (props: IProps) => {
     }, [])
 
     useEffect(() => {
-        setCurrentMusic(data[0])
+        setCurrentMusic(data[0] || initialMusic)
         audioEl.current.addEventListener('canplay', setInitialTotalTime)
         // 设置初始音量
         volumeProgressEl.current.style.width = '50%';
@@ -265,7 +281,6 @@ const CoolPlayer = (props: IProps) => {
             return `00:00`
         }
     }
-    /*移动端改变音量*/
     const setVolume = (pageX: number) => {
         const audio = audioEl.current
         const volumeRate = (pageX - volumnLeft) / totalVolumeEl.current.offsetWidth;
@@ -290,15 +305,13 @@ const CoolPlayer = (props: IProps) => {
     }
     // PC端改变音量
     const clickChangeVolume = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-        if (audioEl.current.currentTime !== 0) {
-            setVolume(e.pageX)
-        }
+        setVolume(e.pageX)
     }
     const mouseDownVulume = () => {
         setMouseDown(true)
     }
     const slideChangeVolume = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-        if (mouseDown && audioEl.current.currentTime !== 0) {
+        if (mouseDown) {
             setVolume(e.pageX)
         }
     }
@@ -362,19 +375,16 @@ const CoolPlayer = (props: IProps) => {
                     <div className='picture'>
                         {
                             currentMusic.src ?
-                                <img src={currentMusic.img} ref={musicAvatarEl} alt='图片丢失了'/>
+                                <img src={currentMusic.img} ref={musicAvatarEl} alt='image is lost'/>
                                 :
-                                null
+                                avatarPlaceholder
                         }
 
                     </div>
                     <div className='music-info'>
                         <div className='music-name'>
                             {
-                                currentMusic.src ?
-                                    (`${currentMusic.artist}：${currentMusic.name}`)
-                                    :
-                                    `等待播放`
+                                currentMusic.src && (`${currentMusic.artist}：${currentMusic.name}`)
                             }
 
                         </div>
@@ -465,6 +475,7 @@ const CoolPlayer = (props: IProps) => {
                                             lyricIndex={lyricIndex}
                                             info={currentMusic}
                                             loading={lyricLoading}
+                                            lyricPlaceholder={lyricPlaceholder}
                                           />
                                     }
                                 </div>
