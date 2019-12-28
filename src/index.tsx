@@ -4,6 +4,7 @@ import './index.less'
 import Timeout = NodeJS.Timeout;
 import { getLyric } from './utils'
 import CoolLyric from './Lyric'
+import classnames from 'classnames'
 const { useState, useRef, useEffect } = React
 let rotateTimer: Timeout
 export interface ISongs {
@@ -28,8 +29,14 @@ interface IProps {
     onMusicChange?: (id: string) => void
     lyric?: string
     lyricLoading?: boolean
-    lyricPlaceholder?: React.ReactElement | React.ReactNode | string
-    avatarPlaceholder?: React.ReactElement | React.ReactNode
+    lyricPlaceholder?: React.ReactNode | string
+    avatarPlaceholder?: React.ReactNode
+    musicActions?: Array<(data: ISongs, active?: boolean) => React.ReactNode>
+    playListHeader? : {
+        headerLeft?: React.ReactNode | string,
+        headerRight?: React.ReactNode | string,
+
+    }
 }
 const CoolPlayer = (props: IProps) => {
     const { data } = props
@@ -69,6 +76,11 @@ const CoolPlayer = (props: IProps) => {
         lyricLoading = false,
         lyricPlaceholder,
         avatarPlaceholder = null,
+        musicActions = [],
+        playListHeader = {
+            headerLeft: '播放列表',
+            headerRight: '',
+        }
     } = props
     let lyricList: ILyric[] = getLyric(currentMusic.lyric || lyricFromProps)
     let indexArr: number[] = []
@@ -361,7 +373,7 @@ const CoolPlayer = (props: IProps) => {
     return <div id={'cool-player'} ref={coolPlayerEl}>
         <div className='cool-player-wrapper'>
             <div className='cool-player-inner' >
-                <div className='cool-play-control' ref={playControlEl}>
+                <div className='cool-player-control' ref={playControlEl}>
                     <i className='icon-last' onClick={last}/>
                     {
                         !isPaused && currentMusic.src ?
@@ -371,7 +383,7 @@ const CoolPlayer = (props: IProps) => {
                     }
                     <i className='icon-next' onClick={next}/>
                 </div>
-                <div className='cool-play-box' ref={musicBoxEl}>
+                <div className='cool-player-box' ref={musicBoxEl}>
                     <div className='picture'>
                         {
                             currentMusic.src ?
@@ -386,7 +398,6 @@ const CoolPlayer = (props: IProps) => {
                             {
                                 currentMusic.src && (`${currentMusic.artist}：${currentMusic.name}`)
                             }
-
                         </div>
                         <div
                             className='progress-wrapper'
@@ -411,22 +422,28 @@ const CoolPlayer = (props: IProps) => {
                             <div className='remain-time'>{ currentMusic.src ? remainTime : '00:00'}</div>
                         </div>
                     </div>
-                    <div className='cool-play-list-btn'>
+                    <div className='cool-player-list-btn'>
                         <i className='icon-menu' onClick={showMusicList}/>
                     </div>
                 </div>
-                <div className='cool-play-list-wrapper' ref={coolPlayListWrapper}>
+                <div className='cool-player-list-wrapper' ref={coolPlayListWrapper}>
                     <ReactCSSTransitionGroup
-                        transitionName='cool-play-list-show'
+                        transitionName='cool-player-list-show'
                         transitionEnterTimeout={500}
                         transitionLeaveTimeout={300}
                     >
                         {
                             musicListShow ?
-                                <div className='cool-play-list-lyric' ref={playListEl}>
-                                    <div className={'cool-play-list-component'}>
-                                        <div className='cool-play-list-title'>
-                                            <span>播放列表</span>
+                                <div className='cool-player-list-lyric' ref={playListEl}>
+                                    <div className={'cool-player-list-component'}>
+                                        <div className='cool-player-list-title'>
+                                            <div className='cool-player-list-title-left'>
+                                                { playListHeader.headerLeft }
+                                            </div>
+                                            <div className='cool-player-list-title-left'>
+                                                { playListHeader.headerRight }
+                                            </div>
+
                                         </div>
                                         <div className='single-music-wrapper'>
                                             {
@@ -440,28 +457,51 @@ const CoolPlayer = (props: IProps) => {
                                                                 null}
                                                             key={v.id}
                                                         >
-                                                            <div className='single-music-play'>
-                                                                <i
-                                                                    className={currentMusic.src === v .src && isPlayed ?
-                                                                        'icon-playing'
-                                                                        :
-                                                                        'icon-play'
-                                                                    }
+                                                            <div className={'single-music-left'}>
+                                                                <div className='single-music-play'>
+                                                                    <i
+                                                                        className={
+                                                                            currentMusic.src === v .src && isPlayed ?
+                                                                            'icon-playing'
+                                                                            :
+                                                                            'icon-play'
+                                                                        }
+                                                                        onClick={() => playThis(i)}
+                                                                    />
+                                                                </div>
+                                                                <div
+                                                                    className='single-music-name'
                                                                     onClick={() => playThis(i)}
-                                                                />
+                                                                >{v.name}</div>
                                                             </div>
-                                                            <div
-                                                                className='single-music-name'
-                                                                onClick={() => playThis(i)}
-                                                            >{v.name}</div>
-                                                            <div
-                                                                className='single-music-artist'
-                                                                onClick={() => playThis(i)}
-                                                            >{v.artist}</div>
-                                                            <div className='single-music-del'>
-                                                                <i className='icon-del'
-                                                                   onClick={() => delMusic(i, v.id)}
-                                                                />
+                                                            <div className='single-music-right'>
+                                                                {
+                                                                    musicActions.length && <div
+                                                                      className={'single-music-actions'}
+                                                                      onClick={() => {
+                                                                        if (currentMusic.id !== v.id || !isPlayed) {
+                                                                            playThis(i)
+                                                                        }
+                                                                      }}
+                                                                    >
+                                                                        <div className={classnames('single-music-actions-content', {
+                                                                            'single-music-actions-actived': (currentMusic.id === v.id && isPlayed)
+                                                                        })}>
+                                                                            {
+                                                                                musicActions.map(item => item(v, currentMusic.id === v.id || false))
+                                                                            }
+                                                                        </div>
+                                                                    </div>
+                                                                }
+                                                                <div
+                                                                    className='single-music-artist'
+                                                                    onClick={() => playThis(i)}
+                                                                >{v.artist}</div>
+                                                                <div className='single-music-del'>
+                                                                    <i className='icon-del'
+                                                                       onClick={() => delMusic(i, v.id)}
+                                                                    />
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     )
@@ -470,7 +510,8 @@ const CoolPlayer = (props: IProps) => {
                                         </div>
                                     </div>
                                     {
-                                        showLyric && <CoolLyric
+                                        showLyric &&
+                                          <CoolLyric
                                             lyric={lyric || []}
                                             lyricIndex={lyricIndex}
                                             info={currentMusic}
@@ -510,7 +551,7 @@ const CoolPlayer = (props: IProps) => {
         </div>
 
         <ReactCSSTransitionGroup
-            transitionName='cool-play-list-model'
+            transitionName='cool-player-list-model'
             transitionEnterTimeout={500}
             transitionLeaveTimeout={300}
         >

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import './index.less'
-import CoolPlayer, { ILyric } from '../src/index'
+import CoolPlayer, { ILyric, ISongs } from '../src/index'
 const { useState } = React
 const App = () => {
   const [ data, setData ] = useState([
@@ -78,6 +78,25 @@ const App = () => {
               }
           })
   }
+
+  const musicActions = [
+      (music: ISongs, active: boolean) => {
+          return <span key={'favourite'} onClick={() => {
+            console.log(music, active)
+        }}>收藏</span>
+      },
+      (music: ISongs) => {
+        return <span style={{ margin: '0 8px' }} key={'share'} onClick={() => {
+            console.log(music)
+        }}>分享</span>
+      },
+      (music: ISongs) => {
+        return <span key={'download'} onClick={() => {
+            console.log(music)
+        }}>下载</span>
+      },
+
+  ]
   return <div className={'wrapper'}>
       <CoolPlayer
           onDelete={onDelete}
@@ -87,6 +106,11 @@ const App = () => {
           onMusicChange={onMusicChange}
           lyric={lyric}
           lyricLoading={lyricLoading}
+          musicActions={musicActions}
+          playListHeader={{
+              headerLeft: '播放列表',
+              headerRight: '清除全部'
+          }}
       />
   </div>;
 }

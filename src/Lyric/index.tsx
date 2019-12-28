@@ -46,7 +46,6 @@ const CoolLyric = (props: IProps) => {
         </div>
     return <div className={'cool-lyric'}>
         <h4>{name} ({artist})</h4>
-        <div className='cool-lyric-cover'></div>
         {
             loading ?
                 <div className={'cool-lyric-center-wrapper'}>
