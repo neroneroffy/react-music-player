@@ -20,6 +20,13 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    .cool-player-actions {
+      position: absolute;
+      top: 25px;
+      right: 11%;
+      display: flex;
+      justify-content: flex-start;
+    }
   }
 
 }
@@ -28,15 +35,25 @@
   display: flex;
   align-items: center;
   color: #868686;
+  .icon-prev, .icon-next {
+    width: 30px;
+    height: 30px;
+    fill: currentColor;
+    overflow: hidden;
+  }
+  .icon-play, .icon-puase {
+    width: 35px;
+    height: 35px;
+    fill: currentColor;
+    font-size: 60px;
+    overflow: hidden;
+  }
 }
 .cool-player-control span{
   display: inline-block;
   vertical-align: middle;
 }
-.cool-player-control .icon-play,.cool-player-control .icon-pause{
-  font-size: 30px;
-  margin:0 8px;
-}
+
 
 .cool-player-box {
   width: 70%;
@@ -54,6 +71,12 @@
     font-size: 18px;
     color: #868686;
     cursor: pointer;
+    .icon-menu {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+      margin-top: 4px;
+    }
   }
   .picture {
     width: 60px;
@@ -149,11 +172,22 @@
 }
 /*音量控制*/
 .right-control{
-  font-size: 20px;
-  display: inline-block;
-  vertical-align: middle;
+  font-size: 30px;
+  display: flex;
+  align-items: center;
   width: 10%;
   color: #868686;
+  .icon-mute, .icon-volumn {
+    width: 20px;
+    height: 20px;
+    fill: currentColor
+  }
+  .icon-volumn {
+    width: 20px;
+    height: 20px;
+    fill: currentColor
+
+  }
 }
 .right-control .icon-volume{
   float: right;
@@ -184,7 +218,7 @@
 /*播放列表*/
 .cool-player-list-lyric{
   position: absolute;
-  right: 4px;
+  right: 0px;
   top: -322px;
   margin-left: -12.5%;
   width: 100%;
@@ -198,7 +232,6 @@
   .cool-player-list-component {
     width: 100%;
   }
-
   .cool-player-list-title{
     height: 40px;
     line-height: 40px;
@@ -217,6 +250,12 @@
     padding-bottom: 40px;
     margin-top: 8px;
     margin-bottom: 20px;
+    .icon-delete {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+      padding-top: 12px;
+    }
   }
   .single-music{
     height: 36px;
@@ -270,6 +309,13 @@
     width: 10%;
     text-align: left;
     margin-right: 10px;
+    .icon-playing, .icon-play {
+      margin-top: 10px;
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+      overflow: hidden;
+    }
   }
   .single-music-name{
     width: 90%;
@@ -329,6 +375,10 @@
   .cool-player-control{
     width: 12%;
   }
+
+  .cool-player-wrapper .cool-player-inner .cool-player-actions {
+    display: none;
+  }
   .cool-player-box .picture{
     margin-right: 16px;
   }
@@ -336,9 +386,6 @@
 @media screen and (min-width: 1024px){
   .cool-player-box {
     margin-left: -36% !important;
-  }
-  .cool-player-control .icon-play,.cool-player-control .icon-pause{
-    margin:0 10px
   }
   .cool-player-box .picture{
     margin-left: 0;
@@ -365,7 +412,7 @@
   .cool-player-box, .cool-player-list-wrapper {
     right: 0;
     width: 80%;
-    padding-left: 8px;
+    padding-left: 16px;
     .picture {
       margin-right: 8px;
     }
@@ -380,9 +427,8 @@
 @media screen and (max-width: 680px) {
   .cool-player-control{
     position: absolute;
-    right: 60px;
-    bottom: 16px;
-    width: 13%;
+    right: 5%;
+    bottom: 15px;
   }
   .cool-player-list-btn {
     position: absolute;
@@ -391,9 +437,10 @@
     padding: 8px 0 8px 8px;
     margin: 0 !important;
   }
-  .cool-player-box {
+  .cool-player-box, .cool-player-list-wrapper {
     width: 100%;
     margin-left: -50%;
+    padding-left: 0px;
     .music-info{
       width: 95%;
       height: 60px;
@@ -443,10 +490,7 @@
   .cool-player-control span{
     float: left;
   }
-  .cool-player-control .icon-play,.cool-player-control .icon-pause{
-    font-size: 20px;
-    margin:-2px 8px 0 8px;
-  }
+
   .cool-player-list-wrapper {
     width: 100%;
     margin-left: -50%;
@@ -473,8 +517,15 @@
     }
   }
   .cool-player-control {
-    right: 80px;
-    bottom: 23px;
+    right: 50px;
+    .icon-next {
+      width: 30px;
+      height: 30px;
+    }
+
+    .icon-prev {
+      display: none;
+    }
   }
   .cool-player-list-lyric{
     width: 100%;
