@@ -84,12 +84,7 @@
     height: 72px;
     position: relative;
     flex-shrink: 0;
-    transform: scale(0.8);
     transition: all ease-in-out .3s;
-  }
-  .picture-wrapper-large {
-    transform: scale(0.97);
-    background: #fff;
   }
   .picture {
     width: 58px;
@@ -453,6 +448,16 @@
     margin-top: 0;
     .cool-player-box, .cool-player-list-wrapper {
       height: 60px;
+    }
+  }
+  .cool-player-wrapper .cool-player-inner .cool-player-box {
+    .picture-wrapper {
+      transform: scale(0.8);
+    }
+
+    .picture-wrapper-large {
+      transform: scale(0.97);
+      background: #fff;
     }
   }
   .cool-player-control{
