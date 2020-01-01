@@ -60,6 +60,8 @@ const CoolPlayer = (props: IProps) => {
     const coolPlayListWrapper = useRef(null)
     const playControlEl = useRef(null)
     const actionsEl = useRef(null)
+    const canvasEl = useRef(null)
+    const avatarEl = useRef(null)
     const [ isPaused, setPaused ] = useState<boolean>(true);
     const [ totalTime, setTotalTime ] = useState<number | string>(0);
     const [ playedLeft, setPlayedLeft ] = useState<number>(0);
@@ -88,6 +90,37 @@ const CoolPlayer = (props: IProps) => {
     let lyricList: ILyric[] = getLyric(currentMusic.lyric || lyricFromProps)
     let indexArr: number[] = []
 
+    let drawCircle = (rate: number): void => {}
+
+    useEffect(() => {
+        if (canvasEl.current) {
+            const cvs: HTMLCanvasElement = canvasEl.current
+            const ctx = cvs.getContext("2d");
+            const w = cvs && cvs.width/2;
+            const h = cvs && cvs.height/2;
+            ctx.lineWidth = 5
+            const r = Math.min(w,h) - ctx.lineWidth / 2;
+            drawCircle = (rate: number) => {
+                ctx.clearRect(0,0,cvs.width,cvs.height)
+                ctx.beginPath();
+                ctx.strokeStyle = "#eeeeee"
+                ctx.arc(w,h,r,0,Math.PI * 2)
+                ctx.stroke()
+                ctx.beginPath()
+                ctx.strokeStyle="#017fff"
+                ctx.lineCap = "round"
+                const p = rate * 2
+                const start = Math.PI * 3 / 2
+                const end = start+Math.PI * p
+                ctx.arc(w,h,r,start,end)
+                if (p > 0) {
+                    ctx.stroke()
+                }
+            }
+        }
+        drawCircle(0)
+    }, [ canvasEl ])
+
     useEffect(() => {
         if (data.length) {
             props.onMusicChange(currentMusic.id)
@@ -103,6 +136,8 @@ const CoolPlayer = (props: IProps) => {
         progressEl.current.style.zIndex = zIndex + 200
         playedEl.current.style.zIndex = zIndex + 300
         actionsEl.current.style.zIndex = zIndex + 300
+        canvasEl.current.style.zIndex = zIndex + 300
+        avatarEl.current.style.zIndex = zIndex + 400
     }, [])
 
     useEffect(() => {
@@ -175,6 +210,7 @@ const CoolPlayer = (props: IProps) => {
     const setProgress = () => {
         // 设置播放进度条
         const playPer = audioEl.current.currentTime / audioEl.current.duration;
+        drawCircle(playPer)
         playedEl.current.style.width = playPer * 100 + '%';
         // 设置缓冲进度条
         const timeRages = audioEl.current.buffered;
@@ -379,6 +415,7 @@ const CoolPlayer = (props: IProps) => {
     }
     return <div id={'cool-player'} ref={coolPlayerEl}>
         <div className='cool-player-wrapper'>
+
             <div className='cool-player-inner' >
                 <div className='cool-player-control' ref={playControlEl}>
                     <svg
@@ -423,14 +460,20 @@ const CoolPlayer = (props: IProps) => {
                     </svg>
                 </div>
                 <div className='cool-player-box' ref={musicBoxEl}>
-                    <div className='picture'>
-                        {
-                            currentMusic.src ?
-                                <img src={currentMusic.img} ref={musicAvatarEl} alt='image is lost'/>
-                                :
-                                avatarPlaceholder
-                        }
-
+                    <div className={classnames('picture-wrapper', {
+                        'picture-wrapper-large': !isPaused
+                    })}>
+                        <div className='picture'>
+                            <canvas ref={canvasEl} className="circle-progress" width="62" height="62" />
+                            {
+                                currentMusic.src ?
+                                    <div className='avatar' ref={avatarEl}>
+                                        <img src={currentMusic.img} ref={musicAvatarEl} alt='image is lost'/>
+                                    </div>
+                                    :
+                                    avatarPlaceholder
+                            }
+                        </div>
                     </div>
                     <div className='music-info'>
                         <div className='music-name'>

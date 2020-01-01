@@ -98,7 +98,7 @@ const App = () => {
   ]
   const actions = [
       (music: ISongs) => {
-          return <div style={{ fontSize: 22, marginRight: 8 }}>
+          return <div style={{ fontSize: 22, marginRight: 8 }} key={'a'}>
               <svg
                   className="icon"
                   style={{width: "1em", height: "1em", verticalAlign: "middle", fill: "currentColor", overflow: "hidden", color: '#868686'}}
@@ -110,7 +110,7 @@ const App = () => {
           </div>
       },
       (music: ISongs) => {
-          return <div style={{ fontSize: 22 }}>
+          return <div style={{ fontSize: 22 }} key={'b'}>
               <svg className="icon"
                    style={{width: "1em", height: "1em", verticalAlign: "middle", fill: "currentColor", overflow: "hidden", color: '#868686'}}
                    viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3936">

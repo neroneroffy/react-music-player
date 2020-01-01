@@ -78,32 +78,58 @@
       margin-top: 4px;
     }
   }
-  .picture {
-    width: 60px;
-    height: 60px;
+  .picture-wrapper {
     border-radius: 50%;
-    background: #ccc;
-    flex-shrink: 0;
-    display: inline-block;
-    vertical-align: middle;
-    overflow: hidden;
+    width: 72px;
+    height: 72px;
     position: relative;
-    font-size: 0;
-    margin-right: -16px;
+    flex-shrink: 0;
+    transform: scale(0.8);
+    transition: all ease-in-out .3s;
   }
-  .picture img {
-    width: 70px;
-    height: 70px;
+  .picture-wrapper-large {
+    transform: scale(0.97);
+    background: #fff;
+  }
+  .picture {
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background: #fff;
+    flex-shrink: 0;
+    overflow: hidden;
     position: absolute;
     top:0;
     right:0;
     bottom:0;
     left:0;
+    margin: auto;
+    font-size: 0;
+    .avatar {
+      width: 54px;
+      height: 54px;
+      position: absolute;
+      top:0;
+      right:0;
+      bottom:0;
+      left:0;
+      border-radius: 50%;
+      overflow: hidden;
+      margin: auto;
+    }
+  }
+  .circle-progress {
+    display: none;
+    position: absolute;
+    top:0;
+    right:0;
+    bottom:0;
+    left:-1px;
     margin:auto
   }
-  .picture img{
-    width: 70px;
-    height: 70px;
+  .picture img {
+    width: 60px;
+    height: 60px;
     position: absolute;
     top:0;
     right:0;
@@ -220,8 +246,8 @@
   position: absolute;
   right: 0px;
   top: -322px;
-  margin-left: -12.5%;
-  width: 100%;
+  margin-left: -12%;
+  width: 98%;
   height: 320px;
   background: #fff;
   border:1px solid #e5e5e5;
@@ -335,11 +361,11 @@
   top: 20px;
 }
 .cool-player-list-show-enter.cool-player-list-show-enter-active {
-  top: -320px;
-  transition: all 500ms ease-in;
+  top: -322px;
+  transition: all 300ms ease-in;
 }
 .cool-player-list-show-leave {
-  top: -320px;
+  top: -322px;
 }
 .cool-player-list-show-leave.cool-player-list-show-leave-active {
   top: 20px;
@@ -361,7 +387,7 @@
 }
 .cool-player-list-model-enter.cool-player-list-model-enter-active {
   opacity: 0.3;
-  transition: all 500ms ease-in;
+  transition: all 300ms ease-in;
 }
 .cool-player-list-model-leave {
   opacity: 0.3;
@@ -379,16 +405,13 @@
   .cool-player-wrapper .cool-player-inner .cool-player-actions {
     display: none;
   }
-  .cool-player-box .picture{
+  .cool-player-box .picture-wrapper{
     margin-right: 16px;
   }
 }
 @media screen and (min-width: 1024px){
   .cool-player-box {
     margin-left: -36% !important;
-  }
-  .cool-player-box .picture{
-    margin-left: 0;
   }
   .cool-player-box .music-info{
     width: 80%;
@@ -397,7 +420,7 @@
 }
 @media screen and (max-width: 980px){
   .cool-player-box {
-    .picture {
+    .picture-wrapper {
       margin-right: 16px;
     }
   }
@@ -413,7 +436,7 @@
     right: 0;
     width: 80%;
     padding-left: 16px;
-    .picture {
+    .picture-wrapper {
       margin-right: 8px;
     }
   }
@@ -425,22 +448,38 @@
   }
 }
 @media screen and (max-width: 680px) {
+  .cool-player-wrapper, .cool-player-wrapper .cool-player-inner {
+    height: 60px;
+    margin-top: 0;
+    .cool-player-box, .cool-player-list-wrapper {
+      height: 60px;
+    }
+  }
   .cool-player-control{
     position: absolute;
     right: 5%;
     bottom: 15px;
+    .icon-play, .icon-puase {
+      width: 28px;
+      height: 28px;
+    }
   }
   .cool-player-list-btn {
     position: absolute;
     right: 0;
     bottom: 15px;
-    padding: 8px 0 8px 8px;
     margin: 0 !important;
+    -webkit-tap-highlight-color:rgba(0,0,0,0);
   }
   .cool-player-box, .cool-player-list-wrapper {
     width: 100%;
     margin-left: -50%;
     padding-left: 0px;
+    .picture {
+      .circle-progress {
+        display: block;
+      }
+    }
     .music-info{
       width: 95%;
       height: 60px;
@@ -451,16 +490,18 @@
     }
     .music-name {
       position: absolute;
-      top: 30px;
+      top: 5px;
       left: 0;
     }
     .progress-wrapper {
+      display: none;
       position: absolute;
       top: 0px;
     }
   }
+
   .cool-player-list-lyric{
-    width: 100%;
+    width: 98%;
     margin-left: -32.5%;
     font-size: 14px;
     .cool-lyric {
@@ -483,7 +524,6 @@
   .cool-player-wrapper .cool-player-inner{
     width: 100%;
   }
-
   .time{
     margin-top: 3px;
   }
@@ -496,12 +536,9 @@
     margin-left: -50%;
   }
   .cool-player-box {
-    width: 90%;
-    margin-left: -50%;
+    width: 93%;
+    margin-left: -53%;
     padding: 0 5%;
-    .picture {
-      margin-left: 0;
-    }
     .music-info{
       width: 98%;
       margin-left: 8px;
@@ -522,7 +559,6 @@
       width: 30px;
       height: 30px;
     }
-
     .icon-prev {
       display: none;
     }
@@ -530,7 +566,8 @@
   .cool-player-list-lyric{
     width: 100%;
     margin-left: -50%;
-    padding-top:5px
+    padding-top:5px;
+    border-right: none;
   }
   .cool-player-list-lyric .single-music .single-music-artist{
     width: 30%;
