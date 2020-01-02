@@ -126,7 +126,7 @@ const App = () => {
           onDelete={onDelete}
           onLyricMatched={onLyricMatched}
           data={data}
-          showLyric={true}
+          showLyricNormal={true}
           onMusicChange={onMusicChange}
           lyric={lyric}
           lyricLoading={lyricLoading}

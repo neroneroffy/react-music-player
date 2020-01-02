@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ILyric, ISongs } from '../index'
+import { ILyric, ISongs } from '../../index'
 import classnames from 'classnames'
 import './index.less'
 interface IProps {
@@ -12,7 +12,7 @@ interface IProps {
 
 const { useEffect, useRef } = React
 
-const CoolLyric = (props: IProps) => {
+const LyricNormal = (props: IProps) => {
     const { lyric,
         lyricIndex,
         info: { artist, name },
@@ -56,4 +56,4 @@ const CoolLyric = (props: IProps) => {
         }
     </div>
 }
-export default CoolLyric
+export default LyricNormal

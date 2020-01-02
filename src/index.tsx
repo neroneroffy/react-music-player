@@ -3,7 +3,8 @@ import * as ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import './index.less'
 import Timeout = NodeJS.Timeout;
 import { getLyric } from './utils'
-import CoolLyric from './Lyric'
+import LyricNormal from './Lyric/LyricNormal/index'
+import LyricMini from './Lyric/LyricMini/index'
 import classnames from 'classnames'
 const { useState, useRef, useEffect } = React
 let rotateTimer: Timeout
@@ -25,7 +26,8 @@ interface IProps {
     data: ISongs[]
     zIndex?: number
     onLyricMatched?: (lyric: ILyric[], currentIndex: number) => void
-    showLyric?: boolean
+    showLyricNormal?: boolean
+    showLyricMini?: boolean
     onMusicChange?: (id: string) => void
     lyric?: string
     lyricLoading?: boolean
@@ -75,7 +77,8 @@ const CoolPlayer = (props: IProps) => {
     const [ lyric, setLyric ] = useState<ILyric[]>([]);
     const [ lyricIndex, setLyricIndex ] = useState<number>(-1);
     const [ isMute, setIsMute ] = useState<boolean>(false);
-    const { showLyric = true,
+    const { showLyricNormal = true,
+        showLyricMini = true,
         lyric: lyricFromProps = '',
         lyricLoading = false,
         lyricPlaceholder,
@@ -98,7 +101,7 @@ const CoolPlayer = (props: IProps) => {
             const ctx = cvs.getContext("2d");
             const w = cvs && cvs.width/2;
             const h = cvs && cvs.height/2;
-            ctx.lineWidth = 5
+            ctx.lineWidth = 10
             const r = Math.min(w,h) - ctx.lineWidth / 2;
             drawCircle = (rate: number) => {
                 ctx.clearRect(0,0,cvs.width,cvs.height)
@@ -503,6 +506,15 @@ const CoolPlayer = (props: IProps) => {
                             <span>/</span>
                             <div className='remain-time'>{ currentMusic.src ? remainTime : '00:00'}</div>
                         </div>
+                        {
+                            showLyricMini &&
+                                <div className="cool-lyric-mini-wrapper">
+                                    <LyricMini
+                                      lyric={lyric || []}
+                                      lyricIndex={lyricIndex}
+                                    />
+                                </div>
+                        }
                     </div>
                     <div className='cool-player-list-btn'>
                         <svg
@@ -628,8 +640,8 @@ const CoolPlayer = (props: IProps) => {
                                         </div>
                                     </div>
                                     {
-                                        showLyric &&
-                                          <CoolLyric
+                                        showLyricNormal &&
+                                          <LyricNormal
                                             lyric={lyric || []}
                                             lyricIndex={lyricIndex}
                                             info={currentMusic}
