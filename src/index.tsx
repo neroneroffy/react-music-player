@@ -64,6 +64,7 @@ const CoolPlayer = (props: IProps) => {
     const actionsEl = useRef(null)
     const canvasEl = useRef(null)
     const avatarEl = useRef(null)
+    const coolPlayerInnerEl = useRef(null)
     const [ isPaused, setPaused ] = useState<boolean>(true);
     const [ totalTime, setTotalTime ] = useState<number | string>(0);
     const [ playedLeft, setPlayedLeft ] = useState<number>(0);
@@ -133,15 +134,19 @@ const CoolPlayer = (props: IProps) => {
     useEffect(() => {
         const { zIndex = 1000 } = props
         coolPlayerEl.current.style.zIndex = zIndex
+        coolPlayerInnerEl.current.style.zIndex = zIndex
         musicBoxEl.current.style.zIndex = zIndex + 100
         playControlEl.current.style.zIndex = zIndex + 200
-        coolPlayListWrapper.current.style.zIndex = zIndex - 100
+        coolPlayListWrapper.current.style.zIndex = zIndex + 100
         progressEl.current.style.zIndex = zIndex + 200
         playedEl.current.style.zIndex = zIndex + 300
         actionsEl.current.style.zIndex = zIndex + 300
         canvasEl.current.style.zIndex = zIndex + 300
         avatarEl.current.style.zIndex = zIndex + 400
-    }, [])
+        if (document.body.clientWidth > 680) {
+            coolPlayListWrapper.current.style.zIndex = zIndex - 100
+        }
+    }, [document.body.clientWidth])
 
     useEffect(() => {
         setCurrentMusic(data[0] || initialMusic)
@@ -418,8 +423,7 @@ const CoolPlayer = (props: IProps) => {
     }
     return <div id={'cool-player'} ref={coolPlayerEl}>
         <div className='cool-player-wrapper'>
-
-            <div className='cool-player-inner' >
+            <div className='cool-player-inner' ref={coolPlayerInnerEl}>
                 <div className='cool-player-control' ref={playControlEl}>
                     <svg
                         className="icon-prev"
@@ -428,7 +432,8 @@ const CoolPlayer = (props: IProps) => {
                     >
                         <path
                             d="M625.5 513V216.1c0-13.5 2.5-28.9-12.9-35.9-14.2-6.4-26.3 1.5-37.7 9.5C434.5 288 294 386.1 153.8 484.7c-32.2 22.7-31.7 33.7 0.9 56.6C292.9 638.2 431.2 735 569.5 831.8c4.2 2.9 8.4 5.9 12.8 8.4 27 14.7 43 5.7 43.1-25.1 0.4-75.9 0.1-151.8 0.1-227.8V513zM727.9 512.8c0 92.1-0.1 184.1 0 276.2 0 37.7 19.1 60.8 50.1 61.4 32 0.7 52.2-23 52.2-61.8 0.1-184.1 0.1-368.2 0-552.3 0-37.5-19.3-60.9-50.1-61.5-31.8-0.6-52.2 23.3-52.2 61.9-0.1 92 0 184 0 276.1z"
-                            p-id="11892"/>
+                            p-id="11892"
+                        />
                     </svg>
                     {
                         !isPaused && currentMusic.src ?
@@ -529,133 +534,6 @@ const CoolPlayer = (props: IProps) => {
                         </svg>
                     </div>
                 </div>
-                <div className='cool-player-list-wrapper' ref={coolPlayListWrapper}>
-                    <ReactCSSTransitionGroup
-                        transitionName='cool-player-list-show'
-                        transitionEnterTimeout={500}
-                        transitionLeaveTimeout={300}
-                    >
-                        {
-                            musicListShow ?
-                                <div className='cool-player-list-lyric' ref={playListEl}>
-                                    <div className={'cool-player-list-component'}>
-                                        <div className='cool-player-list-title'>
-                                            <div className='cool-player-list-title-left'>
-                                                { playListHeader.headerLeft }
-                                            </div>
-                                            <div className='cool-player-list-title-left'>
-                                                { playListHeader.headerRight }
-                                            </div>
-
-                                        </div>
-                                        <div className='single-music-wrapper'>
-                                            {
-                                                data.map((v, i) => {
-                                                    return (
-                                                        <div
-                                                            className='single-music'
-                                                            style={ currentMusic.src === v .src && isPlayed ?
-                                                                { background: '#33beff', color: '#fff' }
-                                                                :
-                                                                null}
-                                                            key={v.id}
-                                                        >
-                                                            <div className={'single-music-left'}>
-                                                                <div className='single-music-play'>
-                                                                    {
-                                                                        currentMusic.src === v .src && isPlayed ?
-                                                                            <svg
-                                                                                className="icon-playing"
-                                                                                viewBox="0 0 1024 1024" version="1.1"
-                                                                                 xmlns="http://www.w3.org/2000/svg"
-                                                                                 p-id="4542">
-                                                                                <path
-                                                                                    d="M844.743872 64.641229l-483.775168 80.814584c-1.567705 0.25071-3.031033 0.710175-4.453429 1.254573l-17.475 0c-11.915377 0-21.38403 9.532097-21.38403 21.280676l0 553.029462c-18.875906-10.912537-40.825824-17.140379-64.216557-17.140379-70.927399 0-128.433114 57.359382-128.433114 128.139425S182.512289 960.15695 253.439688 960.15695c70.926376 0 128.433114-57.359382 128.433114-128.139425 0-5.184069-0.314155-10.285251-0.899486-15.259542 0.585331-1.964748 0.899486-4.013407 0.899486-6.187933l0-449.764564 449.513854-79.267345 0 311.298955c-18.875906-10.870582-40.825824-17.142425-64.216557-17.142425-70.927399 0-128.433114 57.401338-128.433114 128.183428 0 70.738088 57.505715 128.139425 128.433114 128.139425 70.926376 0 128.432091-57.401338 128.432091-128.139425 0-5.184069-0.313132-10.285251-0.898463-15.301498 0.585331-1.966795 0.898463-4.015454 0.898463-6.187933l0-597.97307c0-10.45205-7.587815-19.190061-17.579377-20.946055-3.491521-2.173502-7.881504-3.051499-12.710486-2.257413l-11.370978 1.922792-1.170662 0C849.927941 63.135946 847.21004 63.679321 844.743872 64.641229z"
-                                                                                    p-id="4543"
-                                                                                />
-                                                                            </svg>
-                                                                            :
-                                                                            <svg
-                                                                                className="icon-play"
-                                                                                viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="12608"
-                                                                                onClick={() => playThis(i)}
-                                                                            >
-                                                                                <path
-                                                                                    d="M844.704269 475.730473L222.284513 116.380385a43.342807 43.342807 0 0 0-65.025048 37.548353v718.692951a43.335582 43.335582 0 0 0 65.025048 37.541128l622.412531-359.342864a43.357257 43.357257 0 0 0 0.007225-75.08948z"
-                                                                                    fill="" p-id="12609"
-                                                                                />
-                                                                            </svg>
-
-                                                                    }
-
-                                                                </div>
-                                                                <div
-                                                                    className='single-music-name'
-                                                                    onClick={() => playThis(i)}
-                                                                    title={v.name}
-                                                                >{v.name}</div>
-                                                            </div>
-                                                            <div className='single-music-right'>
-                                                                {
-                                                                    musicActions.length && <div
-                                                                      className={'single-music-actions'}
-                                                                      onClick={() => {
-                                                                        if (currentMusic.id !== v.id || !isPlayed) {
-                                                                            playThis(i)
-                                                                        }
-                                                                      }}
-                                                                    >
-                                                                        <div className={classnames('single-music-actions-content', {
-                                                                            'single-music-actions-actived': (currentMusic.id === v.id && isPlayed)
-                                                                        })}>
-                                                                            {
-                                                                                musicActions.map(item => item(v, currentMusic.id === v.id || false))
-                                                                            }
-                                                                        </div>
-                                                                    </div>
-                                                                }
-                                                                <div
-                                                                    className='single-music-artist'
-                                                                    onClick={() => playThis(i)}
-                                                                >{v.artist}</div>
-                                                                <div className='single-music-del'>
-                                                                    <svg
-                                                                        className="icon-delete"
-                                                                        viewBox="0 0 1024 1024" version="1.1"
-                                                                        xmlns="http://www.w3.org/2000/svg"
-                                                                        p-id="14221"
-                                                                        onClick={() => delMusic(i, v.id)}
-                                                                    >
-                                                                        <path
-                                                                            d="M905.095 208.272c-0.723-13.831-8.416-22.5-21.935-24.964-9.591-1.748-19.427-2.978-29.157-3.003-86.191-0.226-172.383-0.131-258.575-0.132-33.351 0-33.746-0.003-33.526-32.945 0.107-16.082-2.276-30.68-17.72-38.771-18.485-9.684-38.335-9.957-56.659-0.784-17.966 8.993-20.791 26.286-18.357 44.809 0.489 3.722-0.236 7.611 0.315 11.317 1.911 12.864-3.273 16.675-16.211 16.658-65.739-0.088-131.48 0.861-197.221 1.272-33.198 0.208-66.403-0.284-99.596 0.188-17.428 0.248-31.405 5.801-32.05 26.883-0.632 20.665 11.01 30.367 29.789 32.983 8.168 1.138 16.754 1.418 24.885 0.245 18.279-2.637 24.062 3.035 23.817 22.671-1.187 95.25-0.536 190.522-0.536 285.787 0 94.508-0.052 189.017 0.02 283.525 0.042 54.383 27.569 82.889 81.862 83.012 154.237 0.351 308.475 0.311 462.712 0.022 54.345-0.102 81.543-28.003 81.768-82.957 0.262-64.265 0.061-128.531 0.061-192.797 0-125.507 0.497-251.018-0.52-376.517-0.158-19.465 5.267-25.341 23.708-22.741 12.025 1.695 24.391 0.459 35.599-4.637 12.134-5.515 18.229-15.704 17.527-29.124zM703.894 852.013c-127.824 0.459-255.648 1.108-383.472 1.53-42.18 0.139-55.197-13.105-55.226-55.644-0.06-88.514-0.018-177.028-0.018-265.542 0-90.027 0.354-180.056-0.345-270.078-0.118-15.18 2.786-20.515 19.406-20.441 154.329 0.685 308.663 0.647 462.992 0.03 15.437-0.062 18.313 4.852 18.296 19.052-0.212 176.262 0.311 352.525 0.354 528.787 0.012 48.329-14.318 62.135-61.987 62.306zM457.826 551.954c-0.005 62.494 0.248 124.989-0.122 187.48-0.16 27.053-21.176 42.105-41.952 30.851-13.621-7.378-15.183-20.088-15.14-33.959 0.217-70.131 0.1-140.263 0.099-210.395 0-52.078-0.013-104.156 0.005-156.234 0.01-28.205 9.473-41.657 29.029-41.383 19.282 0.27 28.061 13.458 28.076 42.408 0.031 60.412 0.009 120.822 0.005 181.232zM640.505 548.427c0 67.266 0.079 134.531-0.04 201.797-0.046 25.885-12.42 41.664-31.659 41.105-18.649-0.542-30.391-15.588-30.412-40.16-0.114-135.287-0.119-270.574 0.002-405.861 0.023-25.653 10.741-38.957 30.533-39.21 20.326-0.26 31.51 13.901 31.546 40.533 0.091 67.264 0.03 134.53 0.03 201.796z"
-                                                                            p-id="14222"
-                                                                        />
-                                                                    </svg>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    )
-                                                })
-                                            }
-                                        </div>
-                                    </div>
-                                    {
-                                        showLyricNormal &&
-                                          <LyricNormal
-                                            lyric={lyric || []}
-                                            lyricIndex={lyricIndex}
-                                            info={currentMusic}
-                                            loading={lyricLoading}
-                                            lyricPlaceholder={lyricPlaceholder}
-                                          />
-                                    }
-                                </div>
-                                :
-                                null
-                        }
-
-                    </ReactCSSTransitionGroup>
-                </div>
                 {
                     actions.length &&
                         <div className='cool-player-actions' ref={actionsEl}>
@@ -706,7 +584,133 @@ const CoolPlayer = (props: IProps) => {
                 <audio src={currentMusic.src ? currentMusic.src : ''} ref={audioEl}/>
             </div>
         </div>
+        <div className='cool-player-list-wrapper' ref={coolPlayListWrapper}>
+            <ReactCSSTransitionGroup
+                transitionName='cool-player-list-show'
+                transitionEnterTimeout={500}
+                transitionLeaveTimeout={300}
+            >
+                {
+                    musicListShow ?
+                        <div className='cool-player-list-lyric' ref={playListEl}>
+                            <div className={'cool-player-list-component'}>
+                                <div className='cool-player-list-title'>
+                                    <div className='cool-player-list-title-left'>
+                                        { playListHeader.headerLeft }
+                                    </div>
+                                    <div className='cool-player-list-title-left'>
+                                        { playListHeader.headerRight }
+                                    </div>
 
+                                </div>
+                                <div className='single-music-wrapper'>
+                                    {
+                                        data.map((v, i) => {
+                                            return (
+                                                <div
+                                                    className='single-music'
+                                                    style={ currentMusic.src === v .src && isPlayed ?
+                                                        { background: '#33beff', color: '#fff' }
+                                                        :
+                                                        null}
+                                                    key={v.id}
+                                                >
+                                                    <div className={'single-music-left'}>
+                                                        <div className='single-music-play'>
+                                                            {
+                                                                currentMusic.src === v .src && isPlayed ?
+                                                                    <svg
+                                                                        className="icon-playing"
+                                                                        viewBox="0 0 1024 1024" version="1.1"
+                                                                        xmlns="http://www.w3.org/2000/svg"
+                                                                        p-id="4542">
+                                                                        <path
+                                                                            d="M844.743872 64.641229l-483.775168 80.814584c-1.567705 0.25071-3.031033 0.710175-4.453429 1.254573l-17.475 0c-11.915377 0-21.38403 9.532097-21.38403 21.280676l0 553.029462c-18.875906-10.912537-40.825824-17.140379-64.216557-17.140379-70.927399 0-128.433114 57.359382-128.433114 128.139425S182.512289 960.15695 253.439688 960.15695c70.926376 0 128.433114-57.359382 128.433114-128.139425 0-5.184069-0.314155-10.285251-0.899486-15.259542 0.585331-1.964748 0.899486-4.013407 0.899486-6.187933l0-449.764564 449.513854-79.267345 0 311.298955c-18.875906-10.870582-40.825824-17.142425-64.216557-17.142425-70.927399 0-128.433114 57.401338-128.433114 128.183428 0 70.738088 57.505715 128.139425 128.433114 128.139425 70.926376 0 128.432091-57.401338 128.432091-128.139425 0-5.184069-0.313132-10.285251-0.898463-15.301498 0.585331-1.966795 0.898463-4.015454 0.898463-6.187933l0-597.97307c0-10.45205-7.587815-19.190061-17.579377-20.946055-3.491521-2.173502-7.881504-3.051499-12.710486-2.257413l-11.370978 1.922792-1.170662 0C849.927941 63.135946 847.21004 63.679321 844.743872 64.641229z"
+                                                                            p-id="4543"
+                                                                        />
+                                                                    </svg>
+                                                                    :
+                                                                    <svg
+                                                                        className="icon-play"
+                                                                        viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="12608"
+                                                                        onClick={() => playThis(i)}
+                                                                    >
+                                                                        <path
+                                                                            d="M844.704269 475.730473L222.284513 116.380385a43.342807 43.342807 0 0 0-65.025048 37.548353v718.692951a43.335582 43.335582 0 0 0 65.025048 37.541128l622.412531-359.342864a43.357257 43.357257 0 0 0 0.007225-75.08948z"
+                                                                            fill="" p-id="12609"
+                                                                        />
+                                                                    </svg>
+
+                                                            }
+
+                                                        </div>
+                                                        <div
+                                                            className='single-music-name'
+                                                            onClick={() => playThis(i)}
+                                                            title={v.name}
+                                                        >{v.name}</div>
+                                                    </div>
+                                                    <div className='single-music-right'>
+                                                        {
+                                                            musicActions.length && <div
+                                                              className={'single-music-actions'}
+                                                              onClick={() => {
+                                                                  if (currentMusic.id !== v.id || !isPlayed) {
+                                                                      playThis(i)
+                                                                  }
+                                                              }}
+                                                            >
+                                                              <div className={classnames('single-music-actions-content', {
+                                                                  'single-music-actions-actived': (currentMusic.id === v.id && isPlayed)
+                                                              })}>
+                                                                  {
+                                                                      musicActions.map(item => item(v, currentMusic.id === v.id || false))
+                                                                  }
+                                                              </div>
+                                                            </div>
+                                                        }
+                                                        <div
+                                                            className='single-music-artist'
+                                                            onClick={() => playThis(i)}
+                                                        >{v.artist}</div>
+                                                        <div className='single-music-del'>
+                                                            <svg
+                                                                className="icon-delete"
+                                                                viewBox="0 0 1024 1024" version="1.1"
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                p-id="14221"
+                                                                onClick={() => delMusic(i, v.id)}
+                                                            >
+                                                                <path
+                                                                    d="M905.095 208.272c-0.723-13.831-8.416-22.5-21.935-24.964-9.591-1.748-19.427-2.978-29.157-3.003-86.191-0.226-172.383-0.131-258.575-0.132-33.351 0-33.746-0.003-33.526-32.945 0.107-16.082-2.276-30.68-17.72-38.771-18.485-9.684-38.335-9.957-56.659-0.784-17.966 8.993-20.791 26.286-18.357 44.809 0.489 3.722-0.236 7.611 0.315 11.317 1.911 12.864-3.273 16.675-16.211 16.658-65.739-0.088-131.48 0.861-197.221 1.272-33.198 0.208-66.403-0.284-99.596 0.188-17.428 0.248-31.405 5.801-32.05 26.883-0.632 20.665 11.01 30.367 29.789 32.983 8.168 1.138 16.754 1.418 24.885 0.245 18.279-2.637 24.062 3.035 23.817 22.671-1.187 95.25-0.536 190.522-0.536 285.787 0 94.508-0.052 189.017 0.02 283.525 0.042 54.383 27.569 82.889 81.862 83.012 154.237 0.351 308.475 0.311 462.712 0.022 54.345-0.102 81.543-28.003 81.768-82.957 0.262-64.265 0.061-128.531 0.061-192.797 0-125.507 0.497-251.018-0.52-376.517-0.158-19.465 5.267-25.341 23.708-22.741 12.025 1.695 24.391 0.459 35.599-4.637 12.134-5.515 18.229-15.704 17.527-29.124zM703.894 852.013c-127.824 0.459-255.648 1.108-383.472 1.53-42.18 0.139-55.197-13.105-55.226-55.644-0.06-88.514-0.018-177.028-0.018-265.542 0-90.027 0.354-180.056-0.345-270.078-0.118-15.18 2.786-20.515 19.406-20.441 154.329 0.685 308.663 0.647 462.992 0.03 15.437-0.062 18.313 4.852 18.296 19.052-0.212 176.262 0.311 352.525 0.354 528.787 0.012 48.329-14.318 62.135-61.987 62.306zM457.826 551.954c-0.005 62.494 0.248 124.989-0.122 187.48-0.16 27.053-21.176 42.105-41.952 30.851-13.621-7.378-15.183-20.088-15.14-33.959 0.217-70.131 0.1-140.263 0.099-210.395 0-52.078-0.013-104.156 0.005-156.234 0.01-28.205 9.473-41.657 29.029-41.383 19.282 0.27 28.061 13.458 28.076 42.408 0.031 60.412 0.009 120.822 0.005 181.232zM640.505 548.427c0 67.266 0.079 134.531-0.04 201.797-0.046 25.885-12.42 41.664-31.659 41.105-18.649-0.542-30.391-15.588-30.412-40.16-0.114-135.287-0.119-270.574 0.002-405.861 0.023-25.653 10.741-38.957 30.533-39.21 20.326-0.26 31.51 13.901 31.546 40.533 0.091 67.264 0.03 134.53 0.03 201.796z"
+                                                                    p-id="14222"
+                                                                />
+                                                            </svg>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            )
+                                        })
+                                    }
+                                </div>
+                            </div>
+                            {
+                                showLyricNormal &&
+                                <LyricNormal
+                                  lyric={lyric || []}
+                                  lyricIndex={lyricIndex}
+                                  info={currentMusic}
+                                  loading={lyricLoading}
+                                  lyricPlaceholder={lyricPlaceholder}
+                                />
+                            }
+                        </div>
+                        :
+                        null
+                }
+
+            </ReactCSSTransitionGroup>
+        </div>
         <ReactCSSTransitionGroup
             transitionName='cool-player-list-model'
             transitionEnterTimeout={500}
