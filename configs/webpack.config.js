@@ -39,14 +39,22 @@ module.exports = {
             { loader: 'less-loader' },
         ]
     },
-      {
-        test: /\.(woff2?|eot|ttf|otf|svg)(\?.*)?$/,
-        loader: 'url-loader',
-        options: {
-          limit: 1000,
-          name: 'fonts/[name].[hash:8].[ext]'
-        }
+    {
+      test: /\.(woff2?|eot|ttf|otf|svg)(\?.*)?$/,
+      loader: 'url-loader',
+      options: {
+        limit: 1000,
+        name: 'fonts/[name].[hash:8].[ext]'
       }
+    },
+    {
+      test: /\.(jpg|png|gif|jpeg)(\?.*)?$/,
+      loader: 'url-loader',
+      options: {
+        limit: 1000,
+        name: 'images/[name].[hash:8].[ext]'
+      }
+    }
     ]
   },
   resolve: {

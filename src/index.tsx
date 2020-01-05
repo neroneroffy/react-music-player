@@ -2,10 +2,12 @@ import * as React from 'react'
 import * as ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import './index.less'
 import Timeout = NodeJS.Timeout;
-import { getLyric } from './utils'
+import { getLyric, fixedBody, looseBody } from './utils'
 import LyricNormal from './Lyric/LyricNormal/index'
 import LyricMini from './Lyric/LyricMini/index'
 import classnames from 'classnames'
+import albumBg from './img/album.png'
+import albumBorder from './img/album-border.png'
 const { useState, useRef, useEffect } = React
 let rotateTimer: Timeout
 export interface ISongs {
@@ -53,7 +55,11 @@ const CoolPlayer = (props: IProps) => {
     const musicAvatarEl = useRef(null)
     const bufferedEl = useRef(null)
     const playedEl = useRef(null)
+    const detailMusicAvatarEl = useRef(null)
+    const detailBufferedEl = useRef(null)
+    const detailPlayedEl = useRef(null)
     const progressEl = useRef(null)
+    const detailProgressEl = useRef(null)
     const totalVolumeEl = useRef(null)
     const volumeProgressEl = useRef(null)
     const coolPlayerEl = useRef(null)
@@ -68,6 +74,7 @@ const CoolPlayer = (props: IProps) => {
     const [ isPaused, setPaused ] = useState<boolean>(true);
     const [ totalTime, setTotalTime ] = useState<number | string>(0);
     const [ playedLeft, setPlayedLeft ] = useState<number>(0);
+    const [ detailPlayedLeft, setDetailPlayedLeft ] = useState<number>(0);
     const [ volumnLeft, setVolumnLeft ] = useState<number>(0);
     const [ remainTime, setRemainTime ] = useState<number | string>(0);
     const [ angle, setAngle ] = useState<number>(0);
@@ -78,6 +85,8 @@ const CoolPlayer = (props: IProps) => {
     const [ lyric, setLyric ] = useState<ILyric[]>([]);
     const [ lyricIndex, setLyricIndex ] = useState<number>(-1);
     const [ isMute, setIsMute ] = useState<boolean>(false);
+    const [ detailVisible, setDetailVisible ] = useState<boolean>(false);
+    const [ mode, setMode ] = useState<string>('order');
     const { showLyricNormal = true,
         showLyricMini = true,
         lyric: lyricFromProps = '',
@@ -166,6 +175,9 @@ const CoolPlayer = (props: IProps) => {
             rotateTimer = setInterval(() => {
                 setAngle(angle + 1)
                 musicAvatarEl.current.style.transform = `rotate(${angle}deg)`;
+                if (detailMusicAvatarEl.current) {
+                    detailMusicAvatarEl.current.style.transform = `rotate(${angle}deg)`;
+                }
             }, 33)
         }
         return () => {
@@ -200,6 +212,9 @@ const CoolPlayer = (props: IProps) => {
         setRemainTime(getTime(musicTotalTime))
         setPlayedLeft(playedEl.current.getBoundingClientRect().left)
         setVolumnLeft(totalVolumeEl.current.getBoundingClientRect().left)
+        if (detailPlayedEl.current) {
+            setPlayedLeft(detailPlayedEl.current.getBoundingClientRect().left)
+        }
     }
     const setLyricHighLight = () => {
         const current = audioEl.current.currentTime
@@ -220,6 +235,9 @@ const CoolPlayer = (props: IProps) => {
         const playPer = audioEl.current.currentTime / audioEl.current.duration;
         drawCircle(playPer)
         playedEl.current.style.width = playPer * 100 + '%';
+        if (detailPlayedEl.current) {
+            detailPlayedEl.current.style.width = playPer * 100 + '%';
+        }
         // 设置缓冲进度条
         const timeRages = audioEl.current.buffered;
         let bufferedTime = 0
@@ -228,11 +246,23 @@ const CoolPlayer = (props: IProps) => {
         }
         const bufferedPer = bufferedTime / audioEl.current.duration;
         bufferedEl.current.style.width = bufferedPer * 100 + '%';
+        if (detailBufferedEl.current) {
+            detailBufferedEl.current.style.width = bufferedPer * 100 + '%';
+        }
         // 设置剩余时间
         const musicRemainTime = parseInt(`${audioEl.current.duration - audioEl.current.currentTime}`, 0);
         setRemainTime(getTime(musicRemainTime))
         if (audioEl.current.ended) {
-            next()
+            clearInterval(rotateTimer)
+            if(mode === 'order'){
+                next()
+            }else if(mode === 'random'){
+                random()
+            }else if(mode === 'singleLoop'){
+                setAngle(0)
+                play()
+            }
+
         }
 
     }
@@ -273,30 +303,56 @@ const CoolPlayer = (props: IProps) => {
             setCurrentMusic(data[0])
         }
     }
-    // PC端设置进度条
-    const setTimeOnPc = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const random = () => {
+        if(data.length !== 0){
+            let randomIndex = Math.ceil(Math.random() * data.length - 1);
+            setCurrentMusic(data[ randomIndex ])
+            setAngle(0)
+            play()
+        }
+
+    }
+
+    const setTimeOnPc = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, action?: string) => {
         const audio = audioEl.current;
         if (audio.currentTime !== 0) {
-            const newWidth = (e.pageX - playedLeft) / progressEl.current.offsetWidth;
+            let targetPoint = 0;
+            let newWidth = 0;
+            if(action === 'touch'){
+                targetPoint = e.pageX - detailPlayedLeft
+                newWidth = targetPoint / detailProgressEl.current.offsetWidth;
+            }else{
+                targetPoint = e.pageX - playedLeft;
+                newWidth = targetPoint / progressEl.current.offsetWidth;
+            }
             playedEl.current.style.width = newWidth * 100 + '%';
             audio.currentTime = newWidth * audio.duration;
             setLyricHighLight()
         }
     }
-    const setTime = (e: React.TouchEvent<HTMLDivElement>) => {
+    const setTime = (e: React.TouchEvent<HTMLDivElement>, action?: string) => {
         const audio = audioEl.current
-        const newWidth = (e.touches[0].pageX - playedLeft) / progressEl.current.offsetWidth;
-        playedEl.current.style.width = newWidth * 100 + '%';
-        audio.currentTime = newWidth * audio.duration
+        let targetPoint = e.touches[0].pageX - playedLeft
+        let newWidth
 
+        if(action === 'touch'){
+            targetPoint = e.touches[0].pageX - detailPlayedLeft
+            newWidth = targetPoint / detailProgressEl.current.offsetWidth;
+            detailPlayedEl.current.style.width = newWidth * 100 + '%';
+            console.log(targetPoint);
+        }else{
+            newWidth = targetPoint / progressEl.current.offsetWidth;
+            playedEl.current.style.width = newWidth * 100 + '%';
+        }
+        audio.currentTime = newWidth * audio.duration
     }
 
     // PC端点击事件
-    const clickChangeTime = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const clickChangeTime = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, action?: string) => {
         if (!e.pageX) {
             return
         }
-        setTimeOnPc(e)
+        setTimeOnPc(e, action)
     }
     // PC端拖动进度条
     const onMouseDown = () => {
@@ -312,13 +368,13 @@ const CoolPlayer = (props: IProps) => {
     }
     const onTouchTimeChangeStart = (e: React.TouchEvent<HTMLDivElement>) => {
         if (audioEl.current.currentTime !== 0) {
-            setTime(e)
+            setTime(e, 'touch')
         }
     }
     const onTouchMoveProgress = (e: React.TouchEvent<HTMLDivElement>) => {
         const audio = audioEl.current;
         if (audio.currentTime !== 0) {
-            setTime(e)
+            setTime(e, 'touch')
         }
     }
     const getTime = (musicTime: number) => {
@@ -406,7 +462,9 @@ const CoolPlayer = (props: IProps) => {
                 clearInterval(rotateTimer);
                 audio.currentTime = 0;
                 bufferedEl.current.style.width = 0;
+                detailBufferedEl.current.style.width = 0;
                 playedEl.current.style.width = 0;
+                detailPlayedEl.current.style.width = 0;
                 const invalidCurrent = {
                         src: '',
                         artist: '',
@@ -420,6 +478,32 @@ const CoolPlayer = (props: IProps) => {
             }
         }
         props.onDelete(i, id)
+    }
+
+    const playMode = () => {
+        switch (mode){
+                case "order":
+                    setMode('random')
+                    break;
+                case "random":
+                    setMode('random')
+                    break;
+                case "单曲循环":
+                    setMode('singleLoop')
+            }
+    }
+    const onShowDetail = () => {
+        fixedBody()
+        setDetailVisible(true)
+        setTimeout(() => {
+            if (detailPlayedEl.current) {
+                setDetailPlayedLeft(detailPlayedEl.current.getBoundingClientRect().left)
+            }
+        })
+    }
+    const onHideDetail = () => {
+        looseBody()
+        setDetailVisible(false)
     }
     return <div id={'cool-player'} ref={coolPlayerEl}>
         <div className='cool-player-wrapper'>
@@ -439,7 +523,8 @@ const CoolPlayer = (props: IProps) => {
                         !isPaused && currentMusic.src ?
                           <svg
                             className="icon-puase"
-                            viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="13385"
+                            viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                            p-id="13385"
                             onClick={pause}
                           >
                             <path
@@ -468,15 +553,15 @@ const CoolPlayer = (props: IProps) => {
                     </svg>
                 </div>
                 <div className='cool-player-box' ref={musicBoxEl}>
-                    <div className={classnames('picture-wrapper', {
+                    <div className={ classnames('picture-wrapper', {
                         'picture-wrapper-large': !isPaused
                     })}>
-                        <div className='picture'>
-                            <canvas ref={canvasEl} className="circle-progress" width="62" height="62" />
+                        <div className='picture' onClick={ onShowDetail }>
+                            <canvas ref={ canvasEl } className="circle-progress" width="62" height="62" />
                             {
                                 currentMusic.src ?
-                                    <div className='avatar' ref={avatarEl}>
-                                        <img src={currentMusic.img} ref={musicAvatarEl} alt='image is lost'/>
+                                    <div className='avatar' ref={ avatarEl }>
+                                        <img src={ currentMusic.img } ref={ musicAvatarEl } alt='image is lost'/>
                                     </div>
                                     :
                                     avatarPlaceholder
@@ -491,7 +576,7 @@ const CoolPlayer = (props: IProps) => {
                         </div>
                         <div
                             className='progress-wrapper'
-                            ref={progressEl}
+                            ref={ progressEl }
                             onTouchMove={onTouchMoveProgress}
                             onTouchStart={onTouchTimeChangeStart}
                             onClick={clickChangeTime}
@@ -721,6 +806,101 @@ const CoolPlayer = (props: IProps) => {
                     <div className='modal' onClick={showMusicList}></div>
                     :
                     null
+            }
+        </ReactCSSTransitionGroup>
+        <ReactCSSTransitionGroup
+            transitionName="cool-player-detail-show"
+            transitionEnterTimeout={300}
+            transitionLeaveTimeout={300}
+        >
+            {
+                detailVisible && <div className="cool-player-detail">
+                        <div className="cool-player-detail-wrapper">
+                            <div className="cool-player-detail-img">
+                                <img className="album-bg" src={albumBg} alt=""/>
+                                <img className="album-border" src={albumBorder} alt=""/>
+                                <div className="detailPic-wrapper">
+                                    <img className="detailPic" ref={ detailMusicAvatarEl } src={ currentMusic.img } alt=""/>
+                                </div>
+                            </div>
+                            <div className="music-info">
+                                <div className="title">{ currentMusic.name }</div>
+                                <div className="artist">{ currentMusic.artist }</div>
+                            </div>
+                            <div
+                                className="detail-progress"
+                                ref={ detailProgressEl }
+                                onTouchMove={ onTouchMoveProgress }
+                                onTouchStart={ onTouchTimeChangeStart }
+                                onClick={ e => clickChangeTime(e, 'touch') }
+                            >
+
+                                <div className="progress" >
+                                    <div className='progress-buffered' ref={ detailBufferedEl }>
+                                    </div>
+                                  <div className='progress-played' ref={ detailPlayedEl }></div>
+
+                                </div>
+                            </div>
+                            <div className="detail-time">
+                                <div>{ remainTime }</div>
+                                <div>{ totalTime }</div>
+                            </div>
+                            <div className="operate">
+                                <div className="mode" onClick={ playMode }>
+                                    { mode }
+                                </div>
+                                <div className="operation">
+                                  <svg
+                                    className="icon-prev"
+                                    viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="11891"
+                                    onClick={last}
+                                  >
+                                    <path
+                                      d="M625.5 513V216.1c0-13.5 2.5-28.9-12.9-35.9-14.2-6.4-26.3 1.5-37.7 9.5C434.5 288 294 386.1 153.8 484.7c-32.2 22.7-31.7 33.7 0.9 56.6C292.9 638.2 431.2 735 569.5 831.8c4.2 2.9 8.4 5.9 12.8 8.4 27 14.7 43 5.7 43.1-25.1 0.4-75.9 0.1-151.8 0.1-227.8V513zM727.9 512.8c0 92.1-0.1 184.1 0 276.2 0 37.7 19.1 60.8 50.1 61.4 32 0.7 52.2-23 52.2-61.8 0.1-184.1 0.1-368.2 0-552.3 0-37.5-19.3-60.9-50.1-61.5-31.8-0.6-52.2 23.3-52.2 61.9-0.1 92 0 184 0 276.1z"
+                                      p-id="11892"
+                                    />
+                                  </svg>
+                                    {
+                                        !isPaused && currentMusic.src ?
+                                            <svg
+                                                className="icon-puase"
+                                                viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                                                p-id="13385"
+                                                onClick={pause}
+                                            >
+                                                <path
+                                                    d="M757.52 73.107h-62.493c-34.526 0-62.498 27.984-62.498 62.511v749.948c0 34.526 27.974 62.493 62.498 62.493h62.493c34.516 0 62.502-27.968 62.502-62.493v-749.953c-0.001-34.524-27.984-62.509-62.502-62.509zM320.054 73.107h-62.502c-34.526 0-62.498 27.984-62.498 62.511v749.948c0 34.526 27.974 62.493 62.498 62.493h62.502c34.505 0 62.493-27.968 62.493-62.493v-749.953c-0.001-34.524-27.984-62.509-62.493-62.509z"
+                                                    p-id="13386"/>
+                                            </svg>
+                                            :
+                                            <svg
+                                                className="icon-play"
+                                                viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="12608"
+                                                onClick={play}
+                                            >
+                                                <path
+                                                    d="M844.704269 475.730473L222.284513 116.380385a43.342807 43.342807 0 0 0-65.025048 37.548353v718.692951a43.335582 43.335582 0 0 0 65.025048 37.541128l622.412531-359.342864a43.357257 43.357257 0 0 0 0.007225-75.08948z"
+                                                    fill="" p-id="12609"/>
+                                            </svg>
+                                    }
+                                  <svg
+                                    className="icon-next"
+                                    viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="12235"
+                                    onClick={next}
+                                  >
+                                    <path
+                                      d="M402.9 513V216.1c0-13.5-2.5-28.9 12.9-35.9 14.2-6.4 26.3 1.5 37.7 9.5 140.5 98.3 281 196.4 421.2 295 32.2 22.7 31.7 33.7-0.9 56.6C735.6 638.2 597.3 734.9 459 831.7c-4.2 2.9-8.4 5.9-12.8 8.4-27 14.7-43 5.7-43.1-25.1-0.4-75.9-0.1-151.8-0.1-227.8-0.1-24.8-0.1-49.5-0.1-74.2zM300.5 512.8c0 92.1 0.1 184.1 0 276.2 0 37.7-19.1 60.8-50.1 61.4-32 0.7-52.2-23-52.2-61.8-0.1-184.1-0.1-368.2 0-552.3 0-37.5 19.3-60.9 50.1-61.5 31.8-0.6 52.2 23.3 52.2 61.9v276.1z"
+                                      p-id="12236"/>
+                                  </svg>
+                                </div>
+                                <div className="close-detail" onClick={ onHideDetail }>
+                                    关闭
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
             }
         </ReactCSSTransitionGroup>
     </div>
