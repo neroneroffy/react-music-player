@@ -193,7 +193,26 @@ const CoolPlayer = (props: IProps) => {
             audio.pause()
         }
         audio.addEventListener('timeupdate', setProgress);
+        return () => {
+            audio.removeEventListener('timeupdate', setProgress)
+        }
+
     }, [isPaused, currentMusic])
+
+    useEffect(() => {
+        if (playedEl.current) {
+            playedEl.current.style.width = '0%';
+        }
+        if (detailPlayedEl.current) {
+            detailPlayedEl.current.style.width = '0%';
+        }
+        if (bufferedEl.current) {
+            bufferedEl.current.style.width = '0%';
+        }
+        if (detailBufferedEl.current) {
+            detailBufferedEl.current.style.width = '0%';
+        }
+    }, [ currentMusic ])
 
     useEffect(() => {
         const audio = audioEl.current
@@ -310,7 +329,6 @@ const CoolPlayer = (props: IProps) => {
             setAngle(0)
             play()
         }
-
     }
 
     const setTimeOnPc = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, action?: string) => {
@@ -339,8 +357,7 @@ const CoolPlayer = (props: IProps) => {
             targetPoint = e.touches[0].pageX - detailPlayedLeft
             newWidth = targetPoint / detailProgressEl.current.offsetWidth;
             detailPlayedEl.current.style.width = newWidth * 100 + '%';
-            console.log(targetPoint);
-        }else{
+        } else {
             newWidth = targetPoint / progressEl.current.offsetWidth;
             playedEl.current.style.width = newWidth * 100 + '%';
         }
@@ -836,9 +853,8 @@ const CoolPlayer = (props: IProps) => {
                             >
 
                                 <div className="progress" >
-                                    <div className='progress-buffered' ref={ detailBufferedEl }>
-                                    </div>
-                                  <div className='progress-played' ref={ detailPlayedEl }></div>
+                                    <div className='progress-buffered' ref={ detailBufferedEl }></div>
+                                    <div className='progress-played' ref={ detailPlayedEl }></div>
 
                                 </div>
                             </div>

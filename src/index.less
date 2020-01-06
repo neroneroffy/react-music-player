@@ -655,11 +655,19 @@
         user-select:none;
         .progress{
           height: 4px;
+          position: relative;
+          background: #404040;
           .progress-buffered{
+            position: absolute;
+            top: 0;
+            left: 0;
             height: 4px;
             background: #e4e4e4;
           }
           .progress-played{
+            position: absolute;
+            top: 0;
+            left: 0;
             height: 4px;
             background: #017fff;
           }
