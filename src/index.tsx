@@ -532,6 +532,9 @@ const CoolPlayer = (props: IProps) => {
         }
     }
     const onShowDetail = () => {
+        if (document.body.clientWidth > 680) {
+            return
+        }
         fixedBody()
         setDetailVisible(true)
         setTimeout(() => {
