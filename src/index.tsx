@@ -42,6 +42,13 @@ interface IProps {
         headerRight?: React.ReactNode | string,
     }
 }
+
+enum PlayMode {
+    Order = 1,
+    Random = 2,
+    Loop = 3
+}
+
 const CoolPlayer = (props: IProps) => {
     const { data } = props
     const initialMusic = {
@@ -71,22 +78,25 @@ const CoolPlayer = (props: IProps) => {
     const canvasEl = useRef(null)
     const avatarEl = useRef(null)
     const coolPlayerInnerEl = useRef(null)
-    const [ isPaused, setPaused ] = useState<boolean>(true);
-    const [ totalTime, setTotalTime ] = useState<number | string>(0);
-    const [ playedLeft, setPlayedLeft ] = useState<number>(0);
-    const [ detailPlayedLeft, setDetailPlayedLeft ] = useState<number>(0);
-    const [ volumnLeft, setVolumnLeft ] = useState<number>(0);
-    const [ remainTime, setRemainTime ] = useState<number | string>(0);
-    const [ angle, setAngle ] = useState<number>(0);
-    const [ mouseDown, setMouseDown ] = useState<boolean>(false);
-    const [ musicListShow, setMusicListShow ] = useState<boolean>(false);
-    const [ currentMusic, setCurrentMusic ] = useState<ISongs>(data[0] || initialMusic);
-    const [ isPlayed, setIsPlayed ] = useState<boolean>(false);
-    const [ lyric, setLyric ] = useState<ILyric[]>([]);
-    const [ lyricIndex, setLyricIndex ] = useState<number>(-1);
-    const [ isMute, setIsMute ] = useState<boolean>(false);
-    const [ detailVisible, setDetailVisible ] = useState<boolean>(false);
-    const [ mode, setMode ] = useState<string>('order');
+    const coolPlayerDetailEl = useRef(null)
+    const coolPlayerDetailWrapperEl = useRef(null)
+    const detailPicWrapperEl = useRef(null)
+    const [ isPaused, setPaused ] = useState<boolean>(true)
+    const [ totalTime, setTotalTime ] = useState<number | string>(0)
+    const [ playedLeft, setPlayedLeft ] = useState<number>(0)
+    const [ detailPlayedLeft, setDetailPlayedLeft ] = useState<number>(0)
+    const [ volumnLeft, setVolumnLeft ] = useState<number>(0)
+    const [ remainTime, setRemainTime ] = useState<number | string>(0)
+    const [ angle, setAngle ] = useState<number>(0)
+    const [ mouseDown, setMouseDown ] = useState<boolean>(false)
+    const [ musicListShow, setMusicListShow ] = useState<boolean>(false)
+    const [ currentMusic, setCurrentMusic ] = useState<ISongs>(data[0] || initialMusic)
+    const [ isPlayed, setIsPlayed ] = useState<boolean>(false)
+    const [ lyric, setLyric ] = useState<ILyric[]>([])
+    const [ lyricIndex, setLyricIndex ] = useState<number>(-1)
+    const [ isMute, setIsMute ] = useState<boolean>(false)
+    const [ detailVisible, setDetailVisible ] = useState<boolean>(false)
+    const [ mode, setMode ] = useState<number>(PlayMode.Order)
     const { showLyricNormal = true,
         showLyricMini = true,
         lyric: lyricFromProps = '',
@@ -152,6 +162,15 @@ const CoolPlayer = (props: IProps) => {
         actionsEl.current.style.zIndex = zIndex + 300
         canvasEl.current.style.zIndex = zIndex + 300
         avatarEl.current.style.zIndex = zIndex + 400
+        if (coolPlayerDetailEl.current) {
+            coolPlayerDetailEl.current.style.zIndex = zIndex + 500
+        }
+        if (coolPlayerDetailWrapperEl.current) {
+            coolPlayerDetailWrapperEl.current.style.zIndex = zIndex + 600
+        }
+        if (detailPicWrapperEl.current) {
+            detailPicWrapperEl.current.style.zIndex = zIndex + 700
+        }
         if (document.body.clientWidth > 680) {
             coolPlayListWrapper.current.style.zIndex = zIndex - 100
         }
@@ -197,7 +216,7 @@ const CoolPlayer = (props: IProps) => {
             audio.removeEventListener('timeupdate', setProgress)
         }
 
-    }, [isPaused, currentMusic])
+    }, [isPaused, currentMusic, mode])
 
     useEffect(() => {
         if (playedEl.current) {
@@ -271,17 +290,20 @@ const CoolPlayer = (props: IProps) => {
         // 设置剩余时间
         const musicRemainTime = parseInt(`${audioEl.current.duration - audioEl.current.currentTime}`, 0);
         setRemainTime(getTime(musicRemainTime))
+        console.log('before', mode);
         if (audioEl.current.ended) {
             clearInterval(rotateTimer)
-            if(mode === 'order'){
+            console.log(mode);
+            if(mode === PlayMode.Order){
                 next()
-            }else if(mode === 'random'){
+            }else if(mode === PlayMode.Random){
                 random()
-            }else if(mode === 'singleLoop'){
-                setAngle(0)
+            }else if(mode === PlayMode.Loop){
+                const currentMusicAgain = JSON.parse(JSON.stringify(currentMusic))
+                setCurrentMusic(currentMusicAgain)
                 play()
             }
-
+            setAngle(0)
         }
 
     }
@@ -499,15 +521,15 @@ const CoolPlayer = (props: IProps) => {
 
     const playMode = () => {
         switch (mode){
-                case "order":
-                    setMode('random')
-                    break;
-                case "random":
-                    setMode('random')
-                    break;
-                case "单曲循环":
-                    setMode('singleLoop')
-            }
+            case PlayMode.Order:
+                setMode(PlayMode.Random)
+                break;
+            case PlayMode.Random:
+                setMode(PlayMode.Loop)
+                break;
+            case PlayMode.Loop:
+                setMode(PlayMode.Order)
+        }
     }
     const onShowDetail = () => {
         fixedBody()
@@ -521,6 +543,16 @@ const CoolPlayer = (props: IProps) => {
     const onHideDetail = () => {
         looseBody()
         setDetailVisible(false)
+    }
+    const onSwitchPlayMode = () => {
+        switch (mode) {
+            case PlayMode.Order:
+                return '顺序'
+            case PlayMode.Random:
+                return '随机'
+            case PlayMode.Loop:
+                return '单曲'
+        }
     }
     return <div id={'cool-player'} ref={coolPlayerEl}>
         <div className='cool-player-wrapper'>
@@ -831,12 +863,12 @@ const CoolPlayer = (props: IProps) => {
             transitionLeaveTimeout={300}
         >
             {
-                detailVisible && <div className="cool-player-detail">
-                        <div className="cool-player-detail-wrapper">
+                detailVisible && <div className="cool-player-detail" ref={ coolPlayerDetailEl }>
+                        <div className="cool-player-detail-wrapper" ref={ coolPlayerDetailWrapperEl }>
                             <div className="cool-player-detail-img">
                                 <img className="album-bg" src={albumBg} alt=""/>
                                 <img className="album-border" src={albumBorder} alt=""/>
-                                <div className="detailPic-wrapper">
+                                <div className="detail-pic-wrapper" ref={ detailPicWrapperEl }>
                                     <img className="detailPic" ref={ detailMusicAvatarEl } src={ currentMusic.img } alt=""/>
                                 </div>
                             </div>
@@ -851,11 +883,9 @@ const CoolPlayer = (props: IProps) => {
                                 onTouchStart={ onTouchTimeChangeStart }
                                 onClick={ e => clickChangeTime(e, 'touch') }
                             >
-
                                 <div className="progress" >
                                     <div className='progress-buffered' ref={ detailBufferedEl }></div>
                                     <div className='progress-played' ref={ detailPlayedEl }></div>
-
                                 </div>
                             </div>
                             <div className="detail-time">
@@ -864,7 +894,7 @@ const CoolPlayer = (props: IProps) => {
                             </div>
                             <div className="operate">
                                 <div className="mode" onClick={ playMode }>
-                                    { mode }
+                                    { onSwitchPlayMode() }
                                 </div>
                                 <div className="operation">
                                   <svg
