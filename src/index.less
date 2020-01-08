@@ -567,82 +567,86 @@
     height: 100%;
     z-index: 3000;
     background: rgba(0,0,0,0.8);
-    .cool-player-detail-wrapper{
+    .cool-player-detail-img{
+      width: 220px;
+      height: 220px;
+      margin:20px auto 0 auto;
+      overflow: hidden;
+      border-radius: 50%;
       position: relative;
-      z-index: 3100;
-      width:95%;
-      margin:0 auto;
-      .cool-player-detail-img{
-        width: 250px;
-        height: 250px;
-        margin:40px auto 0 auto;
-        overflow: hidden;
+      font-size: 0;
+      .album-bg{
+        .absolute-center;
+        width: 220px;
+        height: 220px;
+      }
+      .album-border{
+        .absolute-center;
+        width: 164px;
+        height: 164px;
+      }
+      .detail-pic-wrapper {
+        .absolute-center;
+        width: 160px;
+        height: 160px;
         border-radius: 50%;
-        position: relative;
-        font-size: 0;
-        .album-bg{
-          .absolute-center;
-          width: 250px;
-          height: 250px;
-        }
-        .album-border{
-          .absolute-center;
-          width: 174px;
-          height: 174px;
-        }
-        .detail-pic-wrapper {
-          .absolute-center;
-          width: 170px;
-          height: 170px;
-          border-radius: 50%;
-          overflow: hidden;
-          img{
-            width: 100%;
-          }
+        overflow: hidden;
+        img{
+          width: 100%;
         }
       }
-      .music-info{
-        margin-top: 30px;
-        text-align: center;
-        .title{
-          font-size: 22px;
-          color:#fff
-        }
-        .artist{
-          margin-top: 10px;
-          font-size: 12px;
-          color: #dfdfdf;
-        }
+    }
+    .cool-player-detail-music-info {
+      margin-top: 20px;
+      text-align: center;
+      .title{
+        font-size: 18px;
+        color:#fff
       }
-      .operate{
-        margin-top: 20px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        color: #fff;
-        .close-detail{
+      .artist{
+        margin-top: 10px;
+        font-size: 12px;
+        color: #8a8a8a;
+      }
+    }
+    .cool-player-detail-lyric {
+      height: 30%;
+      margin-top: 20px;
+      overflow: hidden;
+    }
+    .operate{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #fff;
+      .close-detail{
+        width: 30px;
+        img{
           width: 30px;
-          img{
-            width: 30px;
-          }
-        }
-        .operation{
-          color: #fff;
-          svg {
-            width: 40px;
-            height: 40px;
-            fill: currentColor;
-            padding: @padding-base;
-          }
-
-        }
-        .mode{
-          width: 40px;
         }
       }
+      .operation{
+        color: #fff;
+        svg {
+          width: 40px;
+          height: 40px;
+          fill: currentColor;
+          padding: @padding-base;
+        }
+      }
+      .mode{
+        width: 40px;
+      }
+    }
+    .cool-player-detail-panel {
+      width: 90%;
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      margin-left: -45%;
       .detail-progress{
         width: 100%;
-        height: 4px;
+        height: 2px;
         padding: 3px 0;
         margin-top:60px;
         -webkit-tap-highlight-color: transparent;
@@ -650,32 +654,31 @@
         -webkit-user-select: none;
         user-select:none;
         .progress{
-          height: 4px;
+          height: 2px;
           position: relative;
           background: #404040;
           .progress-buffered{
             position: absolute;
             top: 0;
             left: 0;
-            height: 4px;
+            height: 2px;
             background: #e4e4e4;
+            opacity: 0.3;
           }
           .progress-played{
             position: absolute;
             top: 0;
             left: 0;
-            height: 4px;
-            background: #017fff;
+            height: 2px;
+            background: #e4e4e4;
           }
         }
       }
       .detail-time{
         display: flex;
-        margin-top: 10px;
         justify-content: space-between;
         color: #a3a3a3;
         font-size: 14px;
-
       }
     }
   }

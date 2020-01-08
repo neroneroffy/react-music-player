@@ -5,6 +5,7 @@ import Timeout = NodeJS.Timeout;
 import { getLyric, fixedBody, looseBody } from './utils'
 import LyricNormal from './Lyric/LyricNormal/index'
 import LyricMini from './Lyric/LyricMini/index'
+import LyricDetail from './Lyric/LyricDetail/index'
 import classnames from 'classnames'
 import albumBg from './img/album.png'
 import albumBorder from './img/album-border.png'
@@ -79,7 +80,6 @@ const CoolPlayer = (props: IProps) => {
     const avatarEl = useRef(null)
     const coolPlayerInnerEl = useRef(null)
     const coolPlayerDetailEl = useRef(null)
-    const coolPlayerDetailWrapperEl = useRef(null)
     const detailPicWrapperEl = useRef(null)
     const [ isPaused, setPaused ] = useState<boolean>(true)
     const [ totalTime, setTotalTime ] = useState<number | string>(0)
@@ -163,10 +163,7 @@ const CoolPlayer = (props: IProps) => {
         canvasEl.current.style.zIndex = zIndex + 300
         avatarEl.current.style.zIndex = zIndex + 400
         if (coolPlayerDetailEl.current) {
-            coolPlayerDetailEl.current.style.zIndex = zIndex + 500
-        }
-        if (coolPlayerDetailWrapperEl.current) {
-            coolPlayerDetailWrapperEl.current.style.zIndex = zIndex + 600
+            coolPlayerDetailEl.current.style.zIndex = zIndex + 600
         }
         if (detailPicWrapperEl.current) {
             detailPicWrapperEl.current.style.zIndex = zIndex + 700
@@ -290,10 +287,8 @@ const CoolPlayer = (props: IProps) => {
         // 设置剩余时间
         const musicRemainTime = parseInt(`${audioEl.current.duration - audioEl.current.currentTime}`, 0);
         setRemainTime(getTime(musicRemainTime))
-        console.log('before', mode);
         if (audioEl.current.ended) {
             clearInterval(rotateTimer)
-            console.log(mode);
             if(mode === PlayMode.Order){
                 next()
             }else if(mode === PlayMode.Random){
@@ -867,89 +862,97 @@ const CoolPlayer = (props: IProps) => {
         >
             {
                 detailVisible && <div className="cool-player-detail" ref={ coolPlayerDetailEl }>
-                        <div className="cool-player-detail-wrapper" ref={ coolPlayerDetailWrapperEl }>
-                            <div className="cool-player-detail-img">
-                                <img className="album-bg" src={albumBg} alt=""/>
-                                <img className="album-border" src={albumBorder} alt=""/>
-                                <div className="detail-pic-wrapper" ref={ detailPicWrapperEl }>
-                                    <img className="detailPic" ref={ detailMusicAvatarEl } src={ currentMusic.img } alt=""/>
-                                </div>
-                            </div>
-                            <div className="music-info">
-                                <div className="title">{ currentMusic.name }</div>
-                                <div className="artist">{ currentMusic.artist }</div>
-                            </div>
-                            <div
-                                className="detail-progress"
-                                ref={ detailProgressEl }
-                                onTouchMove={ onTouchMoveProgress }
-                                onTouchStart={ onTouchTimeChangeStart }
-                                onClick={ e => clickChangeTime(e, 'touch') }
-                            >
-                                <div className="progress" >
-                                    <div className='progress-buffered' ref={ detailBufferedEl }></div>
-                                    <div className='progress-played' ref={ detailPlayedEl }></div>
-                                </div>
-                            </div>
-                            <div className="detail-time">
-                                <div>{ remainTime }</div>
-                                <div>{ totalTime }</div>
-                            </div>
-                            <div className="operate">
-                                <div className="mode" onClick={ playMode }>
-                                    { onSwitchPlayMode() }
-                                </div>
-                                <div className="operation">
-                                  <svg
-                                    className="icon-prev"
-                                    viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="11891"
-                                    onClick={last}
-                                  >
-                                    <path
-                                      d="M625.5 513V216.1c0-13.5 2.5-28.9-12.9-35.9-14.2-6.4-26.3 1.5-37.7 9.5C434.5 288 294 386.1 153.8 484.7c-32.2 22.7-31.7 33.7 0.9 56.6C292.9 638.2 431.2 735 569.5 831.8c4.2 2.9 8.4 5.9 12.8 8.4 27 14.7 43 5.7 43.1-25.1 0.4-75.9 0.1-151.8 0.1-227.8V513zM727.9 512.8c0 92.1-0.1 184.1 0 276.2 0 37.7 19.1 60.8 50.1 61.4 32 0.7 52.2-23 52.2-61.8 0.1-184.1 0.1-368.2 0-552.3 0-37.5-19.3-60.9-50.1-61.5-31.8-0.6-52.2 23.3-52.2 61.9-0.1 92 0 184 0 276.1z"
-                                      p-id="11892"
-                                    />
-                                  </svg>
-                                    {
-                                        !isPaused && currentMusic.src ?
-                                            <svg
-                                                className="icon-puase"
-                                                viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
-                                                p-id="13385"
-                                                onClick={pause}
-                                            >
-                                                <path
-                                                    d="M757.52 73.107h-62.493c-34.526 0-62.498 27.984-62.498 62.511v749.948c0 34.526 27.974 62.493 62.498 62.493h62.493c34.516 0 62.502-27.968 62.502-62.493v-749.953c-0.001-34.524-27.984-62.509-62.502-62.509zM320.054 73.107h-62.502c-34.526 0-62.498 27.984-62.498 62.511v749.948c0 34.526 27.974 62.493 62.498 62.493h62.502c34.505 0 62.493-27.968 62.493-62.493v-749.953c-0.001-34.524-27.984-62.509-62.493-62.509z"
-                                                    p-id="13386"/>
-                                            </svg>
-                                            :
-                                            <svg
-                                                className="icon-play"
-                                                viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="12608"
-                                                onClick={play}
-                                            >
-                                                <path
-                                                    d="M844.704269 475.730473L222.284513 116.380385a43.342807 43.342807 0 0 0-65.025048 37.548353v718.692951a43.335582 43.335582 0 0 0 65.025048 37.541128l622.412531-359.342864a43.357257 43.357257 0 0 0 0.007225-75.08948z"
-                                                    fill="" p-id="12609"/>
-                                            </svg>
-                                    }
-                                  <svg
-                                    className="icon-next"
-                                    viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="12235"
-                                    onClick={next}
-                                  >
-                                    <path
-                                      d="M402.9 513V216.1c0-13.5-2.5-28.9 12.9-35.9 14.2-6.4 26.3 1.5 37.7 9.5 140.5 98.3 281 196.4 421.2 295 32.2 22.7 31.7 33.7-0.9 56.6C735.6 638.2 597.3 734.9 459 831.7c-4.2 2.9-8.4 5.9-12.8 8.4-27 14.7-43 5.7-43.1-25.1-0.4-75.9-0.1-151.8-0.1-227.8-0.1-24.8-0.1-49.5-0.1-74.2zM300.5 512.8c0 92.1 0.1 184.1 0 276.2 0 37.7-19.1 60.8-50.1 61.4-32 0.7-52.2-23-52.2-61.8-0.1-184.1-0.1-368.2 0-552.3 0-37.5 19.3-60.9 50.1-61.5 31.8-0.6 52.2 23.3 52.2 61.9v276.1z"
-                                      p-id="12236"/>
-                                  </svg>
-                                </div>
-                                <div className="close-detail" onClick={ onHideDetail }>
-                                    关闭
-                                </div>
-                            </div>
-
-                        </div>
+                  <div className="cool-player-detail-music-info">
+                    <div className="title">{ currentMusic.name }</div>
+                    <div className="artist">{ currentMusic.artist }</div>
+                  </div>
+                  <div className="cool-player-detail-img">
+                  <img className="album-bg" src={albumBg} alt=""/>
+                  <img className="album-border" src={albumBorder} alt=""/>
+                  <div className="detail-pic-wrapper" ref={ detailPicWrapperEl }>
+                    <img className="detailPic" ref={ detailMusicAvatarEl } src={ currentMusic.img } alt=""/>
+                  </div>
+                  </div>
+                  <div className="cool-player-detail-lyric">
+                    <LyricDetail
+                      lyric={lyric || []}
+                      lyricIndex={lyricIndex}
+                      info={currentMusic}
+                      loading={lyricLoading}
+                      lyricPlaceholder={lyricPlaceholder}
+                    />
+                  </div>
+                  <div className="cool-player-detail-panel">
+                    <div
+                      className="detail-progress"
+                      ref={ detailProgressEl }
+                      onTouchMove={ onTouchMoveProgress }
+                      onTouchStart={ onTouchTimeChangeStart }
+                      onClick={ e => clickChangeTime(e, 'touch') }
+                    >
+                      <div className="progress">
+                        <div className='progress-buffered' ref={ detailBufferedEl }></div>
+                        <div className='progress-played' ref={ detailPlayedEl }></div>
+                      </div>
                     </div>
+                    <div className="detail-time">
+                      <div>{ remainTime }</div>
+                      <div>{ totalTime }</div>
+                    </div>
+                    <div className="operate">
+                      <div className="mode" onClick={ playMode }>
+                          { onSwitchPlayMode() }
+                      </div>
+                      <div className="operation">
+                        <svg
+                          className="icon-prev"
+                          viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="11891"
+                          onClick={last}
+                        >
+                          <path
+                            d="M625.5 513V216.1c0-13.5 2.5-28.9-12.9-35.9-14.2-6.4-26.3 1.5-37.7 9.5C434.5 288 294 386.1 153.8 484.7c-32.2 22.7-31.7 33.7 0.9 56.6C292.9 638.2 431.2 735 569.5 831.8c4.2 2.9 8.4 5.9 12.8 8.4 27 14.7 43 5.7 43.1-25.1 0.4-75.9 0.1-151.8 0.1-227.8V513zM727.9 512.8c0 92.1-0.1 184.1 0 276.2 0 37.7 19.1 60.8 50.1 61.4 32 0.7 52.2-23 52.2-61.8 0.1-184.1 0.1-368.2 0-552.3 0-37.5-19.3-60.9-50.1-61.5-31.8-0.6-52.2 23.3-52.2 61.9-0.1 92 0 184 0 276.1z"
+                            p-id="11892"
+                          />
+                        </svg>
+                          {
+                              !isPaused && currentMusic.src ?
+                                  <svg
+                                      className="icon-puase"
+                                      viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                                      p-id="13385"
+                                      onClick={pause}
+                                  >
+                                      <path
+                                          d="M757.52 73.107h-62.493c-34.526 0-62.498 27.984-62.498 62.511v749.948c0 34.526 27.974 62.493 62.498 62.493h62.493c34.516 0 62.502-27.968 62.502-62.493v-749.953c-0.001-34.524-27.984-62.509-62.502-62.509zM320.054 73.107h-62.502c-34.526 0-62.498 27.984-62.498 62.511v749.948c0 34.526 27.974 62.493 62.498 62.493h62.502c34.505 0 62.493-27.968 62.493-62.493v-749.953c-0.001-34.524-27.984-62.509-62.493-62.509z"
+                                          p-id="13386"/>
+                                  </svg>
+                                  :
+                                  <svg
+                                      className="icon-play"
+                                      viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="12608"
+                                      onClick={play}
+                                  >
+                                      <path
+                                          d="M844.704269 475.730473L222.284513 116.380385a43.342807 43.342807 0 0 0-65.025048 37.548353v718.692951a43.335582 43.335582 0 0 0 65.025048 37.541128l622.412531-359.342864a43.357257 43.357257 0 0 0 0.007225-75.08948z"
+                                          fill="" p-id="12609"/>
+                                  </svg>
+                          }
+                        <svg
+                          className="icon-next"
+                          viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="12235"
+                          onClick={next}
+                        >
+                          <path
+                            d="M402.9 513V216.1c0-13.5-2.5-28.9 12.9-35.9 14.2-6.4 26.3 1.5 37.7 9.5 140.5 98.3 281 196.4 421.2 295 32.2 22.7 31.7 33.7-0.9 56.6C735.6 638.2 597.3 734.9 459 831.7c-4.2 2.9-8.4 5.9-12.8 8.4-27 14.7-43 5.7-43.1-25.1-0.4-75.9-0.1-151.8-0.1-227.8-0.1-24.8-0.1-49.5-0.1-74.2zM300.5 512.8c0 92.1 0.1 184.1 0 276.2 0 37.7-19.1 60.8-50.1 61.4-32 0.7-52.2-23-52.2-61.8-0.1-184.1-0.1-368.2 0-552.3 0-37.5 19.3-60.9 50.1-61.5 31.8-0.6 52.2 23.3 52.2 61.9v276.1z"
+                            p-id="12236"/>
+                        </svg>
+                      </div>
+                      <div className="close-detail" onClick={ onHideDetail }>
+                        关闭
+                      </div>
+                    </div>
+                  </div>
+                </div>
             }
         </ReactCSSTransitionGroup>
     </div>
