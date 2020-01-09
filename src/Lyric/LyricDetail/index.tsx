@@ -25,11 +25,10 @@ const LyricDetail = (props: IProps) => {
     const lyricItemEl = useRef(null)
     useEffect(() => {
         if (lyricEl.current && lyricBaseLineEl.current && lyricItemEl.current) {
-            const scrollUnit = lyricEl.current.scrollHeight / lyric.length
+            const scrollUnit = lyricEl.current.offsetHeight / lyric.length
             lyricEl.current.scrollTo(0, (lyricIndex + 1 + 0.5) * lyricItemEl.current.offsetHeight)
         }
     }, [lyricIndex])
-
     const content = lyric.length ?
         <ul className={'cool-lyric-content'} ref={lyricEl}>
             <li className={'lyric-item'} ref={lyricItemEl}></li>

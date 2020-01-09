@@ -163,7 +163,7 @@ const CoolPlayer = (props: IProps) => {
         canvasEl.current.style.zIndex = zIndex + 300
         avatarEl.current.style.zIndex = zIndex + 400
         if (coolPlayerDetailEl.current) {
-            coolPlayerDetailEl.current.style.zIndex = zIndex + 600
+            coolPlayerDetailEl.current.style.zIndex = zIndex + 4000
         }
         if (detailPicWrapperEl.current) {
             detailPicWrapperEl.current.style.zIndex = zIndex + 700
@@ -172,6 +172,7 @@ const CoolPlayer = (props: IProps) => {
             coolPlayListWrapper.current.style.zIndex = zIndex - 100
         }
     }, [document.body.clientWidth])
+
 
     useEffect(() => {
         setCurrentMusic(data[0] || initialMusic)

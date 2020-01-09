@@ -1,7 +1,7 @@
 @import '../../common/index.less';
 .cool-lyric-detail {
   width: 100%;
-  height: 100%;
+  height: 200px;
   position: relative;
   -webkit-mask-image: linear-gradient(180deg,
   hsla(0,0%,100%,0) 0,
@@ -14,7 +14,7 @@
     position: absolute;
     width: 100%;
     left: 50%;
-    top: 50%;
+    top: 54%;
     margin-left: -50%;
     .cool-lyric-base-line {
       background: #cccccc;
@@ -35,7 +35,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 240px;
+    height: 230px;
     color: #cccccc;
   }
   .cool-lyric-content {
@@ -84,4 +84,117 @@
 }
 ::-webkit-scrollbar-thumb:window-inactive {
   background: rgba(0,0,0,0.1);
+}
+
+@media screen and (max-height: 680px){
+  .cool-lyric-detail {
+    height: 190px;
+    -webkit-mask-image: linear-gradient(180deg,
+    hsla(0, 0%, 100%, 0) 0,
+    hsla(0, 0%, 100%, .6) 20%,
+    #fff 25%,
+    #fff 75%,
+    hsla(0, 0%, 100%, .6) 70%,
+    hsla(0, 0%, 100%, 0));
+    .cool-lyric-base-line-wrapper {
+      top: 50%;
+      margin-left: -50%;
+
+      .cool-lyric-base-line {
+        background: #cccccc;
+        height: 1px;
+        width: 70%;
+        margin: 0 auto;
+      }
+    }
+
+    h4 {
+      height: 40px;
+      line-height: 45px;
+      margin: 0 0 20px 0;
+      border-bottom: 1px solid #e5e5e5;
+    }
+
+    .cool-lyric-center-wrapper {
+      height: 200px;
+    }
+
+    .cool-lyric-content {
+      margin: 0;
+      padding-top: 30px;
+      padding-left: 0;
+      height: 200px;
+
+      .lyric-item {
+        height: 17px;
+        line-height: 17px;
+        padding: @padding-base 0;
+        font-size: 14px;
+        &:first-child {
+          margin-top: 70px;
+        }
+      }
+
+      .current-lyric {
+        color: #debe4f;
+      }
+    }
+  }
+}
+
+@media screen and (max-height: 640px){
+  .cool-lyric-detail {
+    height: 150px;
+    -webkit-mask-image: linear-gradient(180deg,
+    hsla(0, 0%, 100%, 0) 0,
+    hsla(0, 0%, 100%, .6) 20%,
+    #fff 25%,
+    #fff 70%,
+    hsla(0, 0%, 100%, .6) 80%,
+    hsla(0, 0%, 100%, 0));
+    .cool-lyric-base-line-wrapper {
+      position: absolute;
+      width: 100%;
+      left: 50%;
+      top: 50%;
+      margin-left: -50%;
+
+      .cool-lyric-base-line {
+        background: #cccccc;
+        height: 1px;
+        width: 70%;
+        margin: 0 auto;
+      }
+    }
+
+    h4 {
+      height: 40px;
+      line-height: 45px;
+      margin: 0 0 20px 0;
+      border-bottom: 1px solid #e5e5e5;
+    }
+
+    .cool-lyric-center-wrapper {
+      height: 150px;
+    }
+
+    .cool-lyric-content {
+      margin: 0;
+      padding-top: 30px;
+      padding-left: 0;
+      height: 150px;
+      .lyric-item {
+        height: 17px;
+        line-height: 17px;
+        padding: @padding-base 0;
+        font-size: 14px;
+        &:first-child {
+          margin-top: 45px;
+        }
+      }
+      .current-lyric {
+        color: #debe4f;
+      }
+    }
+  }
 }
