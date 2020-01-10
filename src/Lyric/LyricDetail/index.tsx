@@ -2,6 +2,7 @@ import * as React from 'react';
 import { ILyric, ISongs } from '../../index'
 import './index.less'
 import classnames from "classnames";
+import Timeout = NodeJS.Timeout;
 
 interface IProps {
     lyric: ILyric[]
@@ -11,8 +12,8 @@ interface IProps {
     lyricPlaceholder: React.ReactElement | React.ReactNode | string
 }
 
-const { useEffect, useRef } = React
-
+const { useEffect, useRef, useState } = React
+let looseTimeout: Timeout
 const LyricDetail = (props: IProps) => {
     const { lyric,
         lyricIndex,
@@ -23,14 +24,28 @@ const LyricDetail = (props: IProps) => {
     const lyricEl = useRef(null)
     const lyricBaseLineEl = useRef(null)
     const lyricItemEl = useRef(null)
+
+    const [ loose, setLoose ] = useState<boolean>(true)
     useEffect(() => {
         if (lyricEl.current && lyricBaseLineEl.current && lyricItemEl.current) {
-            const scrollUnit = lyricEl.current.offsetHeight / lyric.length
-            lyricEl.current.scrollTo(0, (lyricIndex + 1 + 0.5) * lyricItemEl.current.offsetHeight)
+            if (loose) {
+                lyricEl.current.scrollTo(0, (lyricIndex + 1 + 0.5) * lyricItemEl.current.offsetHeight)
+            }
         }
     }, [lyricIndex])
+
+    const onLyricScroll = () => {
+        clearTimeout(looseTimeout)
+        setLoose(false)
+        looseTimeout = setTimeout(() => {
+            setLoose(true)
+        }, 1000)
+
+
+    }
+
     const content = lyric.length ?
-        <ul className={'cool-lyric-content'} ref={lyricEl}>
+        <ul className={'cool-lyric-content'} ref={lyricEl} onScroll={onLyricScroll}>
             <li className={'lyric-item'} ref={lyricItemEl}></li>
             {
                 lyric.map((v, i) => {

@@ -805,23 +805,10 @@
       overflow: hidden;
     }
     .operate{
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      color: #fff;
       .close-detail{
         width: 30px;
         img{
           width: 30px;
-        }
-      }
-      .operation{
-        color: #fff;
-        svg {
-          width: 40px;
-          height: 40px;
-          fill: currentColor;
-          padding: @padding-base;
         }
       }
       .mode{
@@ -829,45 +816,22 @@
       }
     }
     .cool-player-detail-panel {
-      width: 90%;
-      position: absolute;
       bottom: 40px;
-      left: 50%;
-      margin-left: -45%;
       .detail-progress{
-        width: 100%;
-        height: 2px;
-        padding: 3px 0;
-        margin-top:60px;
-        -webkit-tap-highlight-color: transparent;
-        -webkit-touch-callout: none;
-        -webkit-user-select: none;
-        user-select:none;
         .progress{
           height: 2px;
-          position: relative;
-          background: #404040;
           .progress-buffered{
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 2px;
             background: #e4e4e4;
             opacity: 0.3;
           }
           .progress-played{
-            position: absolute;
             top: 0;
             left: 0;
             height: 2px;
-            background: #e4e4e4;
           }
         }
       }
       .detail-time{
-        display: flex;
-        justify-content: space-between;
-        color: #a3a3a3;
         font-size: 14px;
       }
     }
@@ -913,8 +877,6 @@
       }
       .artist{
         margin-top: 10px;
-        font-size: 12px;
-        color: #8a8a8a;
       }
     }
     .cool-player-detail-lyric {
@@ -946,10 +908,7 @@
       }
     }
     .cool-player-detail-panel {
-      width: 90%;
-      position: absolute;
-      bottom: 40px;
-      left: 50%;
+      bottom: 30px;
       margin-left: -45%;
       .detail-progress{
         width: 100%;
@@ -985,6 +944,94 @@
         display: flex;
         justify-content: space-between;
         color: #a3a3a3;
+        font-size: 14px;
+      }
+    }
+  }
+}
+
+@media screen and (max-height: 600px){
+  .cool-player-detail{
+    .cool-player-detail-img{
+      width: 170px;
+      height: 170px;
+      margin: 10px auto 0 auto;
+      .album-bg{
+        .absolute-center;
+        width: 170px;
+        height: 170px;
+      }
+      .album-border{
+        width: 124px;
+        height: 124px;
+      }
+      .detail-pic-wrapper {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        overflow: hidden;
+        img{
+          width: 100%;
+        }
+      }
+    }
+    .cool-player-detail-music-info {
+      margin-top: 20px;
+      text-align: center;
+      .title{
+        font-size: 18px;
+        color:#fff
+      }
+      .artist{
+        margin-top: 10px;
+        font-size: 12px;
+        color: #8a8a8a;
+      }
+    }
+    .cool-player-detail-lyric {
+      height: 160px;
+      margin-top: 10px;
+    }
+    .operate{
+      .close-detail{
+        width: 30px;
+        img{
+          width: 30px;
+        }
+      }
+      .operation{
+        color: #fff;
+        svg {
+          width: 40px;
+          height: 40px;
+          fill: currentColor;
+          padding: @padding-base;
+        }
+      }
+      .mode{
+        width: 40px;
+      }
+    }
+    .cool-player-detail-panel {
+      bottom: 20px;
+      .detail-progress{
+        width: 100%;
+        height: 2px;
+        padding: 3px 0;
+        margin-top:60px;
+        .progress{
+          .progress-buffered{
+            top: 0;
+            left: 0;
+            opacity: 0.3;
+          }
+          .progress-played{
+            top: 0;
+            left: 0;
+          }
+        }
+      }
+      .detail-time{
         font-size: 14px;
       }
     }
