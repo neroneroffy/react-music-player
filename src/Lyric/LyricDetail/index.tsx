@@ -9,6 +9,7 @@ interface IProps {
     lyricIndex: number
     info: ISongs
     loading: boolean
+    lyricFullScreen: boolean
     lyricPlaceholder: React.ReactElement | React.ReactNode | string
 }
 
@@ -20,6 +21,7 @@ const LyricDetail = (props: IProps) => {
         info: { artist, name },
         loading,
         lyricPlaceholder =  '纯音乐，请欣赏',
+        lyricFullScreen
     } = props
     const lyricEl = useRef(null)
     const lyricBaseLineEl = useRef(null)
@@ -39,13 +41,14 @@ const LyricDetail = (props: IProps) => {
         setLoose(false)
         looseTimeout = setTimeout(() => {
             setLoose(true)
-        }, 1000)
-
+        }, 500)
 
     }
 
     const content = lyric.length ?
-        <ul className={'cool-lyric-content'} ref={lyricEl} onScroll={onLyricScroll}>
+        <ul className={ classnames('cool-lyric-content', {
+            'cool-lyric-content-full-screen': lyricFullScreen
+        }) } ref={lyricEl} onScroll={onLyricScroll}>
             <li className={'lyric-item'} ref={lyricItemEl}></li>
             {
                 lyric.map((v, i) => {
@@ -71,7 +74,9 @@ const LyricDetail = (props: IProps) => {
         <div className={'cool-lyric-center-wrapper'}>
             <span className={'cool-lyric-center'}>{ lyricPlaceholder }</span>
         </div>
-    return <div className={'cool-lyric-detail'}>
+    return <div className={ classnames('cool-lyric-detail', {
+        'cool-lyric-detail-full-screen': lyricFullScreen
+    }) }>
         <div className={'cool-lyric-base-line-wrapper'} ref={lyricBaseLineEl}>
             <div className="cool-lyric-base-line"></div>
         </div>

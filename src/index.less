@@ -575,15 +575,22 @@
       border-radius: 50%;
       position: relative;
       font-size: 0;
+      opacity: 1;
+      transform: scale(1);
+      transition: all .3s ease-in-out;
       .album-bg{
         .absolute-center;
         width: 220px;
         height: 220px;
+        opacity: 1;
+        transition: all .3s ease-in-out;
       }
       .album-border{
         .absolute-center;
         width: 164px;
         height: 164px;
+        opacity: 1;
+        transition: all .3s ease-in-out;
       }
       .detail-pic-wrapper {
         .absolute-center;
@@ -591,8 +598,10 @@
         height: 160px;
         border-radius: 50%;
         overflow: hidden;
+        transition: all .3s ease-in-out;
         img{
           width: 100%;
+          opacity: 1;
         }
       }
     }
@@ -613,6 +622,7 @@
       height: 30vh;
       margin-top: 20px;
       overflow: hidden;
+      transition: all .3s ease-in-out;
     }
     .operate{
       display: flex;
@@ -696,7 +706,6 @@
     top: 100%;
     transition: all 300ms ease-in;
   }
-
 }
 
 @media screen and (max-width: 530px) {
@@ -720,7 +729,7 @@
     padding: 0 5%;
     .music-info{
       width: 98%;
-      margin-left: 8px;
+      margin-left: -6px;
       .music-name {
         width: 50%;
         overflow: hidden;
@@ -1034,6 +1043,22 @@
       .detail-time{
         font-size: 14px;
       }
+    }
+  }
+}
+.cool-player-detail {
+  .cool-player-detail-lyric-full-screen {
+    height: 60vh;
+  }
+  .cool-player-detail-img-hidden {
+    height: 0;
+    width: 0;
+    opacity: 0;
+    transform: scale(0);
+    .album-bg, .album-border, .detail-pic-wrapper {
+      width: 0;
+      height: 0;
+      opacity: 0;
     }
   }
 }

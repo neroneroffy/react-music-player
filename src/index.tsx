@@ -11,6 +11,7 @@ import albumBg from './img/album.png'
 import albumBorder from './img/album-border.png'
 const { useState, useRef, useEffect } = React
 let rotateTimer: Timeout
+let fullScreenTimeout: Timeout
 export interface ISongs {
     src: string
     artist: string
@@ -97,6 +98,7 @@ const CoolPlayer = (props: IProps) => {
     const [ isMute, setIsMute ] = useState<boolean>(false)
     const [ detailVisible, setDetailVisible ] = useState<boolean>(false)
     const [ mode, setMode ] = useState<number>(PlayMode.Order)
+    const [ lyricFullScreen, setLyricFullScreen ] = useState<boolean>(false)
     const { showLyricNormal = true,
         showLyricMini = true,
         lyric: lyricFromProps = '',
@@ -173,7 +175,6 @@ const CoolPlayer = (props: IProps) => {
         }
     }, [document.body.clientWidth])
 
-
     useEffect(() => {
         setCurrentMusic(data[0] || initialMusic)
         audioEl.current.addEventListener('canplay', setInitialTotalTime)
@@ -193,6 +194,7 @@ const CoolPlayer = (props: IProps) => {
                 setAngle(angle + 1)
                 musicAvatarEl.current.style.transform = `rotate(${angle}deg)`;
                 if (detailMusicAvatarEl.current) {
+                    console.log(angle);
                     detailMusicAvatarEl.current.style.transform = `rotate(${angle}deg)`;
                 }
             }, 33)
@@ -553,6 +555,13 @@ const CoolPlayer = (props: IProps) => {
                 return '单曲'
         }
     }
+    const onLyricFullScreen = () => {
+        clearTimeout(fullScreenTimeout)
+        fullScreenTimeout = setTimeout(() => {
+            setLyricFullScreen(!lyricFullScreen)
+        }, 50)
+
+    }
     return <div id={'cool-player'} ref={coolPlayerEl}>
         <div className='cool-player-wrapper'>
             <div className='cool-player-inner' ref={coolPlayerInnerEl}>
@@ -867,20 +876,28 @@ const CoolPlayer = (props: IProps) => {
                     <div className="title">{ currentMusic.name }</div>
                     <div className="artist">{ currentMusic.artist }</div>
                   </div>
-                  <div className="cool-player-detail-img">
+                  <div className={ classnames('cool-player-detail-img', {
+                      'cool-player-detail-img-hidden': lyricFullScreen
+                  }) }>
                   <img className="album-bg" src={albumBg} alt=""/>
                   <img className="album-border" src={albumBorder} alt=""/>
                   <div className="detail-pic-wrapper" ref={ detailPicWrapperEl }>
                     <img className="detailPic" ref={ detailMusicAvatarEl } src={ currentMusic.img } alt=""/>
                   </div>
                   </div>
-                  <div className="cool-player-detail-lyric">
+                  <div
+                    className={ classnames('cool-player-detail-lyric', {
+                      'cool-player-detail-lyric-full-screen': lyricFullScreen
+                    }) }
+                    onClick={ onLyricFullScreen }
+                  >
                     <LyricDetail
                       lyric={lyric || []}
                       lyricIndex={lyricIndex}
                       info={currentMusic}
                       loading={lyricLoading}
                       lyricPlaceholder={lyricPlaceholder}
+                      lyricFullScreen={lyricFullScreen}
                     />
                   </div>
                   <div className="cool-player-detail-panel">
