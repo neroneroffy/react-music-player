@@ -194,7 +194,6 @@ const CoolPlayer = (props: IProps) => {
                 setAngle(angle + 1)
                 musicAvatarEl.current.style.transform = `rotate(${angle}deg)`;
                 if (detailMusicAvatarEl.current) {
-                    console.log(angle);
                     detailMusicAvatarEl.current.style.transform = `rotate(${angle}deg)`;
                 }
             }, 33)
@@ -289,7 +288,9 @@ const CoolPlayer = (props: IProps) => {
         }
         // 设置剩余时间
         const musicRemainTime = parseInt(`${audioEl.current.duration - audioEl.current.currentTime}`, 0);
-        setRemainTime(getTime(musicRemainTime))
+        setTimeout(() => {
+            setRemainTime(getTime(musicRemainTime))
+        })
         if (audioEl.current.ended) {
             clearInterval(rotateTimer)
             if(mode === PlayMode.Order){
@@ -560,6 +561,17 @@ const CoolPlayer = (props: IProps) => {
         fullScreenTimeout = setTimeout(() => {
             setLyricFullScreen(!lyricFullScreen)
         }, 50)
+
+    }
+    const onSetProgressWithScroll = (time: number) => {
+
+        const totalTime = audioEl.current.duration
+        const playPercent = time / totalTime
+        console.log(playPercent);
+        playedEl.current.style.width = playPercent * 100 + '%';
+        audioEl.current.currentTime = playPercent * audioEl.current.duration;
+        setLyricHighLight()
+        play()
 
     }
     return <div id={'cool-player'} ref={coolPlayerEl}>
@@ -898,6 +910,7 @@ const CoolPlayer = (props: IProps) => {
                       loading={lyricLoading}
                       lyricPlaceholder={lyricPlaceholder}
                       lyricFullScreen={lyricFullScreen}
+                      onSetProgressWithScroll={onSetProgressWithScroll}
                     />
                   </div>
                   <div className="cool-player-detail-panel">
