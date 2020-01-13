@@ -32,6 +32,7 @@ const LyricDetail = (props: IProps) => {
     const [ loose, setLoose ] = useState<boolean>(true)
     const [ baseLineVisible, setBaseLineVisible ] = useState<boolean>(false)
     const [ scrolledTime, setScrolledTime ] = useState<number | string>(0)
+    const [ lyricIndexStandby, setLyricIndexStandby ] = useState<number>(-1)
     useEffect(() => {
         if (lyricEl.current && lyricBaseLineEl.current && lyricItemEl.current) {
             if (loose) {
@@ -49,11 +50,18 @@ const LyricDetail = (props: IProps) => {
         }, 500)
         baseLineTimeout = setTimeout(() => {
             setBaseLineVisible(false)
+            setLyricIndexStandby(-1)
         }, 1500)
         const currentLyricIndex = (lyricEl.current.scrollTop / lyricItemEl.current.offsetHeight) - 1.5
         const currentLyric: ILyric = lyric[ Math.ceil(currentLyricIndex) ]
         if (currentLyricIndex >= 0 || currentLyricIndex <= lyric.length) {
             if (currentLyric) {
+                if (baseLineVisible && lyricFullScreen) {
+                    const scrolledLyricIndex = lyric.findIndex(item => {
+                        return item.time === currentLyric.time
+                    })
+                    setLyricIndexStandby(scrolledLyricIndex)
+                }
                 setScrolledTime(currentLyric.time)
             }
         }
@@ -89,8 +97,9 @@ const LyricDetail = (props: IProps) => {
     }
 
     const onTouchMove = () => {
-        console.log(123);
-        setBaseLineVisible(true)
+        if (lyricFullScreen) {
+            setBaseLineVisible(true)
+        }
     }
     const content = lyric.length ?
         <ul
@@ -108,6 +117,7 @@ const LyricDetail = (props: IProps) => {
                         key={v.time}
                         className={classnames('lyric-item', {
                             ['current-lyric']: i === lyricIndex,
+                            ['current-lyric-standby']: i === lyricIndexStandby,
                         })}
                     >{v.lyric}</li>
                 })
