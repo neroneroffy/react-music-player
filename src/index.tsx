@@ -7,43 +7,10 @@ import LyricNormal from './Lyric/LyricNormal/index'
 import LyricMini from './Lyric/LyricMini/index'
 import LyricDetail from './Lyric/LyricDetail/index'
 import classnames from 'classnames'
-import albumBg from './img/album.png'
-import albumBorder from './img/album-border.png'
+import { coolPlayerTypes } from './types'
 const { useState, useRef, useEffect } = React
 let rotateTimer: Timeout
 let fullScreenTimeout: Timeout
-export interface ISongs {
-    src: string
-    artist: string
-    name: string
-    img: string
-    id: string
-    lyric?: string
-}
-export interface ILyric {
-    time: number | string
-    lyric: string
-}
-
-interface IProps {
-    onDelete?: (index: number, id: string) => void
-    data: ISongs[]
-    zIndex?: number
-    onLyricMatched?: (lyric: ILyric[], currentIndex: number) => void
-    showLyricNormal?: boolean
-    showLyricMini?: boolean
-    onMusicChange?: (id: string) => void
-    lyric?: string
-    lyricLoading?: boolean
-    lyricPlaceholder?: React.ReactNode | string
-    avatarPlaceholder?: React.ReactNode
-    actions?: Array<(data: ISongs) => React.ReactNode>
-    musicActions?: Array<(data: ISongs, active?: boolean) => React.ReactNode>
-    playListHeader? : {
-        headerLeft?: React.ReactNode | string,
-        headerRight?: React.ReactNode | string,
-    }
-}
 
 enum PlayMode {
     Order = 1,
@@ -51,7 +18,7 @@ enum PlayMode {
     Loop = 3
 }
 
-const CoolPlayer = (props: IProps) => {
+const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
     const { data } = props
     const initialMusic = {
         src: '',
@@ -91,9 +58,9 @@ const CoolPlayer = (props: IProps) => {
     const [ angle, setAngle ] = useState<number>(0)
     const [ mouseDown, setMouseDown ] = useState<boolean>(false)
     const [ musicListShow, setMusicListShow ] = useState<boolean>(false)
-    const [ currentMusic, setCurrentMusic ] = useState<ISongs>(data[0] || initialMusic)
+    const [ currentMusic, setCurrentMusic ] = useState<coolPlayerTypes.ISongs>(data[0] || initialMusic)
     const [ isPlayed, setIsPlayed ] = useState<boolean>(false)
-    const [ lyric, setLyric ] = useState<ILyric[]>([])
+    const [ lyric, setLyric ] = useState<coolPlayerTypes.ILyric[]>([])
     const [ lyricIndex, setLyricIndex ] = useState<number>(-1)
     const [ isMute, setIsMute ] = useState<boolean>(false)
     const [ detailVisible, setDetailVisible ] = useState<boolean>(false)
@@ -112,7 +79,7 @@ const CoolPlayer = (props: IProps) => {
             headerRight: '',
         },
     } = props
-    let lyricList: ILyric[] = getLyric(currentMusic.lyric || lyricFromProps)
+    let lyricList: coolPlayerTypes.ILyric[] = getLyric(currentMusic.lyric || lyricFromProps)
     let indexArr: number[] = []
 
     let drawCircle = (rate: number): void => {}
@@ -891,11 +858,11 @@ const CoolPlayer = (props: IProps) => {
                   <div className={ classnames('cool-player-detail-img', {
                       'cool-player-detail-img-hidden': lyricFullScreen
                   }) }>
-                  <img className="album-bg" src={albumBg} alt=""/>
-                  <img className="album-border" src={albumBorder} alt=""/>
-                  <div className="detail-pic-wrapper" ref={ detailPicWrapperEl }>
-                    <img className="detailPic" ref={ detailMusicAvatarEl } src={ currentMusic.img } alt=""/>
-                  </div>
+                      <div className="album-bg"></div>
+                      <div className="album-border" ></div>
+                      <div className="detail-pic-wrapper" ref={ detailPicWrapperEl }>
+                        <img className="detailPic" ref={ detailMusicAvatarEl } src={ currentMusic.img } alt=""/>
+                      </div>
                   </div>
                   <div
                     className={ classnames('cool-player-detail-lyric', {

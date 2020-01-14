@@ -1,0 +1,66 @@
+declare namespace coolPlayerTypes {
+    interface IPlayerProps {
+        onDelete?: (index: number, id: string) => void
+        data: ISongs[]
+        zIndex?: number
+        onLyricMatched?: (lyric: ILyric[], currentIndex: number) => void
+        showLyricNormal?: boolean
+        showLyricMini?: boolean
+        onMusicChange?: (id: string) => void
+        lyric?: string
+        lyricLoading?: boolean
+        lyricPlaceholder?: React.ReactNode | string
+        avatarPlaceholder?: React.ReactNode
+        actions?: Array<(data: ISongs) => React.ReactNode>
+        musicActions?: Array<(data: ISongs, active?: boolean) => React.ReactNode>
+        playListHeader? : {
+            headerLeft?: React.ReactNode | string,
+            headerRight?: React.ReactNode | string,
+        }
+    }
+    interface ISongs {
+        src: string
+        artist: string
+        name: string
+        img: string
+        id: string
+        lyric?: string
+    }
+    interface ILyric {
+        time: number | string
+        lyric: string
+    }
+    enum PlayMode {
+        Order = 1,
+        Random = 2,
+        Loop = 3
+    }
+    namespace lyricDetail {
+        interface ILyricDetailProps {
+            lyric: ILyric[]
+            lyricIndex: number
+            info: ISongs
+            loading: boolean
+            lyricFullScreen: boolean
+            lyricPlaceholder: React.ReactElement | React.ReactNode | string
+            onSetProgressWithScroll: (time: number) => void
+        }
+    }
+    namespace lyricMini {
+        interface ILyricMiniProps {
+            lyric: ILyric[]
+            lyricIndex: number
+        }
+    }
+    namespace lyricNormal {
+        interface ILyricNormalProps {
+            lyric: ILyric[]
+            lyricIndex: number
+            info: ISongs
+            loading: boolean
+            lyricPlaceholder: React.ReactElement | React.ReactNode | string
+        }
+    }
+}
+
+export { coolPlayerTypes }

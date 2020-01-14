@@ -1,18 +1,11 @@
 import * as React from 'react';
-import { ILyric, ISongs } from '../../index'
 import classnames from 'classnames'
+import { coolPlayerTypes } from '../../types'
 import './index.less'
-interface IProps {
-    lyric: ILyric[]
-    lyricIndex: number
-    info: ISongs
-    loading: boolean
-    lyricPlaceholder: React.ReactElement | React.ReactNode | string
-}
 
 const { useEffect, useRef } = React
 
-const LyricNormal = (props: IProps) => {
+const LyricNormal = (props: coolPlayerTypes.lyricNormal.ILyricNormalProps) => {
     const { lyric,
         lyricIndex,
         info: { artist, name },

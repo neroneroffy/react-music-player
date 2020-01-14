@@ -1,23 +1,13 @@
 import * as React from 'react';
-import { ILyric, ISongs } from '../../index'
 import './index.less'
 import classnames from "classnames";
 import Timeout = NodeJS.Timeout;
-
-interface IProps {
-    lyric: ILyric[]
-    lyricIndex: number
-    info: ISongs
-    loading: boolean
-    lyricFullScreen: boolean
-    lyricPlaceholder: React.ReactElement | React.ReactNode | string
-    onSetProgressWithScroll: (time: number) => void
-}
+import { coolPlayerTypes } from '../../types'
 
 const { useEffect, useRef, useState } = React
 let looseTimeout: Timeout
 let baseLineTimeout: Timeout
-const LyricDetail = (props: IProps) => {
+const LyricDetail = (props: coolPlayerTypes.lyricDetail.ILyricDetailProps) => {
     const { lyric,
         lyricIndex,
         info: { artist, name },
@@ -53,7 +43,7 @@ const LyricDetail = (props: IProps) => {
             setLyricIndexStandby(-1)
         }, 1500)
         const currentLyricIndex = (lyricEl.current.scrollTop / lyricItemEl.current.offsetHeight) - 1.5
-        const currentLyric: ILyric = lyric[ Math.ceil(currentLyricIndex) ]
+        const currentLyric: coolPlayerTypes.ILyric = lyric[ Math.ceil(currentLyricIndex) ]
         if (currentLyricIndex >= 0 || currentLyricIndex <= lyric.length) {
             if (currentLyric) {
                 if (baseLineVisible && lyricFullScreen) {

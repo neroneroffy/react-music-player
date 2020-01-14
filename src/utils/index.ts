@@ -1,6 +1,5 @@
-import { ILyric } from '../index'
-export const getLyric = (lyric: string): ILyric[] => {
-    const lyricList: ILyric[] = []
+export const getLyric = (lyric: string): coolPlayerTypes.ILyric[] => {
+    const lyricList: coolPlayerTypes.ILyric[] = []
     if (!lyric) {
         return lyricList
     }

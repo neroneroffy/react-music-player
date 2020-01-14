@@ -1,13 +1,10 @@
 import * as React from 'react';
-import { ILyric } from '../../index'
 import './index.less'
-interface IProps {
-    lyric: ILyric[]
-    lyricIndex: number
-}
+import { coolPlayerTypes } from '../../types'
+
 const { useEffect, useState, useRef } = React
 
-const LyricMini = (props: IProps) => {
+const LyricMini = (props: coolPlayerTypes.lyricMini.ILyricMiniProps) => {
     const { lyric, lyricIndex } = props
     const [ currentLyric, setCurrentLyric ] = useState<string>('')
     const lyricEl = useRef(null)

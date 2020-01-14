@@ -1,7 +1,7 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import './index.less'
-import CoolPlayer, { ILyric, ISongs } from '../src/index'
+import CoolPlayer from '../src/index'
 const { useState } = React
 const App = () => {
   const [ data, setData ] = useState([
@@ -63,7 +63,7 @@ const App = () => {
       setData(data)
   }
 
-  const onLyricMatched = (lyrics: ILyric[], currentIndex: number) => {
+  const onLyricMatched = (lyrics: any[], currentIndex: number) => {
 
   }
   const onMusicChange = (id: string) => {
@@ -80,24 +80,24 @@ const App = () => {
   }
 
   const musicActions = [
-      (music: ISongs, active: boolean) => {
+      (music: any, active: boolean) => {
           return <span key={'favourite'} onClick={() => {
             console.log(music, active)
         }}>收藏</span>
       },
-      (music: ISongs) => {
+      (music: any) => {
         return <span style={{ margin: '0 8px' }} key={'share'} onClick={() => {
             console.log(music)
         }}>分享</span>
       },
-      (music: ISongs) => {
+      (music: any) => {
         return <span key={'download'} onClick={() => {
             console.log(music)
         }}>下载</span>
       },
   ]
   const actions = [
-      (music: ISongs) => {
+      (music: any) => {
           return <div style={{ fontSize: 22, marginRight: 8 }} key={'a'}>
               <svg
                   className="icon"
@@ -109,7 +109,7 @@ const App = () => {
               </svg>
           </div>
       },
-      (music: ISongs) => {
+      (music: any) => {
           return <div style={{ fontSize: 22 }} key={'b'}>
               <svg className="icon"
                    style={{width: "1em", height: "1em", verticalAlign: "middle", fill: "currentColor", overflow: "hidden", color: '#868686'}}
