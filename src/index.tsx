@@ -858,7 +858,6 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
                   <div className={ classnames('cool-player-detail-img', {
                       'cool-player-detail-img-hidden': lyricFullScreen
                   }) }>
-                      <div className="album-bg"></div>
                       <div className="album-border" ></div>
                       <div className="detail-pic-wrapper" ref={ detailPicWrapperEl }>
                         <img className="detailPic" ref={ detailMusicAvatarEl } src={ currentMusic.img } alt=""/>
