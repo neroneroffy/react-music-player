@@ -37,7 +37,7 @@ const LyricDetail = (props: coolPlayerTypes.lyricDetail.ILyricDetailProps) => {
         setLoose(false)
         looseTimeout = setTimeout(() => {
             setLoose(true)
-        }, 500)
+        }, 1000)
         baseLineTimeout = setTimeout(() => {
             setBaseLineVisible(false)
             setLyricIndexStandby(-1)
@@ -127,7 +127,6 @@ const LyricDetail = (props: coolPlayerTypes.lyricDetail.ILyricDetailProps) => {
         >
             <span className={'cool-lyric-center'}>{ lyricPlaceholder }</span>
         </div>
-    console.log(baseLineVisible);
     return <div className={ classnames('cool-lyric-detail', {
         'cool-lyric-detail-full-screen': lyricFullScreen
     }) }>

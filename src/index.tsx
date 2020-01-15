@@ -36,6 +36,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
     const detailPlayedEl = useRef(null)
     const progressEl = useRef(null)
     const detailProgressEl = useRef(null)
+    const detailProgressBarEl = useRef(null)
     const totalVolumeEl = useRef(null)
     const volumeProgressEl = useRef(null)
     const coolPlayerEl = useRef(null)
@@ -326,7 +327,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
             let newWidth = 0;
             if(action === 'touch'){
                 targetPoint = e.pageX - detailPlayedLeft
-                newWidth = targetPoint / detailProgressEl.current.offsetWidth;
+                newWidth = targetPoint / detailProgressBarEl.current.offsetWidth;
             }else{
                 targetPoint = e.pageX - playedLeft;
                 newWidth = targetPoint / progressEl.current.offsetWidth;
@@ -343,7 +344,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
 
         if(action === 'touch'){
             targetPoint = e.touches[0].pageX - detailPlayedLeft
-            newWidth = targetPoint / detailProgressEl.current.offsetWidth;
+            newWidth = targetPoint / detailProgressBarEl.current.offsetWidth;
             detailPlayedEl.current.style.width = newWidth * 100 + '%';
         } else {
             newWidth = targetPoint / progressEl.current.offsetWidth;
@@ -505,6 +506,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
         setDetailVisible(true)
         setTimeout(() => {
             if (detailPlayedEl.current) {
+                console.log(detailPlayedEl.current.getBoundingClientRect().left);
                 setDetailPlayedLeft(detailPlayedEl.current.getBoundingClientRect().left)
             }
         })
@@ -887,14 +889,14 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
                       onTouchStart={ onTouchTimeChangeStart }
                       onClick={ e => clickChangeTime(e, 'touch') }
                     >
-                      <div className="progress">
+                      <div className={'progress-time'}>{ remainTime }</div>
+                      <div className="progress" ref={ detailProgressBarEl }>
                         <div className='progress-buffered' ref={ detailBufferedEl }></div>
-                        <div className='progress-played' ref={ detailPlayedEl }></div>
+                        <div className='progress-played' ref={ detailPlayedEl }>
+                          <div className={'progress-action-point'}></div>
+                        </div>
                       </div>
-                    </div>
-                    <div className="detail-time">
-                      <div>{ remainTime }</div>
-                      <div>{ totalTime }</div>
+                      <div className={'progress-time'}>{ totalTime }</div>
                     </div>
                     <div className="operate">
                       <div className="mode" onClick={ playMode }>

@@ -658,10 +658,20 @@
         -webkit-touch-callout: none;
         -webkit-user-select: none;
         user-select:none;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .progress-time {
+          color: #e4e4e4;
+          font-size: 10px;
+          width: 30px;
+        }
         .progress{
           height: 2px;
           position: relative;
           background: #404040;
+          width: 70%;
+          flex-shrink: 0;
           .progress-buffered{
             position: absolute;
             top: 0;
@@ -676,14 +686,24 @@
             left: 0;
             height: 2px;
             background: #e4e4e4;
+            .progress-action-point {
+              position: absolute;
+              right: 0;
+              top: -4px;
+              width: 10px;
+              height: 10px;
+              background: #e4e4e4;
+              border-radius: 50%
+            }
           }
         }
       }
       .detail-time{
+        margin-top: 5px;
+        font-size: 10px;
         display: flex;
         justify-content: space-between;
         color: #a3a3a3;
-        font-size: 14px;
       }
     }
   }
