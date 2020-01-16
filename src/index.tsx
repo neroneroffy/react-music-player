@@ -67,6 +67,9 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
     const [ detailVisible, setDetailVisible ] = useState<boolean>(false)
     const [ mode, setMode ] = useState<number>(PlayMode.Order)
     const [ lyricFullScreen, setLyricFullScreen ] = useState<boolean>(false)
+    const [ playedWidth, setPlayedWidth ] = useState<number>(0)
+    const [ bufferedWidth, setBufferedWidth ] = useState<number>(0)
+    const [ playPercent, setPlayPercent ] = useState<number>(0)
     const { showLyricNormal = true,
         showLyricMini = true,
         lyric: lyricFromProps = '',
@@ -83,8 +86,6 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
     let lyricList: coolPlayerTypes.ILyric[] = getLyric(currentMusic.lyric || lyricFromProps)
     let indexArr: number[] = []
 
-    let drawCircle = (rate: number): void => {}
-
     useEffect(() => {
         if (canvasEl.current) {
             const cvs: HTMLCanvasElement = canvasEl.current
@@ -93,7 +94,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
             const h = cvs && cvs.height/2;
             ctx.lineWidth = 10
             const r = Math.min(w,h) - ctx.lineWidth / 2;
-            drawCircle = (rate: number) => {
+            const drawCircle = (rate: number) => {
                 ctx.clearRect(0,0,cvs.width,cvs.height)
                 ctx.beginPath();
                 ctx.strokeStyle = "#eeeeee"
@@ -104,15 +105,17 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
                 ctx.lineCap = "round"
                 const p = rate * 2
                 const start = Math.PI * 3 / 2
-                const end = start+Math.PI * p
+                const end = start + Math.PI * p
                 ctx.arc(w,h,r,start,end)
                 if (p > 0) {
                     ctx.stroke()
                 }
             }
+            console.log(playPercent);
+            drawCircle(playPercent)
         }
-        drawCircle(0)
-    }, [ canvasEl ])
+
+    }, [ canvasEl, playPercent ])
 
     useEffect(() => {
         if (data.length) {
@@ -238,8 +241,9 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
     const setProgress = () => {
         // 设置播放进度条
         const playPer = audioEl.current.currentTime / audioEl.current.duration;
-        drawCircle(playPer)
+        setPlayPercent(playPer)
         playedEl.current.style.width = playPer * 100 + '%';
+        setPlayedWidth(playPer * 100)
         if (detailPlayedEl.current) {
             detailPlayedEl.current.style.width = playPer * 100 + '%';
         }
@@ -251,6 +255,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
         }
         const bufferedPer = bufferedTime / audioEl.current.duration;
         bufferedEl.current.style.width = bufferedPer * 100 + '%';
+        setBufferedWidth(bufferedPer * 100)
         if (detailBufferedEl.current) {
             detailBufferedEl.current.style.width = bufferedPer * 100 + '%';
         }
@@ -341,7 +346,6 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
         const audio = audioEl.current
         let targetPoint = e.touches[0].pageX - playedLeft
         let newWidth
-
         if(action === 'touch'){
             targetPoint = e.touches[0].pageX - detailPlayedLeft
             newWidth = targetPoint / detailProgressBarEl.current.offsetWidth;
@@ -358,11 +362,16 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
         if (!e.pageX) {
             return
         }
-        setTimeOnPc(e, action)
+        // setTimeOnPc(e, action)
     }
     // PC端拖动进度条
-    const onMouseDown = () => {
+    const onMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        if (!e.pageX) {
+            return
+        }
+
         setMouseDown(true)
+        setTimeOnPc(e)
     }
     const slideChangeTime = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         if (mouseDown) {
@@ -506,8 +515,9 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
         setDetailVisible(true)
         setTimeout(() => {
             if (detailPlayedEl.current) {
-                console.log(detailPlayedEl.current.getBoundingClientRect().left);
                 setDetailPlayedLeft(detailPlayedEl.current.getBoundingClientRect().left)
+                detailPlayedEl.current.style.width = playedWidth + '%'
+                detailBufferedEl.current.style.width = bufferedWidth + '%'
             }
         })
     }
@@ -533,10 +543,8 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
 
     }
     const onSetProgressWithScroll = (time: number) => {
-
         const totalTime = audioEl.current.duration
         const playPercent = time / totalTime
-        console.log(playPercent);
         playedEl.current.style.width = playPercent * 100 + '%';
         audioEl.current.currentTime = playPercent * audioEl.current.duration;
         setLyricHighLight()
@@ -625,7 +633,9 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
                         >
                             <div className='progress' >
                                 <div className='progress-buffered' ref={ bufferedEl }></div>
-                                <div className='progress-played' ref={ playedEl }></div>
+                                <div className='progress-played' ref={ playedEl }>
+                                    <div className="progress-action-point"></div>
+                                </div>
                             </div>
 
                         </div>
