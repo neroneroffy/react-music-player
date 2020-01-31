@@ -20,9 +20,10 @@ module.exports = {
             loader: 'babel-loader',
             options: {
               presets: [
-                '@babel/preset-react'
+                '@babel/preset-react',
+                '@babel/preset-typescript'
               ]
-            }
+            },
           }
         ]
       },
