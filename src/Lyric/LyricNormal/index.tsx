@@ -16,7 +16,8 @@ const LyricNormal = (props: coolPlayerTypes.lyricNormal.ILyricNormalProps) => {
     useEffect(() => {
         if (lyricEl.current) {
             const scrollUnit = lyricEl.current.scrollHeight / lyric.length
-            lyricEl.current.scrollTo(0, lyricIndex * scrollUnit - lyricIndex * 1)
+            console.log(lyricEl.current);
+            // lyricEl.current.scrollTo(0, lyricIndex * scrollUnit - lyricIndex * 1)
         }
     }, [lyricIndex])
 

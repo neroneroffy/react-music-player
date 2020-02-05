@@ -121,7 +121,12 @@ const App = () => {
           </div>
       },
   ]
-  return <div className={'wrapper'}>
+    return <div className={'wrapper'}>
+      <CoolPlayer
+          onDelete={onDelete}
+          data={data}
+      />
+{/*
       <CoolPlayer
           onDelete={onDelete}
           onLyricMatched={onLyricMatched}
@@ -137,6 +142,7 @@ const App = () => {
               headerRight: '清除全部'
           }}
       />
+*/}
   </div>;
 }
 

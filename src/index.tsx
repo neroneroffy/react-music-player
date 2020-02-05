@@ -1,7 +1,5 @@
 import * as React from 'react'
-import * as ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import './index.less'
-import Timeout = NodeJS.Timeout;
 import { getLyric, fixedBody, looseBody } from './utils'
 import LyricNormal from './Lyric/LyricNormal/index'
 import LyricMini from './Lyric/LyricMini/index'
@@ -9,8 +7,9 @@ import LyricDetail from './Lyric/LyricDetail/index'
 import classnames from 'classnames'
 import { coolPlayerTypes } from './types'
 const { useState, useRef, useEffect } = React
-let rotateTimer: Timeout
-let fullScreenTimeout: Timeout
+const CSSTransitionGroup = require('react-addons-css-transition-group')
+let rotateTimer: NodeJS.Timeout
+let fullScreenTimeout: NodeJS.Timeout
 
 enum PlayMode {
     Order = 1,
@@ -90,6 +89,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
         if (canvasEl.current) {
             const cvs: HTMLCanvasElement = canvasEl.current
             const ctx = cvs.getContext("2d");
+            if (!ctx) return
             const w = cvs && cvs.width/2;
             const h = cvs && cvs.height/2;
             ctx.lineWidth = 10
@@ -117,7 +117,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
     }, [ canvasEl, playPercent ])
 
     useEffect(() => {
-        if (data.length) {
+        if (data.length && props.onMusicChange) {
             props.onMusicChange(currentMusic.id)
         }
     }, [currentMusic])
@@ -131,9 +131,11 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
         coolPlayListWrapper.current.style.zIndex = zIndex + 100
         progressEl.current.style.zIndex = zIndex + 200
         playedEl.current.style.zIndex = zIndex + 300
-        actionsEl.current.style.zIndex = zIndex + 300
         canvasEl.current.style.zIndex = zIndex + 300
         avatarEl.current.style.zIndex = zIndex + 400
+        if (actionsEl.current ) {
+            actionsEl.current.style.zIndex = zIndex + 300
+        }
         if (coolPlayerDetailEl.current) {
             coolPlayerDetailEl.current.style.zIndex = zIndex + 4000
         }
@@ -144,6 +146,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
             coolPlayListWrapper.current.style.zIndex = zIndex - 100
         }
     }, [document.body.clientWidth])
+
 
     useEffect(() => {
         setCurrentMusic(data[0] || initialMusic)
@@ -584,6 +587,11 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
         play()
 
     }
+    console.log(<CSSTransitionGroup
+        transitionName='cool-player-list-show'
+        transitionEnterTimeout={500}
+        transitionLeaveTimeout={300}
+    ></CSSTransitionGroup>)
     return <div id={'cool-player'} ref={coolPlayerEl}>
         <div className='cool-player-wrapper'>
             <div className='cool-player-inner' ref={coolPlayerInnerEl}>
@@ -693,6 +701,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
                         <svg
                             className="icon-menu"
                             viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15150"
+                            data-test="play-list-btn"
                             onClick={showMusicList}
                         >
                             <path
@@ -758,7 +767,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
             </div>
         </div>
         <div className='cool-player-list-wrapper' ref={coolPlayListWrapper}>
-            <ReactCSSTransitionGroup
+            <CSSTransitionGroup
                 transitionName='cool-player-list-show'
                 transitionEnterTimeout={500}
                 transitionLeaveTimeout={300}
@@ -882,21 +891,21 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
                         null
                 }
 
-            </ReactCSSTransitionGroup>
+            </CSSTransitionGroup>
         </div>
-        <ReactCSSTransitionGroup
+        <CSSTransitionGroup
             transitionName='cool-player-list-model'
             transitionEnterTimeout={500}
             transitionLeaveTimeout={300}
         >
             {
                 musicListShow ?
-                    <div className='modal' onClick={showMusicList}></div>
+                    <div className='modal' data-test='play-list-modal' onClick={showMusicList}></div>
                     :
                     null
             }
-        </ReactCSSTransitionGroup>
-        <ReactCSSTransitionGroup
+        </CSSTransitionGroup>
+        <CSSTransitionGroup
             transitionName="cool-player-detail-show"
             transitionEnterTimeout={300}
             transitionLeaveTimeout={300}
@@ -1013,7 +1022,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
                   </div>
                 </div>
             }
-        </ReactCSSTransitionGroup>
+        </CSSTransitionGroup>
     </div>
 }
 

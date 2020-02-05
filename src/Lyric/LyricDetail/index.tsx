@@ -1,12 +1,11 @@
 import * as React from 'react';
 import './index.less'
 import classnames from "classnames";
-import Timeout = NodeJS.Timeout;
 import { coolPlayerTypes } from '../../types'
 
 const { useEffect, useRef, useState } = React
-let looseTimeout: Timeout
-let baseLineTimeout: Timeout
+let looseTimeout: NodeJS.Timeout
+let baseLineTimeout: NodeJS.Timeout
 const LyricDetail = (props: coolPlayerTypes.lyricDetail.ILyricDetailProps) => {
     const { lyric,
         lyricIndex,

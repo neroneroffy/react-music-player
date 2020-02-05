@@ -1,9 +1,3 @@
-/**
- * Author: NERO
- * Date: 2020/1/31 0031
- * Time: 10:43
- *
- */
 module.exports = {
   "roots": [
     "<rootDir>/src"
