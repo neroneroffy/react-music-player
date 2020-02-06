@@ -126,8 +126,8 @@
     margin: auto;
     font-size: 0;
     .avatar {
-      width: 52px;
-      height: 52px;
+      width: 50px;
+      height: 50px;
       position: absolute;
       top:0;
       right:0;
@@ -141,10 +141,10 @@
   .circle-progress {
     display: none;
     position: absolute;
-    top:0;
+    top:-3px;
     right:0;
     bottom:0;
-    left:-1px;
+    left:-2px;
     margin:auto;
   }
   .picture img {
@@ -568,6 +568,10 @@
     .picture {
       .circle-progress {
         display: block;
+        .inside-circle {
+          transform-origin: center;
+          transform: rotate(-90deg);
+        }
       }
     }
     .music-info{

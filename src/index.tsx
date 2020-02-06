@@ -44,7 +44,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
     const coolPlayListWrapper = useRef(null)
     const playControlEl = useRef(null)
     const actionsEl = useRef(null)
-    const canvasEl = useRef(null)
+    const insideCircleEl = useRef(null)
     const avatarEl = useRef(null)
     const coolPlayerInnerEl = useRef(null)
     const coolPlayerDetailEl = useRef(null)
@@ -86,39 +86,19 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
     let indexArr: number[] = []
 
     useEffect(() => {
-        if (canvasEl.current) {
-            const cvs: HTMLCanvasElement = canvasEl.current
-            const ctx = cvs.getContext("2d");
-            if (!ctx) return
-            const w = cvs && cvs.width/2;
-            const h = cvs && cvs.height/2;
-            ctx.lineWidth = 10
-            const r = Math.min(w,h) - ctx.lineWidth / 2;
-            const drawCircle = (rate: number) => {
-                ctx.clearRect(0,0,cvs.width,cvs.height)
-                ctx.beginPath();
-                ctx.strokeStyle = "#eeeeee"
-                ctx.arc(w,h,r,0,Math.PI * 2)
-                ctx.stroke()
-                ctx.beginPath()
-                ctx.strokeStyle="#017fff"
-                ctx.lineCap = "round"
-                const p = rate * 2
-                const start = Math.PI * 3 / 2
-                const end = start + Math.PI * p
-                ctx.arc(w,h,r,start,end)
-                if (p > 0) {
-                    ctx.stroke()
-                }
-            }
-            drawCircle(playPercent)
+        if (insideCircleEl.current && playPercent) {
+            const circleProgress = insideCircleEl.current
+            const circleLength = Math.floor(2 * Math.PI * circleProgress.getAttribute("r"));
+            circleProgress.setAttribute("stroke-dasharray","" + circleLength * playPercent + ",10000");
         }
-
-    }, [ canvasEl, playPercent ])
+    }, [ insideCircleEl, playPercent ])
 
     useEffect(() => {
         if (data.length && props.onMusicChange) {
             props.onMusicChange(currentMusic.id)
+            if (insideCircleEl.current) {
+                insideCircleEl.current.setAttribute("stroke-dasharray","0,10000");
+            }
         }
     }, [currentMusic])
 
@@ -131,7 +111,6 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
         coolPlayListWrapper.current.style.zIndex = zIndex + 100
         progressEl.current.style.zIndex = zIndex + 200
         playedEl.current.style.zIndex = zIndex + 300
-        canvasEl.current.style.zIndex = zIndex + 300
         avatarEl.current.style.zIndex = zIndex + 400
         if (actionsEl.current ) {
             actionsEl.current.style.zIndex = zIndex + 300
@@ -587,11 +566,6 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
         play()
 
     }
-    console.log(<CSSTransitionGroup
-        transitionName='cool-player-list-show'
-        transitionEnterTimeout={500}
-        transitionLeaveTimeout={300}
-    ></CSSTransitionGroup>)
     return <div id={'cool-player'} ref={coolPlayerEl}>
         <div className='cool-player-wrapper'>
             <div className='cool-player-inner' ref={coolPlayerInnerEl}>
@@ -614,6 +588,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
                                     viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
                                     p-id="13385"
                                     onClick={pause}
+                                    data-test={'pause-btn'}
                                 >
                                     <path
                                         d="M757.52 73.107h-62.493c-34.526 0-62.498 27.984-62.498 62.511v749.948c0 34.526 27.974 62.493 62.498 62.493h62.493c34.516 0 62.502-27.968 62.502-62.493v-749.953c-0.001-34.524-27.984-62.509-62.502-62.509zM320.054 73.107h-62.502c-34.526 0-62.498 27.984-62.498 62.511v749.948c0 34.526 27.974 62.493 62.498 62.493h62.502c34.505 0 62.493-27.968 62.493-62.493v-749.953c-0.001-34.524-27.984-62.509-62.493-62.509z"
@@ -624,6 +599,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
                                     className="icon-play"
                                     viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="12608"
                                     onClick={play}
+                                    data-test={'play-btn'}
                                 >
                                     <path
                                         d="M844.704269 475.730473L222.284513 116.380385a43.342807 43.342807 0 0 0-65.025048 37.548353v718.692951a43.335582 43.335582 0 0 0 65.025048 37.541128l622.412531-359.342864a43.357257 43.357257 0 0 0 0.007225-75.08948z"
@@ -646,7 +622,34 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
                         'picture-wrapper-large': !isPaused
                     })}>
                         <div className='picture' onClick={ onShowDetail }>
-                            <canvas ref={ canvasEl } className="circle-progress" width="62" height="62" />
+                            <svg
+                                xmlns="http://www.w3.org/200/svg"
+                                height="64"
+                                width="64"
+                                className="circle-progress"
+                            >
+                                <circle
+                                    className={'outside-circle'}
+                                    cx="31"
+                                    cy="33"
+                                    r="27"
+                                    fill="none"
+                                    stroke="#e4e4e4"
+                                    strokeWidth="5"
+                                    strokeLinecap="round"
+                                />
+                                <circle
+                                    className={'inside-circle'}
+                                    ref={insideCircleEl}
+                                    id="J_progress_bar"
+                                    cx="31"
+                                    cy="31"
+                                    r="26"
+                                    fill="none"
+                                    stroke="#017fff"
+                                    strokeWidth="5"
+                                />
+                            </svg>
                             {
                                 currentMusic.src ?
                                     <div className='avatar' ref={ avatarEl }>
@@ -763,7 +766,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
                         </div>
                     </div>
                 </div>
-                <audio src={currentMusic.src ? currentMusic.src : ''} ref={audioEl}/>
+                <audio src={currentMusic.src ? currentMusic.src : ''} data-test={'audio'} ref={audioEl}/>
             </div>
         </div>
         <div className='cool-player-list-wrapper' ref={coolPlayListWrapper}>
