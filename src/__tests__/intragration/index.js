@@ -6,8 +6,8 @@
  */
 import * as React from 'react'
 import { mount, shallow } from 'enzyme'
-import CoolPlayer from '../index'
-import { findTestWrapper } from '../utils/testUtils'
+import CoolPlayer from '../../index'
+import { findTestWrapper } from '../../utils/testUtils'
 const _data = [
   {
     src: 'http://neroht.com/%E7%91%BE%E5%A7%9DHikari%20-%20%E5%A4%A7%E6%B0%BF%E6%AD%8C%EF%BC%88%E6%88%8F%E8%85%94%E7%89%88%EF%BC%89%EF%BC%88Cover%EF%BC%9Ailem%EF%BC%89.mp3',
@@ -52,13 +52,6 @@ const _data = [
     img: 'http://neroht.com/zheyuemandou.jpg',
     id: '66575568445',
   },
-  {
-    src: 'http://neroht.com/Take%20Your%20Time%20%20-%20alexandr.mp3',
-    artist: 'Alexandr',
-    name: 'Take Your Time',
-    img: 'http://neroht.com/alexander.png',
-    id: '66575568446',
-  },
 ]
 
 describe('cool player test', () => {
@@ -86,5 +79,14 @@ describe('cool player test', () => {
       pauseBtn.simulate('click')
       expect(audio.instance().pause).toHaveBeenCalled()
     }
+  })
+  test('点击上一首，应该播放当前歌曲的上一首音乐', () => {
+    const coolPlayer = mount(<CoolPlayer data={_data}/>)
+    const audio = findTestWrapper(coolPlayer, 'audio')
+    const prevBtn = findTestWrapper(coolPlayer, 'prev-btn')
+    audio.instance().pause = jest.fn()
+    prevBtn.simulate('click')
+    expect(audio.instance().pause).toHaveBeenCalled()
+
   })
 })
