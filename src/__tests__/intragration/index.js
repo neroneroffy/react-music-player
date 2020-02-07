@@ -8,7 +8,6 @@ import * as React from 'react'
 import { mount, shallow } from 'enzyme'
 import CoolPlayer from '../index'
 import { findTestWrapper } from '../utils/testUtils'
-import audio from '../__mocks__/audio'
 const _data = [
   {
     src: 'http://neroht.com/%E7%91%BE%E5%A7%9DHikari%20-%20%E5%A4%A7%E6%B0%BF%E6%AD%8C%EF%BC%88%E6%88%8F%E8%85%94%E7%89%88%EF%BC%89%EF%BC%88Cover%EF%BC%9Ailem%EF%BC%89.mp3',

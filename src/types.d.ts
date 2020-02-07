@@ -1,7 +1,9 @@
 declare namespace coolPlayerTypes {
     interface IPlayerProps {
+        autoPlay?: boolean
         onDelete?: (index: number, id: string) => void
-        data: ISongs[]
+        data: IAudio[]
+        currentAudio?: IAudio
         zIndex?: number
         onLyricMatched?: (lyric: ILyric[], currentIndex: number) => void
         showLyricNormal?: boolean
@@ -11,14 +13,14 @@ declare namespace coolPlayerTypes {
         lyricLoading?: boolean
         lyricPlaceholder?: React.ReactNode | string
         avatarPlaceholder?: React.ReactNode
-        actions?: Array<(data: ISongs) => React.ReactNode>
-        musicActions?: Array<(data: ISongs, active?: boolean) => React.ReactNode>
+        actions?: Array<(data: IAudio) => React.ReactNode>
+        musicActions?: Array<(data: IAudio, active?: boolean) => React.ReactNode>
         playListHeader? : {
             headerLeft?: React.ReactNode | string,
             headerRight?: React.ReactNode | string,
         }
     }
-    interface ISongs {
+    interface IAudio {
         src: string
         artist: string
         name: string
@@ -39,7 +41,7 @@ declare namespace coolPlayerTypes {
         interface ILyricDetailProps {
             lyric: ILyric[]
             lyricIndex: number
-            info: ISongs
+            info: IAudio
             loading: boolean
             lyricFullScreen: boolean
             lyricPlaceholder: React.ReactElement | React.ReactNode | string
@@ -56,7 +58,7 @@ declare namespace coolPlayerTypes {
         interface ILyricNormalProps {
             lyric: ILyric[]
             lyricIndex: number
-            info: ISongs
+            info: IAudio
             loading: boolean
             lyricPlaceholder: React.ReactElement | React.ReactNode | string
         }

@@ -18,13 +18,14 @@ enum PlayMode {
 }
 
 const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
-    const { data } = props
+    const { data, currentAudio } = props
     const initialMusic = {
         src: '',
         artist: '',
         name: '',
         img: '',
         id: '',
+        lyric: ''
     }
     const audioEl = useRef(null)
     const musicAvatarEl = useRef(null)
@@ -58,7 +59,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
     const [ angle, setAngle ] = useState<number>(0)
     const [ mouseDown, setMouseDown ] = useState<boolean>(false)
     const [ musicListShow, setMusicListShow ] = useState<boolean>(false)
-    const [ currentMusic, setCurrentMusic ] = useState<coolPlayerTypes.ISongs>(data[0] || initialMusic)
+    const [ currentMusic, setCurrentMusic ] = useState<coolPlayerTypes.IAudio>(currentAudio || data[0] || initialMusic)
     const [ isPlayed, setIsPlayed ] = useState<boolean>(false)
     const [ lyric, setLyric ] = useState<coolPlayerTypes.ILyric[]>([])
     const [ lyricIndex, setLyricIndex ] = useState<number>(-1)
@@ -74,15 +75,17 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
         lyric: lyricFromProps = '',
         lyricLoading = false,
         lyricPlaceholder,
-        avatarPlaceholder = null,
+        avatarPlaceholder = <div className={'cool-player-avatar-placeholder'}></div>,
         musicActions = [],
         actions = [],
         playListHeader = {
             headerLeft: '播放列表',
             headerRight: '',
         },
+        autoPlay = false
     } = props
-    let lyricList: coolPlayerTypes.ILyric[] = getLyric(currentMusic.lyric || lyricFromProps)
+
+    let lyricList: coolPlayerTypes.ILyric[] = getLyric(currentMusic && currentMusic.lyric || lyricFromProps)
     let indexArr: number[] = []
 
     useEffect(() => {
@@ -94,7 +97,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
     }, [ insideCircleEl, playPercent ])
 
     useEffect(() => {
-        if (data.length && props.onMusicChange) {
+        if (data.length && props.onMusicChange && currentMusic) {
             props.onMusicChange(currentMusic.id)
             if (insideCircleEl.current) {
                 insideCircleEl.current.setAttribute("stroke-dasharray","0,10000");
@@ -128,16 +131,23 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
 
 
     useEffect(() => {
-        setCurrentMusic(data[0] || initialMusic)
+        setCurrentMusic(currentAudio || initialMusic || data[0])
         audioEl.current.addEventListener('canplay', setInitialTotalTime)
         // 设置初始音量
         volumeProgressEl.current.style.width = '50%';
         audioEl.current.volume = 0.5
+        if (autoPlay) {
+            play()
+        }
         return () => {
             audioEl.current.removeEventListener('canplay', setInitialTotalTime)
             audioEl.current.removeEventListener('timeupdate', setProgress)
         }
     }, [])
+
+    useEffect(() => {
+        setCurrentMusic(currentAudio)
+    }, [ currentAudio ])
 
     useEffect(() => {
         if (!isPaused) {
@@ -186,7 +196,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
 
     useEffect(() => {
         const audio = audioEl.current
-        lyricList = getLyric(currentMusic.lyric || lyricFromProps)
+        lyricList = getLyric(currentMusic && currentMusic.lyric || lyricFromProps)
         indexArr = []
         setLyric(lyricList)
         audio.addEventListener('timeupdate', setLyricHighLight)
@@ -271,7 +281,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
     const last = () => {
         setAngle(0)
         setLyricIndex(-1)
-        if (!currentMusic.src) {
+        if (!currentMusic || !currentMusic.src) {
             return
         }
         let current
@@ -286,7 +296,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
     const next = () => {
         setAngle(0)
         setLyricIndex(-1)
-        if (!currentMusic.src) {
+        if (!currentMusic || !currentMusic.src) {
             return
         }
         let current
@@ -575,6 +585,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
                             className="icon-prev"
                             viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="11891"
                             onClick={last}
+                            data-test={'prev-btn'}
                         >
                             <path
                                 d="M625.5 513V216.1c0-13.5 2.5-28.9-12.9-35.9-14.2-6.4-26.3 1.5-37.7 9.5C434.5 288 294 386.1 153.8 484.7c-32.2 22.7-31.7 33.7 0.9 56.6C292.9 638.2 431.2 735 569.5 831.8c4.2 2.9 8.4 5.9 12.8 8.4 27 14.7 43 5.7 43.1-25.1 0.4-75.9 0.1-151.8 0.1-227.8V513zM727.9 512.8c0 92.1-0.1 184.1 0 276.2 0 37.7 19.1 60.8 50.1 61.4 32 0.7 52.2-23 52.2-61.8 0.1-184.1 0.1-368.2 0-552.3 0-37.5-19.3-60.9-50.1-61.5-31.8-0.6-52.2 23.3-52.2 61.9-0.1 92 0 184 0 276.1z"
@@ -582,7 +593,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
                             />
                         </svg>
                         {
-                            !isPaused && currentMusic.src ?
+                            !isPaused && currentMusic && currentMusic.src ?
                                 <svg
                                     className="icon-puase"
                                     viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
@@ -610,6 +621,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
                             className="icon-next"
                             viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="12235"
                             onClick={next}
+                            data-test={'next-btn'}
                         >
                             <path
                                 d="M402.9 513V216.1c0-13.5-2.5-28.9 12.9-35.9 14.2-6.4 26.3 1.5 37.7 9.5 140.5 98.3 281 196.4 421.2 295 32.2 22.7 31.7 33.7-0.9 56.6C735.6 638.2 597.3 734.9 459 831.7c-4.2 2.9-8.4 5.9-12.8 8.4-27 14.7-43 5.7-43.1-25.1-0.4-75.9-0.1-151.8-0.1-227.8-0.1-24.8-0.1-49.5-0.1-74.2zM300.5 512.8c0 92.1 0.1 184.1 0 276.2 0 37.7-19.1 60.8-50.1 61.4-32 0.7-52.2-23-52.2-61.8-0.1-184.1-0.1-368.2 0-552.3 0-37.5 19.3-60.9 50.1-61.5 31.8-0.6 52.2 23.3 52.2 61.9v276.1z"
@@ -651,7 +663,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
                                 />
                             </svg>
                             {
-                                currentMusic.src ?
+                                currentMusic && currentMusic.src ?
                                     <div className='avatar' ref={ avatarEl }>
                                         <img src={ currentMusic.img } ref={ musicAvatarEl } alt='image is lost'/>
                                     </div>
@@ -663,7 +675,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
                     <div className='music-info'>
                         <div className='music-name'>
                             {
-                                currentMusic.src && (`${currentMusic.artist}：${currentMusic.name}`)
+                                currentMusic && currentMusic.src && (`${currentMusic.artist}：${currentMusic.name}`)
                             }
                         </div>
                         <div
@@ -686,9 +698,9 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
 
                         </div>
                         <div className='time'>
-                            <div className='total-time'>{ currentMusic.src ? totalTime : '00:00'}</div>
+                            <div className='total-time'>{ currentMusic && currentMusic.src ? totalTime : '00:00'}</div>
                             <span>/</span>
-                            <div className='remain-time'>{ currentMusic.src ? remainTime : '00:00'}</div>
+                            <div className='remain-time'>{ currentMusic && currentMusic.src ? remainTime : '00:00'}</div>
                         </div>
                         {
                             showLyricMini &&
@@ -766,7 +778,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
                         </div>
                     </div>
                 </div>
-                <audio src={currentMusic.src ? currentMusic.src : ''} data-test={'audio'} ref={audioEl}/>
+                <audio src={ currentMusic && currentMusic.src ? currentMusic.src : '' } data-test={ 'audio' } ref={ audioEl }/>
             </div>
         </div>
         <div className='cool-player-list-wrapper' ref={coolPlayListWrapper}>
@@ -794,7 +806,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
                                             return (
                                                 <div
                                                     className='single-music'
-                                                    style={ currentMusic.src === v .src && isPlayed ?
+                                                    style={ currentMusic && currentMusic.src === v .src && isPlayed ?
                                                         { background: '#33beff', color: '#fff' }
                                                         :
                                                         null}
@@ -803,7 +815,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
                                                     <div className={'single-music-left'}>
                                                         <div className='single-music-play'>
                                                             {
-                                                                currentMusic.src === v .src && isPlayed ?
+                                                                currentMusic && currentMusic.src === v .src && isPlayed ?
                                                                     <svg
                                                                         className="icon-playing"
                                                                         viewBox="0 0 1024 1024" version="1.1"
@@ -976,7 +988,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
                           />
                         </svg>
                           {
-                              !isPaused && currentMusic.src ?
+                              !isPaused && currentMusic && currentMusic.src ?
                                   <svg
                                       className="icon-puase"
                                       viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
