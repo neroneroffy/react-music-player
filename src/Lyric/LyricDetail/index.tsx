@@ -23,6 +23,9 @@ const LyricDetail = (props: coolPlayerTypes.lyricDetail.ILyricDetailProps) => {
     const [ scrolledTime, setScrolledTime ] = useState<number | string>(0)
     const [ lyricIndexStandby, setLyricIndexStandby ] = useState<number>(-1)
     useEffect(() => {
+
+    })
+    useEffect(() => {
         if (lyricEl.current && lyricBaseLineEl.current && lyricItemEl.current) {
             if (loose) {
                 lyricEl.current.scrollTo(0, (lyricIndex + 1 + 0.5) * lyricItemEl.current.offsetHeight)
@@ -107,6 +110,7 @@ const LyricDetail = (props: coolPlayerTypes.lyricDetail.ILyricDetailProps) => {
                         className={classnames('lyric-item', {
                             ['current-lyric']: i === lyricIndex,
                             ['current-lyric-standby']: i === lyricIndexStandby,
+                            ['current-lyric-overflow']: v.lyric.length > 80
                         })}
                     >{v.lyric}</li>
                 })

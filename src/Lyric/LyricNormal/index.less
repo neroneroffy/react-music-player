@@ -1,7 +1,7 @@
 @import '../../common/index.less';
 .cool-lyric {
   height: 320px;
-  width: 100%;
+  min-width: 50%;
   border-left: 1px solid #e5e5e5;
   position: relative;
   h4 {
@@ -19,6 +19,7 @@
     height: 240px;
   }
   .cool-lyric-content {
+    width: 100%;
     margin: 0;
     padding-top: 30px;
     padding-left: 0;
@@ -28,21 +29,36 @@
     height: 210px;
     scroll-behavior: smooth;
     position: relative;
-    .lyric-item {
-      height: 17px;
-      line-height: 17px;
+    -webkit-mask-image: linear-gradient(180deg,
+    hsla(0,0%,100%,0) 0,
+    hsla(0,0%,100%,.6) 15%,
+    #fff 25%,
+    #fff 75%,
+    hsla(0,0%,100%,.6) 85%,
+    hsla(0,0%,100%,0));
+
+    .lyric-item-normal-bottom {
+      padding-bottom: 100px;
+    }
+    .lyric-item-normal {
+      width: 90%;
+      margin: 0 auto;
       padding: @padding-base 0;
       font-size: 12px;
       text-align: center;
+      overflow: hidden;
+      height: 17px;
+      white-space: nowrap;
+      text-overflow: ellipsis;
       transition: all ease-in-out .2s;
       &:first-child {
-        margin-top: 80px;
+        margin-top: 110px;
       }
 
     }
     .current-lyric {
       color: #017fff;
-      transform: scale(1.2);
+      transform: scale(1.03);
     }
   }
 }

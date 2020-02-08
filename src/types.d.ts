@@ -8,7 +8,7 @@ declare namespace coolPlayerTypes {
         onLyricMatched?: (lyric: ILyric[], currentIndex: number) => void
         showLyricNormal?: boolean
         showLyricMini?: boolean
-        onMusicChange?: (id: string) => void
+        onMusicChange?: (id: string, currentMusic: IAudio) => void
         lyric?: string
         lyricLoading?: boolean
         lyricPlaceholder?: React.ReactNode | string

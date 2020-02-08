@@ -13,11 +13,11 @@ const LyricNormal = (props: coolPlayerTypes.lyricNormal.ILyricNormalProps) => {
         lyricPlaceholder =  '纯音乐，请欣赏',
     } = props
     const lyricEl = useRef(null)
+    const lyricItemEl = useRef(null)
     useEffect(() => {
         if (lyricEl.current) {
-            const scrollUnit = lyricEl.current.scrollHeight / lyric.length
             if (lyricEl.current.scrollTo) {
-                lyricEl.current.scrollTo(0, lyricIndex * scrollUnit - lyricIndex * 1)
+                lyricEl.current.scrollTo(0, (lyricIndex + 1 + 0.5) * lyricItemEl.current.offsetHeight)
             }
         }
     }, [lyricIndex])
@@ -28,12 +28,15 @@ const LyricNormal = (props: coolPlayerTypes.lyricNormal.ILyricNormalProps) => {
                 lyric.map((v, i) => {
                     return <li
                         key={v.time}
-                        className={classnames('lyric-item', {
+                        ref={lyricItemEl}
+                        className={classnames('lyric-item-normal', {
                             ['current-lyric']: i === lyricIndex,
                         })}
                     >{v.lyric}</li>
                 })
             }
+            <li className={'lyric-item-normal-bottom'}></li>
+
         </ul>
         :
         <div className={'cool-lyric-center-wrapper'}>

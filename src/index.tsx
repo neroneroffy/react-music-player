@@ -98,7 +98,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
 
     useEffect(() => {
         if (data.length && props.onMusicChange && currentMusic) {
-            props.onMusicChange(currentMusic.id)
+            props.onMusicChange(currentMusic.id, currentMusic)
             if (insideCircleEl.current) {
                 insideCircleEl.current.setAttribute("stroke-dasharray","0,10000");
             }
@@ -321,7 +321,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
         if (audio.currentTime !== 0) {
             let targetPoint = 0;
             let newWidth = 0;
-            if(action === 'touch'){
+            if(action === 'touch' && detailVisible){
                 targetPoint = e.pageX - detailPlayedLeft
                 newWidth = targetPoint / detailProgressBarEl.current.offsetWidth;
             }else{
@@ -337,7 +337,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
         const audio = audioEl.current
         let targetPoint = e.touches[0].pageX - playedLeft
         let newWidth
-        if(action === 'touch'){
+        if(action === 'touch' && detailVisible){
             targetPoint = e.touches[0].pageX - detailPlayedLeft
             newWidth = targetPoint / detailProgressBarEl.current.offsetWidth;
             detailPlayedEl.current.style.width = newWidth * 100 + '%';

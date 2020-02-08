@@ -1,4 +1,24 @@
 @import '../../common/index.less';
+@keyframes wordsLoop {
+  0% {
+    transform: translateX(0px);
+    -webkit-transform: translateX(0px);
+  }
+  100% {
+    transform: translateX(-100%);
+    -webkit-transform: translateX(-100%);
+  }
+}
+@-webkit-keyframes wordsLoop {
+  0% {
+    transform: translateX(0px);
+    -webkit-transform: translateX(0px);
+  }
+  100% {
+    transform: translateX(-100%);
+    -webkit-transform: translateX(-100%);
+  }
+}
 .cool-lyric-detail {
   width: 100%;
   height: 200px;
@@ -80,17 +100,26 @@
     position: relative;
     transition: all .3s ease-in-out;
     .lyric-item {
-      height: 17px;
-      line-height: 17px;
       padding: @padding-base 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      min-height: 17px;
+      width: 80%;
+      margin: 0 auto;
       font-size: 14px;
       text-align: center;
       transition: all ease-in-out .2s;
       color: #868686;
       &:first-child {
-        margin-top: 80px;
+        margin-top: 50px;
       }
     }
+    // 超出宽度滚动，但不尽如人意
+    /*.current-lyric-overflow {
+      display: inline-block;
+      animation: 15s wordsLoop linear infinite normal;
+    }*/
     .current-lyric-standby {
       color: #c0c0c0;
     }
@@ -150,7 +179,7 @@
 }
 @media screen and (max-height: 736px){
   .cool-lyric-detail {
-    height: 190px;
+    height: 220px;
     -webkit-mask-image: linear-gradient(180deg,
     hsla(0, 0%, 100%, 0) 0,
     hsla(0, 0%, 100%, .6) 20%,
@@ -165,7 +194,7 @@
       height: 200px;
       .lyric-item {
         &:first-child {
-          margin-top: 50px;
+          margin-top: 80px;
         }
       }
     }
@@ -226,7 +255,7 @@
       height: 200px;
       .lyric-item {
         &:first-child {
-          margin-top: 40px;
+          margin-top: 60px;
         }
       }
     }

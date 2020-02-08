@@ -2,6 +2,7 @@ import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import './index.less'
 import CoolPlayer from '../src/index'
+import { coolPlayerTypes } from '../src/types'
 const { useState, useEffect } = React
 const App = () => {
   const [ data, setData ] = useState([
@@ -58,12 +59,13 @@ const App = () => {
   ])
   const [ dataExternal, setDataExternal ] = useState([
       {
-          src: 'http://neroht.com/OneRepublic - Apologize.mp3',
-          artist: 'OneRepublic',
-          name: 'Apologize',
-          img: 'http://neroht.com/onerepublic_09-17-13_24_52387c2100b23.jpg',
+          src: 'http://neroht.com/Shawn Mendes - Señorita.mp3',
+          artist: 'Señorita',
+          name: 'Shawn Mendes',
+          img: 'http://neroht.com/Señorita.jpg',
           id: '66575568423123',
-          lyric: "[00:32.209]I'm holding on your rope,\n[00:35.039]Got me ten feet off the ground\n[00:41.159]I'm hearin what you say but I just can't make a sound\n[00:49.269]You tell me that you need me\n[00:51.789]Then you go and cut me down, but wait\n[00:57.659]You tell me that you're sorry\n[00:59.939]Didn't think I'd turn around, and say\n[01:05.739]It's too late to apologize, it's too late\n[01:14.589]I said it's too late to apologize, it's too late\n[01:30.449]I'd take another chance, take a fall\n[01:34.149]Take a shot for you\n[01:39.379]And I need you like a heart needs a beat\n[01:41.988]But it's nothin new\n[01:47.119]I loved you with a fire red\n[01:50.428]Now it's turning blue, and you say\n[01:55.419]\"Sorry\" like the angel heaven let me think was you\n[02:00.869]But I'm afraid\n[02:03.639]It's too late to apologize, it's too late\n[02:11.500]I said it's too late to apologize, it's too late\n[02:37.370]It's too late to apologize, it's too late\n[02:46.050]I said it's too late to apologize, it's too late\n[02:54.070]It's too late to apologize, yeah\n[03:02.470]I said it's too late to apologize, yeah\n[03:11.040]I'm holdin on your rope, got me ten feet off the ground\n",
+          lyric: "[by:Trap_Girl]\n[00:00.000] 作曲 : Shawn Mendes/Camila Cabello/Andrew Wotman/Benjamin Levin/Ali Tamposi/Charlotte Emma Aitchison/Jack Patterson/Magnus August Höiberg\n[00:01.000] 作词 : Shawn Mendes/Camila Cabello/Andrew Wotman/Benjamin Levin/Ali Tamposi/Charlotte Emma Aitchison/Jack Patterson/Magnus August Höiberg\n[00:12.22]Camila Cabello：\n[00:15.29]I love it when you call me Señorita\n[00:19.36]I wish I could pretend I didn't need ya\n[00:23.43]But every touch is ooh la la la\n[00:26.54]It's true la la la\n[00:28.51]Ooh I should be runnin'\n[00:30.57]Ooh you keep me coming for ya\n[00:32.95]Shawn Mendes：\n[00:33.29]Land in miami\n[00:35.22]The air was hot from summer rain\n[00:37.27]Sweat dripping off me\n[00:39.44]Before I even knew her name la la la\n[00:44.41]It felt like ooh la la la\n[00:47.07]Yeah noo\n[00:49.47]Sapphire moonlight\n[00:51.50]We danced for hours in the sand\n[00:53.65]Tequila sunrise\n[00:55.71]Her body fit right in my hands la la la\n[01:00.85]It felt like ooh la la la yeah\n[01:04.28]Both：\n[01:04.47]I love it when you call me Señorita\n[01:08.54]I wish I could pretend I didn't need ya\n[01:12.64]But every touch is ooh la la la\n[01:15.76]It's true la la la\n[01:17.86]Ooh I should be runnin'\n[01:19.85]Oohh you know I love it when you call me Señorita\n[01:25.05]I wish it wasn't so d**n hard to leave ya\n[01:29.12]But every touch is ooh la la la\n[01:32.26]It's true la la la\n[01:34.16]Ooh I should be runnin'\n[01:36.18]Ooh you keep me coming for ya\n[01:38.54]Camila Cabello：\n[01:38.86]Locked in the hotel\n[01:40.86]There's just somethings that never change\n[01:42.92]You say we're just friends\n[01:44.92]But friends don't know the way you taste la la la\n[01:50.63]God knows it's been a long time coming don't ya let me fall ooh\n[01:54.50]Both：\n[01:55.08]Hooked on your lips undress me\n[01:57.03]Hooked on your tongue\n[01:58.99]Oh I love your kiss is deadly don't stop\n[02:02.11]I love it when you call me Señorita\n[02:06.04]I wish I could pretend I didn't need ya\n[02:10.04]But every touch is ooh la la la\n[02:13.11]It's true la la la\n[02:15.21]Ooh I should be runnin'\n[02:17.23]Ooh you know I love it when you call me Señorita\n[02:22.42]I wish it wasn't so d**n hard to leave ya\n[02:26.48]But every touch is ooh la la la\n[02:29.60]It's true la la la\n[02:31.61]Ooh I should be runnin'\n[02:33.68]Ooh you keep me coming for ya\n[02:37.44]All along I've been coming for ya\n[02:40.31]For you\n[02:41.70]And I hope it means something to you\n[02:45.75]Call my name I'll be coming for ya\n[02:48.36]Coming for ya\n[02:49.42]Calling for ya\n[02:50.50]Coming for ya\n[02:51.81]For ya\n[02:55.80]For ya\n[02:57.87]Oh she loves it when I call her\n[02:59.94]For ya\n[03:04.55]Ooh I should be runnin'\n[03:06.51]Ooh you keep me coming for ya\n",
+          tLyric: "[by:咆哮的小清新___]\n[00:12.22]\n[00:15.29]我爱你称我为\"我的小姐\"时的样子\n[00:19.36]多希望我可以假装不需要你\n[00:23.43]但每一次触碰都妙不可语\n[00:26.54]真实无比 lalala\n[00:28.51]噢 我想我应该逃走\n[00:30.57]噢但你却将我牢牢吸引掌控\n[00:32.95]\n[00:33.29]着陆在迈阿密\n[00:35.22]盛夏雨季的空气炙热难息\n[00:37.27]汗流不停\n[00:39.44]在我知道她的名字之前就汗流不停\n[00:44.41]那感觉就像 噢\n[00:47.07]\n[00:49.47]午夜里的蓝宝石璀璨不息\n[00:51.50]你我在沙滩上久久共舞\n[00:53.65]配上龙舌兰日出\n[00:55.71]她的身躯线条刚好适合你的手掌一握\n[01:00.85]那感觉一如 噢妙不可语\n[01:04.28]\n[01:04.47]我爱你称我为\"我的小姐\"时的样子\n[01:08.54]多希望我可以假装不需要你\n[01:12.64]但每一次触碰都妙不可语\n[01:15.76]真实无比 lalala\n[01:17.86]噢 我想我应该逃走\n[01:19.85]但你知道你称我为\"我的小姐\"时我有多么享受\n[01:25.05]多希望我可以轻易就离开你\n[01:29.12]但每一次触碰都妙不可语\n[01:32.26]真实无比 lalala\n[01:34.16]噢 我想我应该逃走\n[01:36.18]噢但你却将我牢牢吸引掌控\n[01:38.54]\n[01:38.86]把自己锁在房间里\n[01:40.86]始终有一些无法改变的事情\n[01:42.92]你说我们只是朋友\n[01:44.92]但朋友又怎么知道你有多么可口\n[01:50.63]你知道我们也这样维持了许久 别让我失望难过\n[01:54.50]\n[01:55.08]当你的双唇将我衣裳剥落\n[01:57.03]噢在你舌尖沦陷的我\n[01:58.99]噢亲爱的 你的吻教人销魂 别停下来\n[02:02.11]我爱你称我为\"我的小姐\"时的样子\n[02:06.04]多希望我可以假装不需要你\n[02:10.04]但每一次触碰都妙不可语\n[02:13.11]但每一次触碰都真实无比 lalala\n[02:15.21]噢 我想我应该逃走\n[02:17.23]但你知道你称我为\"我的小姐\"时我有多么享受\n[02:22.42]希望我可以轻易就离开你\n[02:26.48]但每一次触碰都妙不可语\n[02:29.60]真实无比 lalala\n[02:31.61]噢 我想我应该逃走\n[02:33.68]噢但你却将我牢牢吸引掌控\n[02:37.44]一直以来我都那么戒不掉你\n[02:40.31]为你\n[02:41.70]希望那对你来说有所意义\n[02:45.75]我会随叫随到只要你呼唤我名\n[02:48.36]只为你(我到来时她总是无比欣喜)\n[02:49.42]只为你\n[02:50.50]只为你\n[02:51.81]只为你\n[02:55.80]只为你\n[02:57.87](我到来时她总是无比欣喜)\n[02:59.94]只为你\n[03:04.55]噢我想我应该逃走\n[03:06.51]但你却将我牢牢吸引掌控\n"
       },
       {
           src: 'http://neroht.com/MIKA - Lollipop.mp3',
@@ -96,17 +98,20 @@ const App = () => {
   const onLyricMatched = (lyrics: any[], currentIndex: number) => {
 
   }
-  const onMusicChange = (id: string) => {
+  const onMusicChange = (id: string, currentMusic: coolPlayerTypes.IAudio) => {
       setLyric('')
-      setLyricLoading(true)
-      fetch(`/api/lyric/${id}`)
-          .then(res => res.json())
-          .then(res => {
-              if (res.result) {
-                  setLyricLoading(false)
-                  setLyric(res.data)
-              }
-          })
+      setCurrentAudio(currentMusic)
+      if (!currentMusic.lyric) {
+          setLyricLoading(true)
+          fetch(`/api/lyric/${id}`)
+              .then(res => res.json())
+              .then(res => {
+                  if (res.result) {
+                      setLyricLoading(false)
+                      setLyric(res.data)
+                  }
+              })
+      }
   }
 
   const musicActions = [
@@ -200,7 +205,7 @@ const App = () => {
             }}
         />
 
-    </div>;
+    </div>
   </div>
 }
 
