@@ -8,10 +8,12 @@ const { useEffect, useRef } = React
 const LyricNormal = (props: coolPlayerTypes.lyricNormal.ILyricNormalProps) => {
     const { lyric,
         lyricIndex,
-        info: { artist, name },
+        info,
         loading,
         lyricPlaceholder =  '纯音乐，请欣赏',
     } = props
+    const artist = info ? info.artist : ''
+    const name = info ? info.name : ''
     const lyricEl = useRef(null)
     const lyricItemEl = useRef(null)
     useEffect(() => {

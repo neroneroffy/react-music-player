@@ -9,12 +9,14 @@ let baseLineTimeout: NodeJS.Timeout
 const LyricDetail = (props: coolPlayerTypes.lyricDetail.ILyricDetailProps) => {
     const { lyric,
         lyricIndex,
-        info: { artist, name },
+        info,
         loading,
         lyricPlaceholder =  '纯音乐，请欣赏',
         lyricFullScreen,
         onSetProgressWithScroll,
     } = props
+    const artist = info ? info.artist : ''
+    const name = info ? info.name : ''
     const lyricEl = useRef(null)
     const lyricBaseLineEl = useRef(null)
     const lyricItemEl = useRef(null)
