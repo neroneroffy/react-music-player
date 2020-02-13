@@ -1,12 +1,13 @@
 const path = require('path')
 const htmlWebpackPlugin = require('html-webpack-plugin')
 module.exports = {
+  mode: 'development',
   entry: path.join(__dirname, '../example/index.tsx'),
   output: {
     filename: 'bundle.js',
     path: path.join(__dirname, '../dist')
   },
-  devtool: 'cheap-eval-source-map',
+  devtool: 'cheap-module-eval-source-map',
   module: {
     rules: [
       {
