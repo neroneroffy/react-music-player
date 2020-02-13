@@ -1,6 +1,7 @@
 declare namespace coolPlayerTypes {
     interface IPlayerProps {
         autoPlay?: boolean
+        playing?: boolean
         onDelete?: (index: number, id: string) => void
         data: IAudio[]
         currentAudio?: IAudio
@@ -9,6 +10,7 @@ declare namespace coolPlayerTypes {
         showLyricNormal?: boolean
         showLyricMini?: boolean
         onMusicChange?: (id: string, currentMusic: IAudio) => void
+        onModeChange?: (currentMode: number, prevMode: number) => void
         lyric?: string
         lyricLoading?: boolean
         lyricPlaceholder?: React.ReactNode | string

@@ -1,9 +1,28 @@
+@import "../src/common/index";
 html, body {
   margin: 0;
   padding: 0;
   background: #e4e4e4;
 }
 .example {
+  .main {
+    width: 600px;
+    margin: 0 auto;
+    .operation {
+      margin-top: 16px;
+    }
+    button {
+      padding: 8px;
+      border-radius: 4px;
+      background: #fff;
+      border: none;
+      cursor: pointer;
+      min-width: 60px;
+      text-align: center;
+      outline:none;
+      color: @font-color-3;
+    }
+  }
   .audio-list {
     width: 600px;
     margin: 80px auto 0 auto;
@@ -42,7 +61,7 @@ html, body {
           width: 30px;
           height: 30px;
           fill: currentColor;
-          color: #9d9d9d;
+          color: @font-color-4;
         }
 
       }

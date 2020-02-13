@@ -87,6 +87,7 @@ const App = () => {
   const [ currentAudio, setCurrentAudio ] = useState(null)
   const [ lyric, setLyric ] = useState<string>('')
   const [ lyricLoading, setLyricLoading ] = useState<boolean>(false)
+  const [ playing, setPlaying ] = useState<boolean>(false)
   useEffect(() => {
       setCurrentAudio(dataExternal[0])
   }, [])
@@ -158,55 +159,75 @@ const App = () => {
   ]
   const playThis = (index: number) => {
       setCurrentAudio(dataExternal[index])
+      setPlaying(true)
+  }
+  const onTogglePlaying = () => {
+      setPlaying(!playing)
   }
     return <div className={'example'}>
-    <div className={'audio-list'}>
-        {
-            dataExternal.map((item, index) => {
-                return <div key={item.id} className={'audio-item'} onClick={() => playThis(index)}>
-                    <div className="left">
-                        <img src={item.img} alt=""/>
-                        <div className={'audio-info'}>
-                            <div>{item.name}</div>
-                            <div>{item.artist}</div>
+        <div className={'main'}>
+            <div className={'audio-list'}>
+                {
+                    dataExternal.map((item, index) => {
+                        return <div key={item.id} className={'audio-item'} onClick={() => playThis(index)}>
+                            <div className="left">
+                                <img src={item.img} alt=""/>
+                                <div className={'audio-info'}>
+                                    <div>{item.name}</div>
+                                    <div>{item.artist}</div>
+                                </div>
+                            </div>
+                            <div className="right">
+                                <svg
+                                        className="icon-play"
+                                        viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="12608"
+                                        data-test={'play-btn'}
+                                >
+                                    <path
+                                            d="M844.704269 475.730473L222.284513 116.380385a43.342807 43.342807 0 0 0-65.025048 37.548353v718.692951a43.335582 43.335582 0 0 0 65.025048 37.541128l622.412531-359.342864a43.357257 43.357257 0 0 0 0.007225-75.08948z"
+                                            fill="" p-id="12609"/>
+                                </svg>
+                            </div>
                         </div>
-                    </div>
-                    <div className="right">
-                        <svg
-                            className="icon-play"
-                            viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="12608"
-                            data-test={'play-btn'}
-                        >
-                            <path
-                                d="M844.704269 475.730473L222.284513 116.380385a43.342807 43.342807 0 0 0-65.025048 37.548353v718.692951a43.335582 43.335582 0 0 0 65.025048 37.541128l622.412531-359.342864a43.357257 43.357257 0 0 0 0.007225-75.08948z"
-                                fill="" p-id="12609"/>
-                        </svg>
-                    </div>
-                </div>
-            })
-        }
-    </div>
-    <div className={'wrapper'}>
-        <CoolPlayer
-            onDelete={onDelete}
-            autoPlay={false}
-            onLyricMatched={onLyricMatched}
-            currentAudio={currentAudio}
-            data={data}
-            showLyricNormal={true}
-            onMusicChange={onMusicChange}
-            lyric={lyric}
-            lyricLoading={lyricLoading}
-            musicActions={musicActions}
-            actions={actions}
-            playListHeader={{
-                headerLeft: '播放列表',
-                headerRight: '清除全部'
-            }}
-        />
+                    })
+                }
+            </div>
+            <div className={'operation'}>
+                <button
+                   onClick={onTogglePlaying}
+                   className={'play-control'}
+                >
+                    {
+                        playing ? 'Pause' : 'Play'
+                    }
+                </button>
+            </div>
+        </div>
+        <div className={'wrapper'}>
+            <CoolPlayer
+                onDelete={onDelete}
+                autoPlay={false}
+                playing={playing}
+                onLyricMatched={onLyricMatched}
+                currentAudio={currentAudio}
+                data={data}
+                showLyricNormal={true}
+                onMusicChange={onMusicChange}
+                lyric={lyric}
+                lyricLoading={lyricLoading}
+                musicActions={musicActions}
+                actions={actions}
+                playListHeader={{
+                    headerLeft: '播放列表',
+                    headerRight: '清除全部'
+                }}
+                onModeChange={(currentMode, prevMode) => {
+                    console.log(currentMode, prevMode)
+                }}
+            />
 
+        </div>
     </div>
-  </div>
 }
 
 const root = document.getElementById('root')

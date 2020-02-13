@@ -82,7 +82,9 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
             headerLeft: '播放列表',
             headerRight: '',
         },
-        autoPlay = false
+        autoPlay = false,
+        onModeChange,
+        playing = true
     } = props
 
     let lyricList: coolPlayerTypes.ILyric[] = getLyric(currentMusic && currentMusic.lyric || lyricFromProps)
@@ -129,7 +131,6 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
         }
     }, [document.body.clientWidth])
 
-
     useEffect(() => {
         setCurrentMusic(currentAudio || initialMusic || data[0])
         audioEl.current.addEventListener('canplay', setInitialTotalTime)
@@ -144,6 +145,15 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
             audioEl.current.removeEventListener('timeupdate', setProgress)
         }
     }, [])
+
+    useEffect(() => {
+        if (playing) {
+            play()
+            setPaused(false)
+        } else {
+            setPaused(true)
+        }
+    }, [playing])
 
     useEffect(() => {
         setCurrentMusic(currentAudio)
@@ -347,7 +357,6 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
         }
         audio.currentTime = newWidth * audio.duration
     }
-
     // PC端点击事件
     const clickChangeTime = (e: React.MouseEvent<HTMLDivElement, MouseEvent>, action?: string) => {
         if (!e.pageX) {
@@ -487,15 +496,22 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
     }
 
     const playMode = () => {
+        let currentMode = mode
         switch (mode){
             case PlayMode.Order:
                 setMode(PlayMode.Random)
+                currentMode = PlayMode.Random
                 break;
             case PlayMode.Random:
                 setMode(PlayMode.Loop)
+                currentMode = PlayMode.Loop
                 break;
             case PlayMode.Loop:
                 setMode(PlayMode.Order)
+                currentMode = PlayMode.Order
+        }
+        if (onModeChange) {
+            onModeChange(currentMode, mode)
         }
     }
     const onShowDetail = () => {
@@ -521,6 +537,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
             viewBox="0 0 1024 1024"
             version="1.1"
             xmlns="http://www.w3.org/2000/svg" p-id="2021" data-spm-anchor-id="a313x.7781069.0.i7"
+            data-test={'loop'}
         >
             <path
                 d="M411.3152 780.8v71.3728l-108.6208-108.6208 108.6208-108.6208V704H640a166.4 166.4 0 0 0 166.4-166.4v-128a38.4 38.4 0 0 1 76.8 0v128a243.2 243.2 0 0 1-243.2 243.2h-228.6848z m229.5296-512V196.5568l108.5952 108.6208-108.5952 108.5952V345.6H409.6A166.4 166.4 0 0 0 243.2 512v128a38.4 38.4 0 0 1-76.8 0v-128a243.2 243.2 0 0 1 243.2-243.2h231.2448z m-123.2128 128.1024h22.9376V652.8h-29.3888v-220.0576c-16.128 16.4864-36.1984 27.9552-60.2112 35.1232v-29.3888a152.32 152.32 0 0 0 35.84-15.4112 148.4032 148.4032 0 0 0 30.8224-26.1632z"
@@ -532,7 +549,9 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
             viewBox="0 0 1024 1024"
             version="1.1"
             xmlns="http://www.w3.org/2000/svg"
-            p-id="2255">
+            p-id="2255"
+            data-test={'order'}
+        >
             <path
                 d="M411.3152 780.8v71.3728l-108.6208-108.6208 108.6208-108.6208V704H640a166.4 166.4 0 0 0 166.4-166.4v-128a38.4 38.4 0 0 1 76.8 0v128a243.2 243.2 0 0 1-243.2 243.2h-228.6848z m229.5296-512V196.5568l108.5952 108.6208-108.5952 108.5952V345.6H409.6A166.4 166.4 0 0 0 243.2 512v128a38.4 38.4 0 0 1-76.8 0v-128a243.2 243.2 0 0 1 243.2-243.2h231.2448z"
                 p-id="2256"
@@ -544,6 +563,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
             version="1.1"
             xmlns="http://www.w3.org/2000/svg"
             p-id="2393"
+            data-test={'random'}
         >
             <path
                 d="M768 704v-70.2208L876.6208 742.4 768 851.0208V780.8h-17.6128c-108.1344 0-188.0576-37.5296-224.1536-123.2128a38.4 38.4 0 1 1 70.784-29.824c22.016 52.3264 72.96 76.2368 153.344 76.2368H768z m0-435.2V198.5792L876.6208 307.2 768 415.8208V345.6h-17.6128c-80.384 0-131.328 23.9104-153.344 76.2368l-99.2768 235.7504c-36.096 85.6832-116.0192 123.2128-224.1536 123.2128H230.4a38.4 38.4 0 0 1 0-76.8h43.2128c80.384 0 131.328-23.9104 153.344-76.2368l99.2768-235.7504c36.096-85.6832 116.0192-123.2128 224.1536-123.2128H768z m-537.6 0h43.2128c108.1344 0 188.0576 37.5296 224.1536 123.2128a38.4 38.4 0 1 1-70.784 29.824c-22.016-52.3264-72.96-76.2368-153.344-76.2368H230.4a38.4 38.4 0 0 1 0-76.8z"
@@ -688,6 +708,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
                             onMouseMove={slideChangeTime}
                             onMouseUp={onMouseUp}
                             onMouseLeave={mouseLeave}
+                            data-test={'progress-bar'}
                         >
                             <div className='progress' >
                                 <div className='progress-buffered' ref={ bufferedEl }></div>
@@ -725,7 +746,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
                             />
                         </svg>
                         <div className="cool-player-mode">
-                            <div className="mode" onClick={ playMode }>
+                            <div className="mode" data-test={'play-mode-btn'} onClick={ playMode }>
                                 { onSwitchPlayMode() }
                             </div>
                         </div>
@@ -858,10 +879,10 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
                                                               }}
                                                             >
                                                               <div className={classnames('single-music-actions-content', {
-                                                                  'single-music-actions-actived': (currentMusic.id === v.id && isPlayed)
+                                                                  'single-music-actions-actived': (currentMusic && currentMusic.id === v.id && isPlayed)
                                                               })}>
                                                                   {
-                                                                      musicActions.map(item => item(v, currentMusic.id === v.id || false))
+                                                                      musicActions.map(item => item(v, currentMusic && currentMusic.id === v.id || false))
                                                                   }
                                                               </div>
                                                             </div>
@@ -946,13 +967,13 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
                     onClick={ onLyricFullScreen }
                   >
                     <LyricDetail
-                      lyric={lyric || []}
-                      lyricIndex={lyricIndex}
-                      info={currentMusic}
-                      loading={lyricLoading}
-                      lyricPlaceholder={lyricPlaceholder}
-                      lyricFullScreen={lyricFullScreen}
-                      onSetProgressWithScroll={onSetProgressWithScroll}
+                      lyric={ lyric || [] }
+                      lyricIndex={ lyricIndex }
+                      info={ currentMusic }
+                      loading={ lyricLoading }
+                      lyricPlaceholder={ lyricPlaceholder }
+                      lyricFullScreen={ lyricFullScreen }
+                      onSetProgressWithScroll={ onSetProgressWithScroll }
                     />
                   </div>
                   <div className="cool-player-detail-panel">
