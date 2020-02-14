@@ -3,7 +3,7 @@ import * as ReactDOM from 'react-dom'
 import './index.less'
 import CoolPlayer from '../src/index'
 import { coolPlayerTypes } from '../src/types'
-const { useState, useEffect } = React
+const { useState, useEffect, useRef } = React
 const App = () => {
   const [ data, setData ] = useState([
       {
@@ -88,9 +88,17 @@ const App = () => {
   const [ lyric, setLyric ] = useState<string>('')
   const [ lyricLoading, setLyricLoading ] = useState<boolean>(false)
   const [ playing, setPlaying ] = useState<boolean>(false)
+  const [ volumeLeft, setVolumeLeft ] = useState<number>(0)
+  const [ volumeValue, setVolumeValue ] = useState<number>(0.4)
+  const [ mouseDown, setMouseDown ] = useState<boolean>(false)
+  const totalVolumeEl = useRef(null)
+  const volumeProgressEl = useRef(null)
   useEffect(() => {
       setCurrentAudio(dataExternal[0])
   }, [])
+    useEffect(() => {
+      setVolumeLeft(totalVolumeEl.current.getBoundingClientRect().left)
+    }, [document.body.clientWidth])
   const onDelete = (index: number, id: string) => {
       data.splice(index, 1)
       setData(data)
@@ -164,6 +172,46 @@ const App = () => {
   const onTogglePlaying = () => {
       setPlaying(!playing)
   }
+    const setVolume = (pageX: number, volume?:number) => {
+        const volumeRate = volume || (pageX - volumeLeft) / totalVolumeEl.current.offsetWidth;
+        if (volumeRate > 0.01 && volumeRate <= 1) {
+            setVolumeValue(volumeRate)
+            volumeProgressEl.current.style.width = volumeRate * 100 + '%';
+        } else if (volumeRate <= 0.01) {
+            setVolumeValue(0)
+        } else {
+            setVolumeValue(1)
+        }
+    }
+    const startMoveVolume = (e: React.TouchEvent<HTMLDivElement>) => {
+      setVolume(e.touches[0].pageX)
+    }
+    const moveVolume = (e: React.TouchEvent<HTMLDivElement>) => {
+      setVolume(e.touches[0].pageX)
+    }
+    // PC端改变音量
+    const clickChangeVolume = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        setVolume(e.pageX)
+    }
+    const mouseDownVolume = () => {
+        setMouseDown(true)
+    }
+    const slideChangeVolume = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        if (mouseDown) {
+            setVolume(e.pageX)
+        }
+    }
+    const mouseUpVolume = () => {
+        setMouseDown(false)
+    }
+    const mouseLeave = () => {
+        setMouseDown(false)
+    }
+
+    const onVolumeChange = (volume: number) => {
+        setVolume(0, volume)
+    }
+
     return <div className={'example'}>
         <div className={'main'}>
             <div className={'audio-list'}>
@@ -201,7 +249,33 @@ const App = () => {
                         playing ? 'Pause' : 'Play'
                     }
                 </button>
-            </div>
+                <div
+                    className="volume-control-wrapper"
+                    onTouchMove={moveVolume}
+                    onTouchStart={startMoveVolume}
+                    onMouseDown={mouseDownVolume}
+                    onMouseMove={slideChangeVolume}
+                    onMouseUp={mouseUpVolume}
+                    onMouseLeave={mouseLeave}
+                >
+
+                    <div
+                        className={'volume-control'}
+                        ref={totalVolumeEl}
+                        onClick={clickChangeVolume}
+                    >
+                        <div
+                            className="volume-slider"
+                            style={{ background: '#017fff' }}
+                            ref={volumeProgressEl}
+                        >
+                            <div
+                                className='volume-dot'
+                            ></div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
         </div>
         <div className={'wrapper'}>
             <CoolPlayer
@@ -213,10 +287,12 @@ const App = () => {
                 data={data}
                 showLyricNormal={true}
                 onMusicChange={onMusicChange}
+                onVolumeChange={onVolumeChange}
                 lyric={lyric}
                 lyricLoading={lyricLoading}
                 musicActions={musicActions}
                 actions={actions}
+                volume={volumeValue}
                 playListHeader={{
                     headerLeft: '播放列表',
                     headerRight: '清除全部'

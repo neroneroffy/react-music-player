@@ -10,6 +10,9 @@ html, body {
     margin: 0 auto;
     .operation {
       margin-top: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
     button {
       padding: 8px;
@@ -21,6 +24,35 @@ html, body {
       text-align: center;
       outline:none;
       color: @font-color-3;
+    }
+    .volume-control-wrapper {
+      padding: 20px 0;
+      width: 20%;
+    }
+    .volume-control {
+      height: 4px;
+      border-radius: 16px;
+      background: #cccccc;
+      position: relative;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      .volume-slider {
+        height: 4px;
+        width: 100%;
+        border-radius: 16px;
+        position: absolute;
+        .volume-dot {
+          height: 10px;
+          width: 10px;
+          position: absolute;
+          right: -6px;
+          top: -3px;
+          background: #fff;
+          border-radius: 50%;
+          box-shadow: 0 0 2px #656565;
+        }
+      }
     }
   }
   .audio-list {

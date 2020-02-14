@@ -3,6 +3,8 @@ declare namespace coolPlayerTypes {
         autoPlay?: boolean
         playing?: boolean
         onDelete?: (index: number, id: string) => void
+        volume?: number
+        onVolumeChange?: (volume: number) => void
         data: IAudio[]
         currentAudio?: IAudio
         zIndex?: number
