@@ -109,4 +109,15 @@ describe('cool player test', () => {
     expect(mode === playMode.Order)
     expect(findTestWrapper(coolPlayer, 'order').length).toBe(1)
   })
+  test('切换静音，应该有效', () => {
+    const coolPlayer = mount(<CoolPlayer
+      data={_data}
+    />)
+    const notMute = findTestWrapper(coolPlayer, 'icon-volume')
+    notMute.simulate('click')
+    expect(findTestWrapper(coolPlayer, 'icon-mute').length).toBe(1)
+    const mute = findTestWrapper(coolPlayer, 'icon-mute')
+    mute.simulate('click')
+    expect(findTestWrapper(coolPlayer, 'icon-volume').length).toBe(1)
+  })
 })
