@@ -209,7 +209,9 @@ const App = () => {
     }
 
     const onVolumeChange = (volume: number) => {
-        setVolume(0, volume)
+        if (volume) {
+            setVolume(0, volume)
+        }
     }
 
     return <div className={'example'}>

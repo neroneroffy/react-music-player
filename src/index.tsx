@@ -440,7 +440,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
             setIsMute(false)
         }
         setVolumeValue(currentVolume)
-        onVolumeChange(currentVolume)
+        onVolumeChange && onVolumeChange(currentVolume)
     }
     const startMoveVolume = (e: React.TouchEvent<HTMLDivElement>) => {
         if (audioEl.current.currentTime !== 0) {
@@ -615,9 +615,11 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
         if (isMute) {
             setIsMute(false)
             audioEl.current.volume = volumeValue
+            onVolumeChange && onVolumeChange(volumeValue)
         } else {
             setIsMute(true)
             audioEl.current.volume = 0
+            onVolumeChange && onVolumeChange(0)
         }
     }
     return <div id={'cool-player'} ref={coolPlayerEl}>
@@ -793,6 +795,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
                             viewBox="0 0 716 634.14"
                             className={'icon-mute'}
                             onClick={onToggleMute}
+                            data-test={'icon-mute'}
                           >
                             <path d="M77.4-128.81a12.79,12.79,0,0,1,18.08-.86,12.78,12.78,0,0,1,4.19,9.47V73.66l64,69.36V-120.2A76.8,76.8,0,0,0,138.54-177a76.8,76.8,0,0,0-108.49,5.15L-47.84-86.2-4.27-39Z" transform="translate(238 197)"/><path d="M341.4,387.33l-508-553.11a29.55,29.55,0,0,0-41.77-1.68,29.87,29.87,0,0,0-1.68,42l508,553.1a29.55,29.55,0,0,0,41.78,1.69h0A29.89,29.89,0,0,0,341.4,387.33Z" transform="translate(238 197)"/><path d="M478,119.93a353.16,353.16,0,0,0-150.39-289.4A32,32,0,0,0,283-161.71a32,32,0,0,0,7.76,44.58A289.67,289.67,0,0,1,330.3,323.61l43.44,47.07A352.83,352.83,0,0,0,478,119.93Z" transform="translate(238 197)"/><path d="M349.2,119.93A215.78,215.78,0,0,0,251.55-60.78a32,32,0,0,0-44.31,9.21,32,32,0,0,0,9.21,44.3A152,152,0,0,1,241.13,227L284.56,274A215.59,215.59,0,0,0,349.2,119.93Z" transform="translate(238 197)"/><path d="M99.67,360.34A12.8,12.8,0,0,1,77.4,369L-42.82,236.73a89.61,89.61,0,0,0-66.3-29.33H-148.4A25.6,25.6,0,0,1-174,181.8V58.34a25.61,25.61,0,0,1,25.6-25.61h37.51L-168-29.12a89.64,89.64,0,0,0-70,87.46V181.8a89.6,89.6,0,0,0,89.6,89.6h39.28a25.59,25.59,0,0,1,18.94,8.38L30.05,412a76.79,76.79,0,0,0,133.62-51.66v-30l-64-69.36Z" transform="translate(238 197)"/>
                           </svg>
@@ -802,6 +805,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
                               viewBox="0 0 716 634.14"
                               className={'icon-volume'}
                               onClick={onToggleMute}
+                              data-test={'icon-volume'}
                           >
                               <path d="M-42.82,236.73,77.4,369a12.8,12.8,0,0,0,22.27-8.61V-120.2a12.78,12.78,0,0,0-4.19-9.47,12.79,12.79,0,0,0-18.08.86L-42.82,3.41a89.58,89.58,0,0,1-66.3,29.32H-148.4A25.6,25.6,0,0,0-174,58.34V181.8a25.6,25.6,0,0,0,25.6,25.6h39.28a89.59,89.59,0,0,1,66.3,29.33ZM-148.4,271.4A89.6,89.6,0,0,1-238,181.8V58.34a89.6,89.6,0,0,1,89.6-89.61h39.28a25.6,25.6,0,0,0,18.94-8.37L30.05-171.87A76.8,76.8,0,0,1,138.54-177a76.8,76.8,0,0,1,25.13,56.82V360.34A76.79,76.79,0,0,1,30.05,412L-90.18,279.78a25.59,25.59,0,0,0-18.94-8.38ZM216.45-7.27a32,32,0,0,1-9.21-44.3,32,32,0,0,1,44.31-9.21,216,216,0,0,1,0,361.43,32,32,0,1,1-35.1-53.51,152.06,152.06,0,0,0,0-254.41Zm74.34-109.86A32,32,0,0,1,283-161.71a32,32,0,0,1,44.58-7.76,353.66,353.66,0,0,1,0,578.81A32,32,0,1,1,290.79,357a289.67,289.67,0,0,0,0-474.13Zm0,0" transform="translate(238 197)"/>
                           </svg>
