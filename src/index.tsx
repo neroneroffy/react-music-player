@@ -60,7 +60,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
   const [ angle, setAngle ] = useState<number>(0)
   const [ mouseDown, setMouseDown ] = useState<boolean>(false)
   const [ musicListShow, setMusicListShow ] = useState<boolean>(false)
-  const [ currentMusic, setCurrentMusic ] = useState<coolPlayerTypes.IAudio>(currentAudio || data[0] || initialMusic)
+  const [ currentMusic, setCurrentMusic ] = useState<coolPlayerTypes.IAudio>(data[0] || initialMusic)
   const [ isPlayed, setIsPlayed ] = useState<boolean>(false)
   const [ lyric, setLyric ] = useState<coolPlayerTypes.ILyric[]>([])
   const [ lyricIndex, setLyricIndex ] = useState<number>(-1)
@@ -71,6 +71,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
   const [ playedWidth, setPlayedWidth ] = useState<number>(0)
   const [ bufferedWidth, setBufferedWidth ] = useState<number>(0)
   const [ playPercent, setPlayPercent ] = useState<number>(0)
+
   const { showLyricNormal = true,
     showLyricMini = true,
     lyric: lyricFromProps = '',
@@ -208,7 +209,6 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
       detailBufferedEl.current.style.width = '0%';
     }
   }, [ currentMusic ])
-
   useEffect(() => {
     const audio = audioEl.current
     lyricList = getLyric(currentMusic && currentMusic.lyric || lyricFromProps)
@@ -249,7 +249,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
       setLyricIndex(indexArr[indexArr.length - 1])
     }
   }
-  const setProgress = useCallback(() => {
+  const setProgress = () => {
     // 设置播放进度条
     const playPer = audioEl.current.currentTime / audioEl.current.duration;
     setPlayPercent(playPer)
@@ -277,8 +277,16 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
     })
     if (audioEl.current.ended) {
       clearInterval(rotateTimer)
+      setPlayPercent(0)
+      playedEl.current.style.width = '0%';
+      setPlayedWidth(0)
+      if (detailPlayedEl.current) {
+        detailPlayedEl.current.style.width = '0%';
+      }
+      pause()
       if(mode === PlayMode.Order){
         next()
+        play()
       }else if(mode === PlayMode.Random){
         random()
       }else if(mode === PlayMode.Loop){
@@ -288,7 +296,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
       }
       setAngle(0)
     }
-  }, [])
+  }
   const play = useCallback(() => {
     if (!data.length) { return }
     setPaused(false)
@@ -306,7 +314,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
     let current
 
     current = data.findIndex(item => item.src === currentMusic.src)
-    if ( current > 0 ) {
+    if (current > 0) {
       setCurrentMusic(data[current - 1])
     } else {
       setCurrentMusic(data[data.length - 1])
