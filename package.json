@@ -9,8 +9,8 @@
     "coverage": "jest --coverage",
     "lint:ts": "eslint ./src --ext .js,.ts,.tsx",
     "lint:ts-fix": "eslint ./src --ext .js,.ts,.tsx --fix",
-    "lint:style": "stylelint \"src/**/*.less\" --syntax less",
-    "lint:style-fix": "stylelint \"src/**/*.less\" --syntax less --fix",
+    "lint:style": "stylelint **/*.less --syntax less",
+    "lint:style-fix": "stylelint **/*.less --syntax less --fix",
     "lint": "npm run lint:ts && npm run lint:style",
     "dev": "cross-env NODE_ENV=development webpack-dev-server --progress --config configs/webpack.config.js"
   },
