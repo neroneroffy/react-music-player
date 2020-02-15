@@ -7,6 +7,11 @@
   "scripts": {
     "test": "jest --watch",
     "coverage": "jest --coverage",
+    "lint:ts": "eslint ./src --ext .js,.ts,.tsx",
+    "lint:ts-fix": "eslint ./src --ext .js,.ts,.tsx --fix",
+    "lint:style": "stylelint \"src/**/*.less\" --syntax less",
+    "lint:style-fix": "stylelint \"src/**/*.less\" --syntax less --fix",
+    "lint": "npm run lint:ts && npm run lint:style",
     "dev": "cross-env NODE_ENV=development webpack-dev-server --progress --config configs/webpack.config.js"
   },
   "author": "",
@@ -29,6 +34,8 @@
     "@testing-library/jest-dom": "^5.0.2",
     "@testing-library/react": "^9.4.0",
     "@testing-library/user-event": "^8.1.0",
+    "@typescript-eslint/eslint-plugin": "^2.19.2",
+    "@typescript-eslint/parser": "^2.19.2",
     "autoprefixer": "^9.7.3",
     "awesome-typescript-loader": "^5.2.1",
     "babel-jest": "^25.1.0",
@@ -37,8 +44,12 @@
     "css-loader": "^3.3.0",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
+    "eslint": "^6.8.0",
+    "eslint-plugin-react": "^7.18.3",
+    "eslint-plugin-react-hooks": "^2.3.0",
     "file-loader": "^5.0.2",
     "html-webpack-plugin": "^3.2.0",
+    "husky": "^4.2.3",
     "jest": "^24.9.0",
     "jest-environment-jsdom-fourteen": "0.1.0",
     "jest-enzyme": "^7.1.2",
@@ -52,11 +63,18 @@
     "rimraf": "^3.0.0",
     "source-map-loader": "^0.2.4",
     "style-loader": "^1.0.1",
+    "stylelint": "^13.2.0",
+    "stylelint-config-standard": "^20.0.0",
     "tslint": "^5.20.1",
     "typescript": "^3.7.3",
     "url-loader": "^3.0.0",
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.9.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint"
+    }
   }
 }

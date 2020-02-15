@@ -8,7 +8,9 @@
     "jsx": "react"
   },
   "include": [
-    "./src/**/*.ts"
+    "./src/**/*.ts",
+    "./src/**/*.tsx",
+    "./src/**/*.js"
   ],
   "exclude": [
     "node_modules",
