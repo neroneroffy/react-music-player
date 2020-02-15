@@ -70,7 +70,7 @@ describe('cool player test', () => {
     const prevBtn = findTestWrapper(coolPlayer, 'prev-btn')
     prevBtn.simulate('click')
     expect(currentMusic).toEqual(_data[1])
-    })
+  })
   test('点击下一首，应该播放当前歌曲的下一首音乐', () => {
     let currentMusic = _data[1]
     const coolPlayer = mount(<CoolPlayer
@@ -83,7 +83,7 @@ describe('cool player test', () => {
     const nextBtn = findTestWrapper(coolPlayer, 'next-btn')
     nextBtn.simulate('click')
     expect(currentMusic).toEqual(_data[0])
-    })
+  })
   test('点击播放模式切换按钮，应显示正确的播放模式', () => {
     const playMode = {
       Order: 1,

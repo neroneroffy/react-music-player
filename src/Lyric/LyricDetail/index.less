@@ -1,18 +1,20 @@
 @import '../../common/index.less';
+
 @keyframes wordsLoop {
   0% {
-    transform: translateX(0px);
-    -webkit-transform: translateX(0px);
+    transform: translateX(0);
+    -webkit-transform: translateX(0);
   }
   100% {
     transform: translateX(-100%);
     -webkit-transform: translateX(-100%);
   }
 }
+
 @-webkit-keyframes wordsLoop {
   0% {
-    transform: translateX(0px);
-    -webkit-transform: translateX(0px);
+    transform: translateX(0);
+    -webkit-transform: translateX(0);
   }
   100% {
     transform: translateX(-100%);
@@ -24,13 +26,14 @@
   height: 200px;
   position: relative;
   transition: all .3s ease-in-out;
-  -webkit-mask-image: linear-gradient(180deg,
-  hsla(0,0%,100%,0) 0,
-  hsla(0,0%,100%,.6) 15%,
+  -webkit-mask-image:
+ linear-gradient(180deg,
+  hsla(0, 0%, 100%, 0) 0,
+  hsla(0, 0%, 100%, .6) 15%,
   #fff 25%,
   #fff 75%,
-  hsla(0,0%,100%,.6) 85%,
-  hsla(0,0%,100%,0));
+  hsla(0, 0%, 100%, .6) 85%,
+  hsla(0, 0%, 100%, 0));
   .cool-lyric-base-line-wrapper {
     position: absolute;
     width: 100%;
@@ -44,20 +47,21 @@
     opacity: 0;
     transition: all .3s ease-in-out;
     .cool-lyric-base-line {
-      background: #cccccc;
+      background: #ccc;
       height: 1px;
       width: 70%;
       margin: 0 auto;
       flex-shrink: 1;
       opacity: 0.5;
-      -webkit-mask-image: linear-gradient(90deg,
+      -webkit-mask-image:
+ linear-gradient(90deg,
       #fff 0%,
-      hsla(0,0%,100%,0) 20%,
-      hsla(0,0%,100%,0) 80%,
+      hsla(0, 0%, 100%, 0) 20%,
+      hsla(0, 0%, 100%, 0) 80%,
       #fff 100%);
     }
     .cool-lyric-scrolled-time {
-      color: #cccccc;
+      color: #ccc;
       width: 40px;
       padding: 16px;
       flex-shrink: 1;
@@ -70,13 +74,12 @@
       display: flex;
       align-items: center;
       svg {
-        color: #cccccc;
+        color: #ccc;
         width: 18px;
         height: 18px;
         fill: currentColor;
       }
     }
-
   }
   .cool-lyric-base-line-wrapper-show {
     opacity: 1;
@@ -86,7 +89,7 @@
     justify-content: center;
     align-items: center;
     height: 230px;
-    color: #cccccc;
+    color: #ccc;
   }
   .cool-lyric-content {
     margin: 0;
@@ -116,10 +119,10 @@
       }
     }
     // 超出宽度滚动，但不尽如人意
-    /*.current-lyric-overflow {
+    /* .current-lyric-overflow {
       display: inline-block;
       animation: 15s wordsLoop linear infinite normal;
-    }*/
+    } */
     .current-lyric-standby {
       color: #c0c0c0;
     }
@@ -142,23 +145,18 @@
 ::-webkit-scrollbar-thumb {
   border-radius: 10px;
   display: none;
-  background: rgba(0,0,0,0.1);
+  background: rgba(0, 0, 0, 0.1);
 }
 ::-webkit-scrollbar-thumb:window-inactive {
-  background: rgba(0,0,0,0.1);
+  background: rgba(0, 0, 0, 0.1);
 }
 
-@media screen and (max-height: 780px){
+@media screen and (max-height: 780px) {
   .cool-lyric-detail {
     height: 190px;
-    .cool-lyric-base-line-wrapper {
-      .cool-lyric-base-line {
-      }
-    }
     .cool-lyric-center-wrapper {
       height: 200px;
     }
-
     .cool-lyric-content {
       .lyric-item {
         &:first-child {
@@ -177,10 +175,12 @@
     }
   }
 }
-@media screen and (max-height: 736px){
+
+@media screen and (max-height: 736px) {
   .cool-lyric-detail {
     height: 220px;
-    -webkit-mask-image: linear-gradient(180deg,
+    -webkit-mask-image:
+ linear-gradient(180deg,
     hsla(0, 0%, 100%, 0) 0,
     hsla(0, 0%, 100%, .6) 20%,
     #fff 25%,
@@ -209,6 +209,7 @@
     }
   }
 }
+
 @media screen and (max-height: 710px) {
   .cool-lyric-center-wrapper {
     height: 200px;
@@ -225,7 +226,6 @@
         margin-top: 40px;
       }
     }
-
   }
 
   .cool-lyric-detail-full-screen {
@@ -238,10 +238,12 @@
     }
   }
 }
-@media screen and (max-height: 680px){
+
+@media screen and (max-height: 680px) {
   .cool-lyric-detail {
     height: 190px;
-    -webkit-mask-image: linear-gradient(180deg,
+    -webkit-mask-image:
+ linear-gradient(180deg,
     hsla(0, 0%, 100%, 0) 0,
     hsla(0, 0%, 100%, .6) 20%,
     #fff 25%,
@@ -270,10 +272,12 @@
     }
   }
 }
-@media screen and (max-height: 640px){
+
+@media screen and (max-height: 640px) {
   .cool-lyric-detail {
     height: 150px;
-    -webkit-mask-image: linear-gradient(180deg,
+    -webkit-mask-image:
+ linear-gradient(180deg,
     hsla(0, 0%, 100%, 0) 0,
     hsla(0, 0%, 100%, .6) 20%,
     #fff 25%,
@@ -306,10 +310,11 @@
   }
 }
 
-@media screen and (max-height: 600px){
+@media screen and (max-height: 600px) {
   .cool-lyric-detail {
     height: 160px;
-    -webkit-mask-image: linear-gradient(180deg,
+    -webkit-mask-image:
+ linear-gradient(180deg,
     hsla(0, 0%, 100%, 0) 0,
     hsla(0, 0%, 100%, .9) 20%,
     #fff 10%,
