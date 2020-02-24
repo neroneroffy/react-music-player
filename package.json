@@ -2,17 +2,25 @@
   "name": "react-cool-music-player",
   "version": "1.0.0",
   "description": "",
-  "main": "./src/index.tsx",
+  "sideEffects": [
+    "*.css",
+    "*.less"
+  ],
+  "main": "./dist/index.js",
   "types": "./src/types.d.ts",
   "scripts": {
     "test": "jest --watch",
     "coverage": "jest --coverage",
+    "clear:dist": "rimraf dist",
+    "clear:public": "rimraf public",
     "lint:ts": "eslint ./src --ext .js,.ts,.tsx",
     "lint:ts-fix": "eslint ./src --ext .js,.ts,.tsx --fix",
     "lint:style": "stylelint **/*.less --syntax less",
     "lint:style-fix": "stylelint **/*.less --syntax less --fix",
     "lint": "npm run lint:ts && npm run lint:style",
-    "dev": "cross-env NODE_ENV=development webpack-dev-server --progress --config configs/webpack.config.js"
+    "dev": "webpack-dev-server --progress --config configs/webpack.dev.js",
+    "build": "npm run clear:dist && webpack --progress --config configs/webpack.prod.js",
+    "build:demo": "npm run clear:public && webpack --progress --config configs/webpack.demo.js"
   },
   "author": "",
   "license": "ISC",
@@ -40,7 +48,6 @@
     "awesome-typescript-loader": "^5.2.1",
     "babel-jest": "^25.1.0",
     "babel-loader": "^8.0.6",
-    "cross-env": "^6.0.3",
     "css-loader": "^3.3.0",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
@@ -58,6 +65,8 @@
     "jest-watch-typeahead": "^0.4.2",
     "less": "^3.10.3",
     "less-loader": "^5.0.0",
+    "mini-css-extract-plugin": "^0.9.0",
+    "optimize-css-assets-webpack-plugin": "^5.0.3",
     "postcss-loader": "^3.0.0",
     "react-app-polyfill": "^1.0.5",
     "rimraf": "^3.0.0",
@@ -65,12 +74,14 @@
     "style-loader": "^1.0.1",
     "stylelint": "^13.2.0",
     "stylelint-config-standard": "^20.0.0",
+    "terser-webpack-plugin": "^2.3.5",
     "tslint": "^5.20.1",
     "typescript": "^3.7.3",
     "url-loader": "^3.0.0",
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.10",
-    "webpack-dev-server": "^3.9.0"
+    "webpack-dev-server": "^3.9.0",
+    "webpack-merge": "^4.2.2"
   },
   "husky": {
     "hooks": {

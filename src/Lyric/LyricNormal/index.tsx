@@ -45,7 +45,7 @@ const LyricNormal = (props: coolPlayerTypes.lyricNormal.ILyricNormalProps) => {
       <span className={'cool-lyric-center'}>{lyricPlaceholder}</span>
     </div>
   return <div className={'cool-lyric'}>
-    <h4>{name} ({artist})</h4>
+    <h4>{name} { artist ? `(${artist})` : '' }</h4>
     {
       loading ?
         <div className={'cool-lyric-center-wrapper'}>

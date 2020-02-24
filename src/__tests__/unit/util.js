@@ -4,7 +4,7 @@
  * Time: 16:43
  *
  */
-import { getLyric } from '../../utils'
+import { getLyric, fixedBody, looseBody } from '../../utils'
 
 describe('工具类单元测试', () => {
   test('歌词格式化函数，传入字符串，应返回格式化后的歌词数组', () => {

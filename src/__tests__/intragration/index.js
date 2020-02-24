@@ -40,6 +40,13 @@ describe('cool player test', () => {
     const playListModal = findTestWrapper(coolPlayer, 'play-list-modal')
     expect(playListModal.length).toBe(1)
   })
+  test('展开播放列表，如果传入了歌曲数据，那么应该渲染出歌曲列表', () => {
+    const coolPlayer = mount(<CoolPlayer data={_data}/>)
+    const btn = findTestWrapper(coolPlayer, 'play-list-btn')
+    btn.simulate('click')
+    const singleMusic = findTestWrapper(coolPlayer, 'single-music')
+    expect(singleMusic.length).toBe(_data.length)
+  })
   test('点击播放按钮后，音乐应该播放', () => {
     const coolPlayer = mount(<CoolPlayer data={_data} playing={false}/>)
     const playBtn = findTestWrapper(coolPlayer, 'play-btn')
@@ -119,5 +126,23 @@ describe('cool player test', () => {
     const mute = findTestWrapper(coolPlayer, 'icon-mute')
     mute.simulate('click')
     expect(findTestWrapper(coolPlayer, 'icon-volume').length).toBe(1)
+  })
+  test('点击播放列表中的某一首歌曲，应该播放这首歌曲，该歌曲前方的图标应变为播放中', () => {
+    let audio
+    const coolPlayer = mount(<CoolPlayer
+      onMusicChange={(id, music) => {
+        audio = music
+      }}
+      data={_data}
+    />)
+    const btn = findTestWrapper(coolPlayer, 'play-list-btn')
+    btn.simulate('click')
+    const singleMusic = findTestWrapper(coolPlayer, 'single-music')
+    const playThis = findTestWrapper(singleMusic.at(1), 'play-this')
+    playThis.simulate('click')
+    expect(audio).toEqual(_data[1])
+    const _singleMusic = findTestWrapper(coolPlayer, 'single-music')
+    const iconPlaying = findTestWrapper(_singleMusic.at(1), 'icon-playing')
+    expect(iconPlaying.length).toBe(1)
   })
 })

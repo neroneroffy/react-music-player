@@ -1,61 +1,23 @@
 const path = require('path')
+const baseConfig = require('./webpack.base')
+const merge = require('webpack-merge')
 const htmlWebpackPlugin = require('html-webpack-plugin')
-module.exports = {
+const devConfig = {
   mode: 'development',
-  entry: path.join(__dirname, '../example/index.tsx'),
-  output: {
-    filename: 'bundle.js',
-    path: path.join(__dirname, '../dist')
-  },
-  devtool: 'cheap-module-eval-source-map',
   module: {
     rules: [
       {
-        enforce: 'pre',
-        test: /\.js$/,
-        use: [
-          {
-            loader: 'source-map-loader'
-          },
-          {
-            loader: 'babel-loader',
-          }
-        ]
-      },
-      {
-        test: /\.tsx?$/,
-        loader: "awesome-typescript-loader",
-      },
-      {
         test: /\.less$/,
         use: [
-            { loader: 'style-loader' },
-            { loader: 'css-loader' },
-            { loader: 'postcss-loader' },
-            { loader: 'less-loader' },
+          { loader: 'style-loader' },
+          { loader: 'css-loader' },
+          { loader: 'postcss-loader' },
+          { loader: 'less-loader' },
         ]
-    },
-    {
-      test: /\.(woff2?|eot|ttf|otf|svg)(\?.*)?$/,
-      loader: 'url-loader',
-      options: {
-        limit: 1000,
-        name: 'fonts/[name].[hash:8].[ext]'
       }
-    },
-    {
-      test: /\.(jpg|png|gif|jpeg)(\?.*)?$/,
-      loader: 'url-loader',
-      options: {
-        limit: 1000,
-        name: 'images/[name].[hash:8].[ext]'
-      }
-    }
     ]
   },
-  resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.json']
-  },
+  devtool: 'cheap-module-eval-source-map',
   devServer: {
     host: '0.0.0.0',
     port: 8080,
@@ -87,3 +49,4 @@ module.exports = {
     })
   ]
 }
+module.exports = merge(baseConfig, devConfig)
