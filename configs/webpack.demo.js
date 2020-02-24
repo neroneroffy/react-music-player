@@ -9,8 +9,8 @@ const demoConfig = {
   mode: 'production',
   entry: path.join(__dirname, '../example/index.tsx'),
   output: {
-    filename: 'bundle.[contenthash].js',
-    path: path.join(__dirname, '../public'),
+    filename: 'js/bundle.[contenthash].js',
+    path: path.join(__dirname, '../public/static'),
     publicPath: './'
   },
   module: {
@@ -45,10 +45,10 @@ const demoConfig = {
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: 'bundle.[contenthash].css',
+      filename: 'css/bundle.[contenthash].css',
     }),
     new htmlWebpackPlugin({
-      filename: path.join(__dirname, '../public/index.html'),
+      filename: path.join(__dirname, '../public/static/index.html'),
       template: path.join(__dirname, '../example/index.html'),
       title: 'ReactCoolMusicPlayer'
     })

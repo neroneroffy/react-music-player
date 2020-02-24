@@ -20,7 +20,9 @@
     "lint": "npm run lint:ts && npm run lint:style",
     "dev": "webpack-dev-server --progress --config configs/webpack.dev.js",
     "build": "npm run clear:dist && webpack --progress --config configs/webpack.prod.js",
-    "build:demo": "npm run clear:public && webpack --progress --config configs/webpack.demo.js"
+    "build:demo": "npm run clear:public && webpack --progress --config configs/webpack.demo.js",
+    "build:server": "webpack --progress --config configs/webpack.server.js",
+    "start": "npm run build:demo && npm run build:server && node ./public/server.js"
   },
   "author": "",
   "license": "ISC",
@@ -54,6 +56,7 @@
     "eslint": "^6.8.0",
     "eslint-plugin-react": "^7.18.3",
     "eslint-plugin-react-hooks": "^2.3.0",
+    "express": "^4.17.1",
     "file-loader": "^5.0.2",
     "html-webpack-plugin": "^3.2.0",
     "husky": "^4.2.3",
