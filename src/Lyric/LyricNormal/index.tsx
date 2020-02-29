@@ -10,7 +10,7 @@ const LyricNormal = (props: coolPlayerTypes.lyricNormal.ILyricNormalProps) => {
     lyricIndex,
     info,
     loading,
-    lyricPlaceholder =  '纯音乐，请欣赏',
+    lyricPlaceholder =  '暂无歌词',
   } = props
   const artist = info ? info.artist : ''
   const name = info ? info.name : ''

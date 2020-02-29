@@ -7,19 +7,19 @@ const { useState, useEffect, useRef } = React
 const App = () => {
   const [ data, setData ] = useState([
     {
+      src: 'http://neroht.com/%E9%95%9C%E4%BA%88%E6%AD%8C%20-%20%E8%A5%BF%E5%B7%B7%E6%A1%A5%E8%BE%B9.mp3',
+      artist: '瑾姝',
+      name: '西巷桥边',
+      img: 'http://neroht.com/109951164352276322.jpg',
+      id: '66575568141',
+    },
+    {
       src: 'http://neroht.com/%E7%91%BE%E5%A7%9DHikari%20-%20%E5%A4%A7%E6%B0%BF%E6%AD%8C%EF%BC%88%E6%88%8F%E8%85%94%E7%89%88%EF%BC%89%EF%BC%88Cover%EF%BC%9Ailem%EF%BC%89.mp3',
       artist: '瑾姝Hikari',
       name: '大氿歌',
       img: 'http://neroht.com/daguige.jpg',
       id: '66575568442',
       lyric: '[00:00.000] 作曲 : ilem\n[00:01.000] 作词 : ilem\n[00:18.071]翻唱/和编：瑾姝\n[00:19.328]土生木酿水中火\n[00:24.591]金樽玉液小乾坤\n[00:29.322]文痴武客三点血\n[00:33.811]江湖相见半盏春\n[00:42.576]一白忘忧再消愁\n[00:47.311]三碗同天竞风流\n[00:52.062]浮云苍狗烂柯泥\n[00:56.569]唯此醪糟诚不欺\n[01:01.582]花枪风雪挑葫芦\n[01:06.313]哨棒过岗打猛虎\n[01:11.315]谪仙对影捞玉蟾\n[01:16.067]诗圣放歌击浪还\n[01:20.060]大瓮一扬倾江海\n[01:24.810]饮日吞月胸中来\n[01:29.561]大梦一场三千载\n[01:34.311]悲喜穿肠莫挂怀\n[01:39.073]大风翕张浪形骸\n[01:43.826]疏狂放歌死便埋\n[01:48.810]大疯一趟两相忘\n[01:53.567]不知东方天既白\n[02:04.321]（间奏）\n[02:18.321]一白忘忧再消愁\n[02:23.319]三碗同天竞风流\n[02:28.070]浮云苍狗烂柯泥\n[02:32.817]唯此醪糟诚不欺\n[02:37.320]羲之流觞笔抒怀\n[02:42.312]琅琊太守伛偻来\n[02:47.061]关公壮行斩华雄\n[02:52.062]悟空借胆闹天宫\n[02:56.063]大瓮一扬倾江海\n[03:00.814]饮日吞月胸中来\n[03:05.312]大梦一场三千载\n[03:10.312]悲喜穿肠莫挂怀\n[03:16.312]啊~~\n[03:20.068]大风翕张浪形骸\n[03:24.567]疏狂放歌死便埋\n[03:29.315]大疯一趟两相忘\n[03:34.313]不知东方天既白\n',
-    },
-    {
-      src: 'http://neroht.com/%E9%95%9C%E4%BA%88%E6%AD%8C%20-%20%E8%A5%BF%E5%B7%B7%E6%A1%A5%E8%BE%B9.mp3',
-      artist: '瑾姝',
-      name: '西巷桥边',
-      img: 'http://neroht.com/109951164352276322.jpg',
-      id: '66575568141',
     },
     {
       src: 'http://neroht.com/%E6%AD%A2%E6%88%98%E4%B9%8B%E6%AE%87-piano.mp3',
@@ -100,8 +100,9 @@ const App = () => {
     setVolumeLeft(totalVolumeEl.current.getBoundingClientRect().left)
   }, [document.body.clientWidth])
   const onDelete = (index: number, id: string) => {
-    data.splice(index, 1)
-    setData(data)
+    const _data = JSON.parse(JSON.stringify(data))
+    _data.splice(index, 1)
+    setData(_data)
   }
 
   const onLyricMatched = (lyrics: any[], currentIndex: number) => {
@@ -179,140 +180,140 @@ const App = () => {
   const onTogglePlaying = () => {
     setPlaying(!playing)
   }
-    const setVolume = (pageX: number, volume?:number) => {
-      const volumeRate = volume || (pageX - volumeLeft) / totalVolumeEl.current.offsetWidth;
-      if (volumeRate > 0.01 && volumeRate <= 1) {
-        setVolumeValue(volumeRate)
-        volumeProgressEl.current.style.width = volumeRate * 100 + '%';
-      } else if (volumeRate <= 0.01) {
-        setVolumeValue(0)
-      } else {
-        setVolumeValue(1)
-      }
+  const setVolume = (pageX: number, volume?:number) => {
+    const volumeRate = volume || (pageX - volumeLeft) / totalVolumeEl.current.offsetWidth;
+    if (volumeRate > 0.01 && volumeRate <= 1) {
+      setVolumeValue(volumeRate)
+      volumeProgressEl.current.style.width = volumeRate * 100 + '%';
+    } else if (volumeRate <= 0.01) {
+      setVolumeValue(0)
+    } else {
+      setVolumeValue(1)
     }
-    const startMoveVolume = (e: React.TouchEvent<HTMLDivElement>) => {
-      setVolume(e.touches[0].pageX)
-    }
-    const moveVolume = (e: React.TouchEvent<HTMLDivElement>) => {
-      setVolume(e.touches[0].pageX)
-    }
-    // PC端改变音量
-    const clickChangeVolume = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+  }
+  const startMoveVolume = (e: React.TouchEvent<HTMLDivElement>) => {
+    setVolume(e.touches[0].pageX)
+  }
+  const moveVolume = (e: React.TouchEvent<HTMLDivElement>) => {
+    setVolume(e.touches[0].pageX)
+  }
+  // PC端改变音量
+  const clickChangeVolume = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    setVolume(e.pageX)
+  }
+  const mouseDownVolume = () => {
+    setMouseDown(true)
+  }
+  const slideChangeVolume = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    if (mouseDown) {
       setVolume(e.pageX)
     }
-    const mouseDownVolume = () => {
-      setMouseDown(true)
-    }
-    const slideChangeVolume = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-      if (mouseDown) {
-        setVolume(e.pageX)
-      }
-    }
-    const mouseUpVolume = () => {
-      setMouseDown(false)
-    }
-    const mouseLeave = () => {
-      setMouseDown(false)
-    }
+  }
+  const mouseUpVolume = () => {
+    setMouseDown(false)
+  }
+  const mouseLeave = () => {
+    setMouseDown(false)
+  }
 
-    const onVolumeChange = (volume: number) => {
-      if (volume) {
-        setVolume(0, volume)
-      }
+  const onVolumeChange = (volume: number) => {
+    if (volume) {
+      setVolume(0, volume)
     }
-
-    return <div className={'example'}>
-      <div className={'main'}>
-        <div className={'audio-list'}>
-          {
-            dataExternal.map((item, index) => {
-              return <div key={item.id} className={'audio-item'} onClick={() => playThis(index)}>
-                <div className="left">
-                  <img src={item.img} alt=""/>
-                  <div className={'audio-info'}>
-                      <div>{item.name}</div>
-                      <div>{item.artist}</div>
-                  </div>
-                </div>
-                <div className="right">
-                  <svg
-                    className="icon-play"
-                    viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="12608"
-                    data-test={'play-btn'}
-                  >
-                    <path
-                      d="M844.704269 475.730473L222.284513 116.380385a43.342807 43.342807 0 0 0-65.025048 37.548353v718.692951a43.335582 43.335582 0 0 0 65.025048 37.541128l622.412531-359.342864a43.357257 43.357257 0 0 0 0.007225-75.08948z"
-                      fill="" p-id="12609"
-                    />
-                  </svg>
+  }
+  return <div className={'example'}>
+    <div className={'main'}>
+      <div className={'audio-list'}>
+        {
+          dataExternal.map((item, index) => {
+            return <div key={item.id} className={'audio-item'} onClick={() => playThis(index)}>
+              <div className="left">
+                <img src={item.img} alt=""/>
+                <div className={'audio-info'}>
+                    <div>{item.name}</div>
+                    <div>{item.artist}</div>
                 </div>
               </div>
-            })
+              <div className="right">
+                <svg
+                  className="icon-play"
+                  viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="12608"
+                  data-test={'play-btn'}
+                >
+                  <path
+                    d="M844.704269 475.730473L222.284513 116.380385a43.342807 43.342807 0 0 0-65.025048 37.548353v718.692951a43.335582 43.335582 0 0 0 65.025048 37.541128l622.412531-359.342864a43.357257 43.357257 0 0 0 0.007225-75.08948z"
+                    fill="" p-id="12609"
+                  />
+                </svg>
+              </div>
+            </div>
+          })
+        }
+      </div>
+      <div className={'operation'}>
+        <button
+          onClick={onTogglePlaying}
+          className={'play-control'}
+        >
+          {
+            playing ? 'Pause' : 'Play'
           }
-        </div>
-        <div className={'operation'}>
-          <button
-            onClick={onTogglePlaying}
-            className={'play-control'}
-          >
-            {
-              playing ? 'Pause' : 'Play'
-            }
-          </button>
+        </button>
+        <div
+          className="volume-control-wrapper"
+          onTouchMove={moveVolume}
+          onTouchStart={startMoveVolume}
+          onMouseDown={mouseDownVolume}
+          onMouseMove={slideChangeVolume}
+          onMouseUp={mouseUpVolume}
+          onMouseLeave={mouseLeave}
+          onClick={clickChangeVolume}
+        >
           <div
-            className="volume-control-wrapper"
-            onTouchMove={moveVolume}
-            onTouchStart={startMoveVolume}
-            onMouseDown={mouseDownVolume}
-            onMouseMove={slideChangeVolume}
-            onMouseUp={mouseUpVolume}
-            onMouseLeave={mouseLeave}
+            className={'volume-control'}
+            ref={totalVolumeEl}
             onClick={clickChangeVolume}
           >
             <div
-              className={'volume-control'}
-              ref={totalVolumeEl}
-              onClick={clickChangeVolume}
+              className="volume-slider"
+              style={{ background: '#017fff' }}
+              ref={volumeProgressEl}
             >
               <div
-                className="volume-slider"
-                style={{ background: '#017fff' }}
-                ref={volumeProgressEl}
-              >
-                <div
-                    className='volume-dot'
-                ></div>
-              </div>
-            </div>
+                  className='volume-dot'
+              ></div>
             </div>
           </div>
-      </div>
-      <div className={'wrapper'}>
-        <CoolPlayer
-          onDelete={onDelete}
-          autoPlay={false}
-          playing={playing}
-          onLyricMatched={onLyricMatched}
-          currentAudio={currentAudio}
-          data={data}
-          showLyricNormal={true}
-          onMusicChange={onMusicChange}
-          onVolumeChange={onVolumeChange}
-          lyric={lyric}
-          lyricLoading={lyricLoading}
-          musicActions={musicActions}
-          actions={actions}
-          volume={volumeValue}
-          playListHeader={{
-              headerLeft: '播放列表',
-              headerRight: '清除全部'
-          }}
-          onModeChange={(currentMode, prevMode) => {
-              console.log(currentMode, prevMode)
-          }}
-        />
-      </div>
+          </div>
+        </div>
     </div>
+    <div className={'wrapper'}>
+      <CoolPlayer
+        playListPlaceholder={'还没有歌曲哦~'}
+        onDelete={onDelete}
+        autoPlay={false}
+        playing={playing}
+        onLyricMatched={onLyricMatched}
+        currentAudio={currentAudio}
+        data={data}
+        showLyricNormal={true}
+        onMusicChange={onMusicChange}
+        onVolumeChange={onVolumeChange}
+        lyric={lyric}
+        lyricLoading={lyricLoading}
+        musicActions={musicActions}
+        actions={actions}
+        volume={volumeValue}
+        playListHeader={{
+          headerLeft: '播放列表',
+          headerRight: '清除全部'
+        }}
+        onModeChange={(currentMode, prevMode) => {
+          console.log(currentMode, prevMode)
+        }}
+      />
+    </div>
+  </div>
 }
 
 const root = document.getElementById('root')

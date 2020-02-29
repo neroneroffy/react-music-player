@@ -5,11 +5,12 @@
  *
  */
 import * as React from 'react'
-import { mount, shallow } from 'enzyme'
+import { mount } from 'enzyme'
+import { getTime } from '../../utils/index'
 import CoolPlayer from '../../index'
 import { findTestWrapper } from '../../utils/testUtils'
 
-describe('cool player test', () => {
+describe('cool player functional test', () => {
   const _data = [
     {
       src: 'http://neroht.com/%E9%95%9C%E4%BA%88%E6%AD%8C%20-%20%E8%A5%BF%E5%B7%B7%E6%A1%A5%E8%BE%B9.mp3',
@@ -144,5 +145,67 @@ describe('cool player test', () => {
     const _singleMusic = findTestWrapper(coolPlayer, 'single-music')
     const iconPlaying = findTestWrapper(_singleMusic.at(1), 'icon-playing')
     expect(iconPlaying.length).toBe(1)
+  })
+  test('如果正在播放播放列表的最后一首音乐，但删除了它，应播放第一首歌曲', () => {
+    const fn = jest.fn()
+    const coolPlayer = mount(<CoolPlayer
+      onDelete={fn}
+      data={_data}
+    />)
+    const btn = findTestWrapper(coolPlayer, 'play-list-btn')
+    btn.simulate('click')
+    const singleMusic = findTestWrapper(coolPlayer, 'single-music')
+    const iconPlay = findTestWrapper(singleMusic.at(1), 'icon-play')
+    iconPlay.simulate('click')
+    const iconDelete = findTestWrapper(singleMusic.at(1), 'icon-delete')
+    iconDelete.simulate('click')
+    const audio = findTestWrapper(coolPlayer, 'audio')
+    expect(audio.instance().src).toBe(_data[0].src)
+  })
+  test('如果在播放列表中当前正在播放的音乐被删除，应该播放下一首音乐', () => {
+    const fn = jest.fn()
+    const coolPlayer = mount(<CoolPlayer
+      onDelete={fn}
+      data={_data}
+    />)
+    const btn = findTestWrapper(coolPlayer, 'play-list-btn')
+    btn.simulate('click')
+    const singleMusic = findTestWrapper(coolPlayer, 'single-music')
+    const iconPlay = findTestWrapper(singleMusic.at(0), 'icon-play')
+    iconPlay.simulate('click')
+    const iconDelete = findTestWrapper(singleMusic.at(0), 'icon-delete')
+    iconDelete.simulate('click')
+    const audio = findTestWrapper(coolPlayer, 'audio')
+    expect(audio.instance().src).toBe(_data[1].src)
+  })
+  test('如果在播放列表中的音乐都被删除完了，播放控制中的音乐信息应该清空，进度条归零', () => {
+    const fn = jest.fn()
+    const fakeData = [ _data[0] ]
+    const coolPlayer = mount(<CoolPlayer
+      onDelete={fn}
+      data={fakeData}
+    />)
+    const btn = findTestWrapper(coolPlayer, 'play-list-btn')
+    btn.simulate('click')
+    const singleMusic = findTestWrapper(coolPlayer, 'single-music')
+    const iconPlay = findTestWrapper(singleMusic.at(0), 'icon-play')
+    iconPlay.simulate('click')
+    const iconDelete = findTestWrapper(singleMusic.at(0), 'icon-delete')
+    iconDelete.simulate('click')
+    const audio = findTestWrapper(coolPlayer, 'audio')
+    const musicName = findTestWrapper(coolPlayer, 'music-name')
+    const progressBuffered = findTestWrapper(coolPlayer, 'progress-buffered')
+    const progressPlayed = findTestWrapper(coolPlayer, 'progress-played')
+    expect(audio.instance().src).toBe('')
+    expect(musicName.text()).toBe('')
+    expect(progressBuffered.instance().style.width).toBe('0%')
+    expect(progressPlayed.instance().style.width).toBe('0%')
+  })
+  test('点击音乐的头像，详情应该出现', () => {
+    const coolPlayer = mount(<CoolPlayer data={_data} playing={false}/>)
+    const detailShow = findTestWrapper(coolPlayer, 'detail-show')
+    detailShow.simulate('click')
+    const coolPlayerDetail = findTestWrapper(coolPlayer, 'cool-player-detail')
+    expect(coolPlayerDetail.length).toBe(1)
   })
 })

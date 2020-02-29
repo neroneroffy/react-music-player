@@ -53,4 +53,53 @@ describe('unit test for coolPlayer', () => {
     iconDelete.simulate('click')
     expect(fn).toHaveBeenCalledWith(1, _data[1].id)
   })
+  test('如果传入musicActions，应该渲染出music-actions容器', () => {
+    const musicActions = [
+      (music, active) => {
+        return <span key={'favourite'}>收藏</span>
+      }
+    ]
+    const coolPlayer = shallow(<CoolPlayer
+      musicActions={musicActions}
+      data={_data}
+    />)
+    const btn = findTestWrapper(coolPlayer, 'play-list-btn')
+    btn.simulate('click')
+    const musicActionsWrapper = findTestWrapper(coolPlayer, 'music-actions')
+    expect(musicActionsWrapper).length = 1
+  })
+  test('如果传入actions，应该渲染出play-actions容器', () => {
+    const actions = [
+      (music, active) => {
+        return <span key={'test-actions'}>test-actions</span>
+      }
+    ]
+    const coolPlayer = shallow(<CoolPlayer
+      actions={actions}
+      data={_data}
+    />)
+    const playActionsWrapper = findTestWrapper(coolPlayer, 'play-actions')
+    expect(playActionsWrapper).length = 1
+  })
+  test('如果传入的autoPlay属性为true，那么音乐应该开始播放', () => {
+    const coolPlayer = mount(<CoolPlayer data={_data} autoPlay={true}/>)
+    const audio = findTestWrapper(coolPlayer, 'audio')
+    expect(audio.instance().isPaused).toBeFalsy()
+  })
+  test('如果传入了currentAudio，那么播放器应该展示传入的这首歌曲的信息', () => {
+    const currentAudio = _data[1]
+    const coolPlayer = mount(<CoolPlayer data={_data} currentAudio={currentAudio}/>)
+    const musicName = findTestWrapper(coolPlayer, 'music-name')
+    expect(musicName.text()).toBe('瑾姝Hikari 大氿歌')
+  })
+  test('点击进度条，应该播放到相应位置', () => {
+    const currentAudio = _data[1]
+    const coolPlayer = mount(<CoolPlayer data={_data} currentAudio={currentAudio}/>)
+    const progressBar = findTestWrapper(coolPlayer, 'progress-bar')
+    progressBar.simulate('click', {
+      pageX: 0
+    })
+    const audio = findTestWrapper(coolPlayer, 'audio')
+    expect(audio.instance().currentTime).toBe(0)
+  })
 })

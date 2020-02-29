@@ -6,6 +6,7 @@ declare namespace coolPlayerTypes {
         volume?: number
         onVolumeChange?: (volume: number) => void
         data: IAudio[]
+        playListPlaceholder?: string
         currentAudio?: IAudio
         zIndex?: number
         onLyricMatched?: (lyric: ILyric[], currentIndex: number) => void
