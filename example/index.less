@@ -106,12 +106,24 @@ html, body {
 
 @media screen and (max-width: 780px) {
   .example {
+    .main {
+      width: 80%;
+      position: relative;
+    }
     .audio-list {
       position: absolute;
-      top: 60px;
+      top: 0;
       left: 50%;
-      margin-left: -44%;
-      width: 80%;
+      margin-left: -55%;
+      width: 100%;
+    }
+    .operation {
+      width: 100%;
+      position: absolute;
+      top: 340px;
+      .volume-control-wrapper {
+        width: 60%;
+      }
     }
   }
 }

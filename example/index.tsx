@@ -267,6 +267,7 @@ const App = () => {
             onMouseMove={slideChangeVolume}
             onMouseUp={mouseUpVolume}
             onMouseLeave={mouseLeave}
+            onClick={clickChangeVolume}
           >
             <div
               className={'volume-control'}
