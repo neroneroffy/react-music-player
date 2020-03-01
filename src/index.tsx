@@ -1010,7 +1010,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
       transitionLeaveTimeout={300}
     >
       {
-        detailVisible && <div className="cool-player-detail" data-test={'cool-player-detail'} ref={ coolPlayerDetailEl }>
+        detailVisible && <div className="cool-player-detail" data-test={'cool-player-detail-modal'} ref={ coolPlayerDetailEl }>
           <div className="cool-player-detail-music-info">
             <div className="title">{ currentMusic && currentMusic.name }</div>
             <div className="artist">{ currentMusic && currentMusic.artist }</div>
@@ -1027,6 +1027,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
             className={ classnames('cool-player-detail-lyric', {
               'cool-player-detail-lyric-full-screen': lyricFullScreen
             }) }
+            data-test={'lyric-full-screen'}
             onClick={ onLyricFullScreen }
           >
             <LyricDetail

@@ -1,6 +1,7 @@
 import * as React from 'react';
-import './index.less'
 import classnames from 'classnames';
+import { getTime } from '../../utils/index'
+import './index.less'
 import { coolPlayerTypes } from '../../types'
 
 const { useEffect, useRef, useState } = React
@@ -61,27 +62,6 @@ const LyricDetail = (props: coolPlayerTypes.lyricDetail.ILyricDetailProps) => {
     }
   }
 
-  const getTime = (musicTime: number) => {
-    let time
-    if (musicTime) {
-      if (musicTime < 60) {
-        time = `00:${musicTime < 10 ? `0${musicTime}` : musicTime}`
-      } else {
-        time = `${ parseInt(`${musicTime / 60}`, 0) < 10 ?
-          `0${parseInt(`${musicTime / 60}`, 0)}`
-          :
-          parseInt(`${musicTime / 60}`, 0)}:${musicTime % 60 < 10 ?
-          `0${musicTime % 60}`
-          :
-          musicTime % 60}`
-      }
-      return time.split('.')[0]
-
-    } else {
-      return '00:00'
-    }
-  }
-
   const playFromThisPoint = (e: React.MouseEvent) => {
     e.stopPropagation()
     if (baseLineVisible) {
@@ -100,6 +80,7 @@ const LyricDetail = (props: coolPlayerTypes.lyricDetail.ILyricDetailProps) => {
       className={ classnames('cool-lyric-content', {
         'cool-lyric-content-full-screen': lyricFullScreen
       }) }
+      data-test={'cool-lyric-content'}
       ref={lyricEl}
       onScroll={onLyricScroll}
       onTouchMove={onTouchMove}
@@ -134,11 +115,14 @@ const LyricDetail = (props: coolPlayerTypes.lyricDetail.ILyricDetailProps) => {
     </div>
   return <div className={ classnames('cool-lyric-detail', {
     'cool-lyric-detail-full-screen': lyricFullScreen
-  }) }>
+  }) }
+  data-test={'lyric-detail-wrapper'}
+  >
     <div
       className={classnames('cool-lyric-base-line-wrapper', {
         'cool-lyric-base-line-wrapper-show': baseLineVisible && lyricFullScreen
       })}
+      data-test={'base-line'}
       ref={lyricBaseLineEl}
     >
       <div className="cool-lyric-scrolled-time">

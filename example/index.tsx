@@ -250,7 +250,7 @@ const App = () => {
           })
         }
       </div>
-      <div className={'operation'}>
+      <div className={'exp-operation'}>
         <button
           onClick={onTogglePlaying}
           className={'play-control'}
