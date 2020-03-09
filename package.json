@@ -18,6 +18,7 @@
     "lint:style": "stylelint **/*.less --syntax less",
     "lint:style-fix": "stylelint **/*.less --syntax less --fix",
     "lint": "npm run lint:ts && npm run lint:style",
+    "lint-fix": "npm run lint:ts-fix && npm run lint:style-fix",
     "dev": "webpack-dev-server --progress --config configs/webpack.dev.js",
     "build": "npm run clear:dist && webpack --progress --config configs/webpack.prod.js",
     "build:demo": "npm run clear:public && webpack --progress --config configs/webpack.demo.js",
