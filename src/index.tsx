@@ -80,7 +80,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
     lyricLoading = false,
     lyricPlaceholder,
     avatarPlaceholder = <div className={'cool-player-avatar-placeholder'}></div>,
-    musicActions = [],
+    playListAudioActions = [],
     actions = [],
     playListHeader = {
       headerLeft: '播放列表',
@@ -110,8 +110,8 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
   }, [ insideCircleEl, playPercent ])
 
   useEffect(() => {
-    if (data.length && props.onMusicChange && currentMusic) {
-      props.onMusicChange(currentMusic.id, currentMusic)
+    if (data.length && props.onAudioChange && currentMusic) {
+      props.onAudioChange(currentMusic.id, currentMusic)
       if (insideCircleEl.current) {
         insideCircleEl.current.setAttribute('stroke-dasharray','0,10000');
       }
@@ -263,7 +263,6 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
         if (item && lyricList[index - 1]) {
           if (current >= item.time) {
             indexArr.push(index)
-            props.onLyricMatched(lyricList, indexArr[indexArr.length - 1])
           }
         }
       })
@@ -786,7 +785,6 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
                 <div className="cool-lyric-mini-wrapper">
                   <LyricMini
                     lyric={lyric || []}
-                    tLyric={tLyric || {}}
                     lyricIndex={lyricIndex}
                   />
                 </div>
@@ -945,7 +943,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
                               </div>
                               <div className="single-music-right">
                                 {
-                                  musicActions.length ? <div
+                                  playListAudioActions.length ? <div
                                     className={'single-music-actions'}
                                     onClick={() => {
                                       if (currentMusic.id !== v.id || !isPlayed) {
@@ -960,7 +958,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
                                       data-test={'music-actions'}
                                     >
                                       {
-                                        musicActions.map(item => item(v, currentMusic && currentMusic.id === v.id || false))
+                                        playListAudioActions.map(item => item(v, currentMusic && currentMusic.id === v.id || false))
                                       }
                                     </div>
                                   </div>

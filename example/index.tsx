@@ -114,10 +114,7 @@ const App = () => {
     setData(_data)
   }
 
-  const onLyricMatched = (lyrics: any[], currentIndex: number) => {
-
-  }
-  const onMusicChange = (id: string, currentMusic: coolPlayerTypes.IAudio) => {
+  const onAudioChange = (id: string, currentMusic: coolPlayerTypes.IAudio) => {
     setLyric('')
     setTLyric('')
     setCurrentAudio(currentMusic)
@@ -137,7 +134,7 @@ const App = () => {
         })
     }
   }
-  const musicActions = [
+  const playListAudioActions = [
     (music: any, active: boolean) => {
       return <span key={'favourite'} onClick={() => {
         console.log(music, active)
@@ -344,17 +341,16 @@ const App = () => {
         onDelete={onDelete}
         autoPlay={false}
         playing={playing}
-        onLyricMatched={onLyricMatched}
         currentAudio={currentAudio}
         data={data}
         showLyricNormal={true}
-        onMusicChange={onMusicChange}
+        onAudioChange={onAudioChange}
         onVolumeChange={onVolumeChange}
         onPlayStatusChange={onPlayStatusChange}
         lyric={lyric}
         tLyric={tLyric}
         lyricLoading={lyricLoading}
-        musicActions={musicActions}
+        playListAudioActions={playListAudioActions}
         actions={actions}
         volume={volumeValue}
         playListHeader={{

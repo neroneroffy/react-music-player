@@ -74,7 +74,7 @@ describe('cool player functional test', () => {
     const coolPlayer = mount(<CoolPlayer
       data={_data}
       currentAudio={currentAudio}
-      onMusicChange={(id, audio) => {
+      onAudioChange={(id, audio) => {
         currentMusic = audio
       }}
     />)
@@ -87,7 +87,7 @@ describe('cool player functional test', () => {
     const coolPlayer = mount(<CoolPlayer
       data={_data}
       currentAudio={currentAudio}
-      onMusicChange={(id, audio) => {
+      onAudioChange={(id, audio) => {
         currentMusic = audio
       }}
     />)
@@ -134,7 +134,7 @@ describe('cool player functional test', () => {
   test('点击播放列表中的某一首歌曲，应该播放这首歌曲，该歌曲前方的图标应变为播放中', () => {
     let audio
     const coolPlayer = mount(<CoolPlayer
-      onMusicChange={(id, music) => {
+      onAudioChange={(id, music) => {
         audio = music
       }}
       data={_data}

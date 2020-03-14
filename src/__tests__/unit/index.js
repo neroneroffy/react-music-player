@@ -27,10 +27,10 @@ describe('unit test for coolPlayer', () => {
       id: '66575568442',
     },
   ]
-  test('点击播放列表中的某一首音乐，应触发onMusicChange函数', () => {
+  test('点击播放列表中的某一首音乐，应触发onAudioChange函数', () => {
     const fn = jest.fn()
     const coolPlayer = mount(<CoolPlayer
-      onMusicChange={fn}
+      onAudioChange={fn}
       data={_data}
     />)
     const btn = findTestWrapper(coolPlayer, 'play-list-btn')
@@ -53,20 +53,20 @@ describe('unit test for coolPlayer', () => {
     iconDelete.simulate('click')
     expect(fn).toHaveBeenCalledWith(1, _data[1].id)
   })
-  test('如果传入musicActions，应该渲染出music-actions容器', () => {
-    const musicActions = [
+  test('如果传入playListAudioActions，应该渲染出music-actions容器', () => {
+    const playListAudioActions = [
       (music, active) => {
         return <span key={'favourite'}>收藏</span>
       }
     ]
     const coolPlayer = shallow(<CoolPlayer
-      musicActions={musicActions}
+      playListAudioActions={playListAudioActions}
       data={_data}
     />)
     const btn = findTestWrapper(coolPlayer, 'play-list-btn')
     btn.simulate('click')
-    const musicActionsWrapper = findTestWrapper(coolPlayer, 'music-actions')
-    expect(musicActionsWrapper).length = 1
+    const playListAudioActionsWrapper = findTestWrapper(coolPlayer, 'music-actions')
+    expect(playListAudioActionsWrapper).length = 1
   })
   test('如果传入actions，应该渲染出play-actions容器', () => {
     const actions = [

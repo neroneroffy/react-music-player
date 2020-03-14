@@ -116,11 +116,11 @@ const App = () => {
   const onLyricMatched = (lyrics, currentIndex) => {
     console.log('current lyric is: ', lyrics, 'current lyric index is: ', currentIndex)
   }
-  const onMusicChange = (id, currentMusic) => {
+  const onAudioChange = (id, currentMusic) => {
     console.log('current music is', currentMusic)
   }
 
-  const musicActions = [
+  const playListAudioActions = [
     music => {
       return <span key={'favourite'} onClick={() => {
         console.log('current music is:', music)
@@ -159,9 +159,9 @@ const App = () => {
         currentAudio={currentAudio}
         data={data}
         showLyricNormal={true}
-        onMusicChange={onMusicChange}
+        onAudioChange={onAudioChange}
         onVolumeChange={onVolumeChange}
-        musicActions={musicActions}
+        playListAudioActions={playListAudioActions}
         actions={actions}
         playListHeader={{
           headerLeft: '播放列表',
