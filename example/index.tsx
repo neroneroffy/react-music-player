@@ -128,7 +128,6 @@ const App = () => {
         })
     }
   }
-
   const musicActions = [
     (music: any, active: boolean) => {
       return <span key={'favourite'} onClick={() => {
@@ -181,6 +180,9 @@ const App = () => {
   const playThis = (index: number) => {
     setCurrentAudio(dataExternal[index])
     setPlaying(true)
+  }
+  const onPlayStatusChange = (_currentAudio: coolPlayerTypes.IAudio, isPlaying: boolean) => {
+    setPlaying(isPlaying)
   }
   const onTogglePlaying = () => {
     setPlaying(!playing)
@@ -304,6 +306,7 @@ const App = () => {
         showLyricNormal={true}
         onMusicChange={onMusicChange}
         onVolumeChange={onVolumeChange}
+        onPlayStatusChange={onPlayStatusChange}
         lyric={lyric}
         tLyric={tLyric}
         lyricLoading={lyricLoading}

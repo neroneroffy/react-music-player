@@ -86,6 +86,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
       headerLeft: '播放列表',
       headerRight: '',
     },
+    onPlayStatusChange,
     autoPlay = false,
     onModeChange,
     onVolumeChange,
@@ -310,9 +311,15 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
     if (!data.length) { return }
     setPaused(false)
     setIsPlayed(true)
+    if (onPlayStatusChange) {
+      onPlayStatusChange(currentMusic, true)
+    }
   }, [])
   const pause = () => {
     setPaused(true)
+    if (onPlayStatusChange) {
+      onPlayStatusChange(currentMusic, false)
+    }
   }
   const last = () => {
     setAngle(0)
@@ -517,7 +524,6 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
     }
     props.onDelete(i, id)
   }
-
   const playMode = () => {
     let currentMode = mode
     switch (mode){

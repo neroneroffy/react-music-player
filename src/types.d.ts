@@ -14,6 +14,7 @@ declare namespace coolPlayerTypes {
         showLyricMini?: boolean
         onMusicChange?: (id: string, currentMusic: IAudio) => void
         onModeChange?: (currentMode: number, prevMode: number) => void
+        onPlayStatusChange?: (currentMusic: IAudio, isPlaying: boolean) => void
         lyric?: string
         tLyric?: string
         lyricLoading?: boolean
