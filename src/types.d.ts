@@ -13,7 +13,7 @@ declare namespace coolPlayerTypes {
         showLyricNormal?: boolean
         showLyricMini?: boolean
         onMusicChange?: (id: string, currentMusic: IAudio) => void
-        onModeChange?: (currentMode: number, prevMode: number) => void
+        onModeChange?: (currentMode: string, prevMode: string) => void
         onPlayStatusChange?: (currentMusic: IAudio, isPlaying: boolean) => void
         lyric?: string
         tLyric?: string
@@ -43,11 +43,6 @@ declare namespace coolPlayerTypes {
     interface ITLyric {
       [ key: number ]: string
       [ key: string ]: string
-    }
-    enum PlayMode {
-        Order = 1,
-        Random = 2,
-        Loop = 3
     }
     namespace lyricDetail {
         interface ILyricDetailProps {

@@ -117,8 +117,8 @@ const App = () => {
       fetch(`/api/lyric/${id}`)
         .then(res => res.json())
         .then(res => {
-          if (res.result) {
-            setLyricLoading(false)
+          setLyricLoading(false)
+          if (res.result && res.data) {
             const { lyric, tLyric } = res.data
             setLyric(lyric)
             if (tLyric) {
