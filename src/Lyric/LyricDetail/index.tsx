@@ -31,9 +31,6 @@ const LyricDetail = (props: coolPlayerTypes.lyricDetail.ILyricDetailProps) => {
     if (lyricEl.current && lyricBaseLineEl.current && lyricItemEl.current) {
       if (loose) {
         let lyricYPosition = (lyricIndex + 1 + 0.5) * lyricItemEl.current.offsetHeight
-        if (tLyricReceived) {
-          lyricYPosition = (lyricIndex + 1 + 0.5) * lyricItemEl.current.offsetHeight
-        }
         lyricEl.current.scrollTo(0, lyricYPosition)
       }
     }

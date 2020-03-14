@@ -94,6 +94,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
     playing = true,
     volume = 0.5,
     playListPlaceholder = 'No data',
+    showPlayDetail = true,
   } = props
 
   let lyricList: coolPlayerTypes.ILyric[] = getLyric(currentMusic && currentMusic.lyric || lyricFromProps)
@@ -705,7 +706,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
           })}>
             <div
               className="picture"
-              onClick={ onShowDetail }
+              onClick={ showPlayDetail ? onShowDetail : () => null }
               data-test={'detail-show'}
             >
               <svg

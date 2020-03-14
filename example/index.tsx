@@ -365,6 +365,7 @@ const App = () => {
           console.log('currentMode:', currentMode, 'prevMode:', prevMode)
           setCurrentPlayMode(currentMode)
         }}
+        showPlayDetail={true}
         playMode={playMode}
       />
     </div>

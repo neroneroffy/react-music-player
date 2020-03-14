@@ -3,6 +3,7 @@ declare namespace coolPlayerTypes {
     interface IPlayerProps {
         autoPlay?: boolean
         playing?: boolean
+        showPlayDetail?: boolean
         onDelete?: (index: number, id: string) => void
         volume?: number
         onVolumeChange?: (volume: number) => void
