@@ -1,6 +1,12 @@
 type PlayMode = 'order' | 'random' | 'loop'
 declare namespace coolPlayerTypes {
   interface IPlayerProps {
+    /*播放列表的音频数据*/
+    data: IAudio[]
+    /*播放列表为空时候的占位文字*/
+    playListPlaceholder?: string
+    /*需要播放的音频，可以控制当前播放器的音频，若不传，播放器内待播放的音频默认为播放列表第一个音频*/
+    currentAudio?: IAudio
     /*组件在渲染时是否自动播放*/
     autoPlay?: boolean
     /*控制组件播放状态，true播放，false暂停*/
@@ -13,12 +19,6 @@ declare namespace coolPlayerTypes {
     volume?: number
     /*组件内部音量变化时的回调函数*/
     onVolumeChange?: (volume: number) => void
-    /*播放列表的音频数据*/
-    data: IAudio[]
-    /*播放列表为空时候的占位文字*/
-    playListPlaceholder?: string
-    /*需要播放的音频，可以控制当前播放器的音频，若不传，播放器内待播放的音频默认为播放列表第一个音频*/
-    currentAudio?: IAudio
     /*播放器整体容器的z-index值*/
     zIndex?: number
     /*在非移动端状态下是否展示歌词*/
@@ -41,6 +41,8 @@ declare namespace coolPlayerTypes {
     lyricLoading?: boolean
     /*歌词组件为空时的占位元素*/
     lyricPlaceholder?: React.ReactNode | string
+    /*移动端状态下，播放详情中是否需要通过手动滚动歌词调整播放进度*/
+    showProgressControlByLyricScroll?: boolean
     /*歌曲图片为空时歌曲图标的占位元素*/
     avatarPlaceholder?: React.ReactNode
     /*非移动端状态下，展示在播放器内部的操作组，在播放模式按钮与音量控制按钮之间*/
@@ -98,6 +100,8 @@ declare namespace coolPlayerTypes {
       lyricPlaceholder: React.ReactElement | React.ReactNode | string
       /*滚动歌词时，点击播放按钮触发的回调函数，可以在函数中设置播放进度*/
       onSetProgressWithScroll: (time: number) => void
+      /*是否需要通过手动滚动歌词调整播放进度*/
+      showProgressControlByLyricScroll?: boolean
     }
   }
   namespace lyricMini {

@@ -16,6 +16,7 @@ const LyricDetail = (props: coolPlayerTypes.lyricDetail.ILyricDetailProps) => {
     lyricPlaceholder =  'No lyrics',
     lyricFullScreen,
     onSetProgressWithScroll,
+    showProgressControlByLyricScroll,
   } = props
   const artist = info ? info.artist : ''
   const name = info ? info.name : ''
@@ -37,6 +38,9 @@ const LyricDetail = (props: coolPlayerTypes.lyricDetail.ILyricDetailProps) => {
   }, [loose, lyricIndex])
 
   const onLyricScroll = () => {
+    if (!showProgressControlByLyricScroll) {
+      return
+    }
     clearTimeout(looseTimeout)
     clearTimeout(baseLineTimeout)
     setLoose(false)
@@ -73,6 +77,9 @@ const LyricDetail = (props: coolPlayerTypes.lyricDetail.ILyricDetailProps) => {
 
   const onTouchMove = () => {
     if (lyricFullScreen) {
+      if (!showProgressControlByLyricScroll) {
+        return
+      }
       setBaseLineVisible(true)
     }
   }

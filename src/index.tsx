@@ -95,6 +95,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
     volume = 0.5,
     playListPlaceholder = 'No data',
     showPlayDetail = true,
+    showProgressControlByLyricScroll = true
   } = props
 
   let lyricList: coolPlayerTypes.ILyric[] = getLyric(currentMusic && currentMusic.lyric || lyricFromProps)
@@ -1062,6 +1063,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
               lyricPlaceholder={ lyricPlaceholder }
               lyricFullScreen={ lyricFullScreen }
               onSetProgressWithScroll={ onSetProgressWithScroll }
+              showProgressControlByLyricScroll={showProgressControlByLyricScroll}
             />
           </div>
           <div className="cool-player-detail-panel">
