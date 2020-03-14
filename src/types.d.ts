@@ -1,3 +1,4 @@
+type PlayMode = 'order' | 'random' | 'loop'
 declare namespace coolPlayerTypes {
     interface IPlayerProps {
         autoPlay?: boolean
@@ -13,8 +14,9 @@ declare namespace coolPlayerTypes {
         showLyricNormal?: boolean
         showLyricMini?: boolean
         onMusicChange?: (id: string, currentMusic: IAudio) => void
-        onModeChange?: (currentMode: string, prevMode: string) => void
         onPlayStatusChange?: (currentMusic: IAudio, isPlaying: boolean) => void
+        onModeChange?: (currentMode: PlayMode, prevMode: PlayMode) => void
+        playMode?: PlayMode
         lyric?: string
         tLyric?: string
         lyricLoading?: boolean

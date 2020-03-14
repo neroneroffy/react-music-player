@@ -4,6 +4,13 @@ import './index.less'
 import CoolPlayer from '../src/index'
 import { coolPlayerTypes } from '../src/types'
 const { useState, useEffect, useRef } = React
+type PlayModeTypes = 'order' | 'random' | 'loop'
+enum PlayMode {
+  Order = 'order',
+  Random = 'random',
+  Loop = 'loop'
+}
+
 const App = () => {
   const [ data, setData ] = useState([
     {
@@ -91,6 +98,8 @@ const App = () => {
   const [ volumeLeft, setVolumeLeft ] = useState<number>(0)
   const [ volumeValue, setVolumeValue ] = useState<number>(0.4)
   const [ mouseDown, setMouseDown ] = useState<boolean>(false)
+  const [ playMode, setPlayMode ] = useState<PlayModeTypes>('random')
+  const [ currentPlayMode, setCurrentPlayMode ] = useState<PlayModeTypes>('random')
   const totalVolumeEl = useRef(null)
   const volumeProgressEl = useRef(null)
   useEffect(() => {
@@ -184,6 +193,18 @@ const App = () => {
   const onPlayStatusChange = (_currentAudio: coolPlayerTypes.IAudio, isPlaying: boolean) => {
     setPlaying(isPlaying)
   }
+  const onPlayModeControl = () => {
+    switch (currentPlayMode){
+      case PlayMode.Order:
+        setPlayMode(PlayMode.Random)
+        break;
+      case PlayMode.Random:
+        setPlayMode(PlayMode.Loop)
+        break;
+      case PlayMode.Loop:
+        setPlayMode(PlayMode.Order)
+    }
+  }
   const onTogglePlaying = () => {
     setPlaying(!playing)
   }
@@ -258,40 +279,57 @@ const App = () => {
         }
       </div>
       <div className={'exp-operation'}>
-        <button
-          onClick={onTogglePlaying}
-          className={'play-control'}
-        >
-          {
-            playing ? 'Pause' : 'Play'
-          }
-        </button>
-        <div
-          className="volume-control-wrapper"
-          onTouchMove={moveVolume}
-          onTouchStart={startMoveVolume}
-          onMouseDown={mouseDownVolume}
-          onMouseMove={slideChangeVolume}
-          onMouseUp={mouseUpVolume}
-          onMouseLeave={mouseLeave}
-          onClick={clickChangeVolume}
-        >
-          <div
-            className={'volume-control'}
-            ref={totalVolumeEl}
-            onClick={clickChangeVolume}
-          >
+        <div className="control">
+          <div className={'title'}>Play control</div>
+          <div className={'content'}>
+            <button onClick={onTogglePlaying}>
+              { playing ? 'Pause' : 'Play' }
+            </button>
+          </div>
+        </div>
+        <div className={'control'}>
+          <div className={'title'}>Play mode control</div>
+          <div className={'content'}>
+            <button
+              onClick={onPlayModeControl}
+              className={'play-mode-control'}
+            >
+              { currentPlayMode }
+            </button>
+          </div>
+        </div>
+        <div className={'control'}>
+          <div className={'title'}>Volume control</div>
+          <div className={'content'}>
             <div
-              className="volume-slider"
-              style={{ background: '#017fff' }}
-              ref={volumeProgressEl}
+                className="volume-control-wrapper"
+                onTouchMove={moveVolume}
+                onTouchStart={startMoveVolume}
+                onMouseDown={mouseDownVolume}
+                onMouseMove={slideChangeVolume}
+                onMouseUp={mouseUpVolume}
+                onMouseLeave={mouseLeave}
+                onClick={clickChangeVolume}
             >
               <div
-                  className='volume-dot'
-              ></div>
+                className={'volume-control'}
+                ref={totalVolumeEl}
+                onClick={clickChangeVolume}
+              >
+                <div
+                  className="volume-slider"
+                  style={{ background: '#017fff' }}
+                  ref={volumeProgressEl}
+                >
+                  <div
+                    className='volume-dot'
+                  ></div>
+                </div>
+              </div>
             </div>
           </div>
-          </div>
+
+        </div>
         </div>
     </div>
     <div className={'wrapper'}>
@@ -318,8 +356,10 @@ const App = () => {
           headerRight: '清除全部'
         }}
         onModeChange={(currentMode, prevMode) => {
-          console.log(currentMode, prevMode)
+          console.log('currentMode:', currentMode, 'prevMode:', prevMode)
+          setCurrentPlayMode(currentMode)
         }}
+        playMode={playMode}
       />
     </div>
   </div>

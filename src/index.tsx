@@ -16,7 +16,7 @@ enum PlayMode {
     Random = 'random',
     Loop = 'loop'
 }
-
+type PlayModeTypes = 'order' | 'random' | 'loop'
 const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
   const { data, currentAudio } = props
   const initialMusic = {
@@ -67,7 +67,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
   const [ lyricIndex, setLyricIndex ] = useState<number>(-1)
   const [ isMute, setIsMute ] = useState<boolean>(false)
   const [ detailVisible, setDetailVisible ] = useState<boolean>(false)
-  const [ mode, setMode ] = useState<string>(PlayMode.Order)
+  const [ mode, setMode ] = useState<PlayModeTypes>(PlayMode.Order)
   const [ lyricFullScreen, setLyricFullScreen ] = useState<boolean>(false)
   const [ playedWidth, setPlayedWidth ] = useState<number>(0)
   const [ bufferedWidth, setBufferedWidth ] = useState<number>(0)
@@ -89,6 +89,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
     onPlayStatusChange,
     autoPlay = false,
     onModeChange,
+    playMode: playModeFromProps = PlayMode.Order,
     onVolumeChange,
     playing = true,
     volume = 0.5,
@@ -233,7 +234,12 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
   useEffect(() => {
     setVolume(0, volume)
   }, [volume])
-  
+
+  useEffect(() => {
+    setMode(playModeFromProps)
+    playMode()
+  }, [playModeFromProps])
+
   const setInitialTotalTime = () => {
     // 获取总时间
     const musicTotalTime = parseInt(audioEl.current.duration, 0);
