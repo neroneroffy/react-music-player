@@ -98,8 +98,8 @@ const App = () => {
   const [ volumeLeft, setVolumeLeft ] = useState<number>(0)
   const [ volumeValue, setVolumeValue ] = useState<number>(0.4)
   const [ mouseDown, setMouseDown ] = useState<boolean>(false)
-  const [ playMode, setPlayMode ] = useState<PlayModeTypes>('random')
-  const [ currentPlayMode, setCurrentPlayMode ] = useState<PlayModeTypes>('random')
+  const [ playMode, setPlayMode ] = useState<PlayModeTypes>(PlayMode.Order)
+  const [ currentPlayMode, setCurrentPlayMode ] = useState<PlayModeTypes>(PlayMode.Order)
   const totalVolumeEl = useRef(null)
   const volumeProgressEl = useRef(null)
   useEffect(() => {
@@ -249,6 +249,13 @@ const App = () => {
       setVolume(0, volume)
     }
   }
+
+  const onClearPlayList = () => {
+    const sure = confirm('Are you sure to delete all songs?')
+    if (sure) {
+      setData([])
+    }
+  }
   return <div className={'example'}>
     <div className={'main'}>
       <div className={'audio-list'}>
@@ -328,13 +335,12 @@ const App = () => {
               </div>
             </div>
           </div>
-
         </div>
         </div>
     </div>
     <div className={'wrapper'}>
       <CoolPlayer
-        playListPlaceholder={'还没有歌曲哦~'}
+        playListPlaceholder={'No Data'}
         onDelete={onDelete}
         autoPlay={false}
         playing={playing}
@@ -352,8 +358,8 @@ const App = () => {
         actions={actions}
         volume={volumeValue}
         playListHeader={{
-          headerLeft: '播放列表',
-          headerRight: '清除全部'
+          headerLeft: 'Play List',
+          headerRight: <span onClick={onClearPlayList} className={'clear-play-list'}>Clear All</span>
         }}
         onModeChange={(currentMode, prevMode) => {
           console.log('currentMode:', currentMode, 'prevMode:', prevMode)

@@ -13,7 +13,7 @@ const LyricDetail = (props: coolPlayerTypes.lyricDetail.ILyricDetailProps) => {
     lyricIndex,
     info,
     loading,
-    lyricPlaceholder =  '纯音乐，请欣赏',
+    lyricPlaceholder =  'No lyrics',
     lyricFullScreen,
     onSetProgressWithScroll,
   } = props
