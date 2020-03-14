@@ -15,6 +15,7 @@ declare namespace coolPlayerTypes {
         onMusicChange?: (id: string, currentMusic: IAudio) => void
         onModeChange?: (currentMode: number, prevMode: number) => void
         lyric?: string
+        tLyric?: string
         lyricLoading?: boolean
         lyricPlaceholder?: React.ReactNode | string
         avatarPlaceholder?: React.ReactNode
@@ -32,10 +33,15 @@ declare namespace coolPlayerTypes {
         img: string
         id: string
         lyric?: string
+        tLyric?: string
     }
     interface ILyric {
         time: number | string
         lyric: string
+    }
+    interface ITLyric {
+      [ key: number ]: string
+      [ key: string ]: string
     }
     enum PlayMode {
         Order = 1,
@@ -45,6 +51,7 @@ declare namespace coolPlayerTypes {
     namespace lyricDetail {
         interface ILyricDetailProps {
             lyric: ILyric[]
+            tLyric?: ITLyric
             lyricIndex: number
             info: IAudio
             loading: boolean
@@ -56,12 +63,14 @@ declare namespace coolPlayerTypes {
     namespace lyricMini {
         interface ILyricMiniProps {
             lyric: ILyric[]
+            tLyric?: ITLyric
             lyricIndex: number
         }
     }
     namespace lyricNormal {
         interface ILyricNormalProps {
             lyric: ILyric[]
+            tLyric?: ITLyric
             lyricIndex: number
             info: IAudio
             loading: boolean

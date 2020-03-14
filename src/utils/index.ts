@@ -26,6 +26,14 @@ export const getLyric = (lyric: string): coolPlayerTypes.ILyric[] => {
   return lyricList
 }
 
+export const getTLyric = (tLyric: string) => {
+  const tLyricList = getLyric(tLyric)
+
+  return tLyricList.reduce((prev, current) => {
+    return { ...prev, ...{ [current.time]: current.lyric } }
+  }, {})
+}
+
 export const fixedBody = () => {
   let scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
   document.body.style.cssText += `position:fixed;top:-${scrollTop}px;width:100%;overflow:hidden`;

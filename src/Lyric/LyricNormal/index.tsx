@@ -7,6 +7,7 @@ const { useEffect, useRef } = React
 
 const LyricNormal = (props: coolPlayerTypes.lyricNormal.ILyricNormalProps) => {
   const { lyric,
+    tLyric,
     lyricIndex,
     info,
     loading,
@@ -23,19 +24,32 @@ const LyricNormal = (props: coolPlayerTypes.lyricNormal.ILyricNormalProps) => {
       }
     }
   }, [lyricIndex])
-
   const content = lyric.length ?
     <ul className={'cool-lyric-content'} ref={lyricEl}>
       {
-        lyric.map((v, i) => {
-          return <li
-            key={v.time}
-            ref={lyricItemEl}
-            className={classnames('lyric-item-normal', {
-              ['current-lyric']: i === lyricIndex,
-            })}
-          >{v.lyric}</li>
-        })
+        Object.keys(tLyric).length ?
+          lyric.map((v, i) => {
+            return <li
+              key={v.time}
+              ref={lyricItemEl}
+              className={classnames('lyric-item-normal t-lyric-item-normal', {
+                ['current-lyric']: i === lyricIndex,
+              })}
+            >
+              <div>{v.lyric}</div>
+              <div>{tLyric[v.time]}</div>
+            </li>
+          })
+          :
+          lyric.map((v, i) => {
+            return <li
+              key={v.time}
+              ref={lyricItemEl}
+              className={classnames('lyric-item-normal', {
+                ['current-lyric']: i === lyricIndex,
+              })}
+            >{v.lyric}</li>
+          })
       }
       <li className={'lyric-item-normal-bottom'}></li>
 

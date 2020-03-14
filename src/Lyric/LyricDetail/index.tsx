@@ -9,6 +9,7 @@ let looseTimeout: NodeJS.Timeout
 let baseLineTimeout: NodeJS.Timeout
 const LyricDetail = (props: coolPlayerTypes.lyricDetail.ILyricDetailProps) => {
   const { lyric,
+    tLyric,
     lyricIndex,
     info,
     loading,
@@ -25,13 +26,15 @@ const LyricDetail = (props: coolPlayerTypes.lyricDetail.ILyricDetailProps) => {
   const [ baseLineVisible, setBaseLineVisible ] = useState<boolean>(false)
   const [ scrolledTime, setScrolledTime ] = useState<number | string>(0)
   const [ lyricIndexStandby, setLyricIndexStandby ] = useState<number>(-1)
-  useEffect(() => {
-
-  })
+  const tLyricReceived = Object.keys(tLyric).length
   useEffect(() => {
     if (lyricEl.current && lyricBaseLineEl.current && lyricItemEl.current) {
       if (loose) {
-        lyricEl.current.scrollTo(0, (lyricIndex + 1 + 0.5) * lyricItemEl.current.offsetHeight)
+        let lyricYPosition = (lyricIndex + 1 + 0.5) * lyricItemEl.current.offsetHeight
+        if (tLyricReceived) {
+          lyricYPosition = (lyricIndex + 1 + 0.5) * lyricItemEl.current.offsetHeight
+        }
+        lyricEl.current.scrollTo(0, lyricYPosition)
       }
     }
   }, [loose, lyricIndex])
@@ -65,6 +68,7 @@ const LyricDetail = (props: coolPlayerTypes.lyricDetail.ILyricDetailProps) => {
   const playFromThisPoint = (e: React.MouseEvent) => {
     e.stopPropagation()
     if (baseLineVisible) {
+      setLoose(true)
       setBaseLineVisible(false)
       onSetProgressWithScroll(Number(scrolledTime))
     }
@@ -85,18 +89,35 @@ const LyricDetail = (props: coolPlayerTypes.lyricDetail.ILyricDetailProps) => {
       onScroll={onLyricScroll}
       onTouchMove={onTouchMove}
     >
-      <li className={'lyric-item'} ref={lyricItemEl}></li>
+      <li className={classnames('lyric-item', {
+        't-lyric-item': tLyricReceived
+      })} ref={lyricItemEl}></li>
       {
-        lyric.map((v, i) => {
-          return <li
-            key={v.time}
-            className={classnames('lyric-item', {
-              ['current-lyric']: i === lyricIndex,
-              ['current-lyric-standby']: i === lyricIndexStandby,
-              ['current-lyric-overflow']: v.lyric.length > 80
-            })}
-          >{v.lyric}</li>
-        })
+        tLyricReceived ?
+          lyric.map((v, i) => {
+            return <li
+              key={v.time}
+              className={classnames('lyric-item t-lyric-item', {
+                ['current-lyric']: i === lyricIndex,
+                ['current-lyric-standby']: i === lyricIndexStandby,
+                ['current-lyric-overflow']: v.lyric.length > 80
+              })}
+            >
+              <div>{v.lyric}</div>
+              <div>{tLyric[v.time]}</div>
+            </li>
+          })
+          :
+          lyric.map((v, i) => {
+            return <li
+              key={v.time}
+              className={classnames('lyric-item', {
+                ['current-lyric']: i === lyricIndex,
+                ['current-lyric-standby']: i === lyricIndexStandby,
+                ['current-lyric-overflow']: v.lyric.length > 80
+              })}
+            >{v.lyric}</li>
+          })
       }
       <li className={'lyric-item'}></li>
       <li className={'lyric-item'}></li>

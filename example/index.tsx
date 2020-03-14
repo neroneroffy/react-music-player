@@ -73,7 +73,6 @@ const App = () => {
       name: 'Lollipop',
       img: 'http://neroht.com/mika.jpg',
       id: '66575568425354321',
-      lyric: "[00:00.425] 作词:Mika\n[00:00.850] 作曲:Mika\n[00:00.860]What's the big idea\n[00:03.230]Yo, Mika\n[00:04.440]\n[00:09.500]\n[00:10.680]I said sucking to hard on your lollipop\n[00:13.530]Oh, loves gonna get you down\n[00:15.550]I said sucking to hard on your lollipop\n[00:18.220]Oh, loves gonna get you down\n[00:20.880]Sucking to hard on your lollipop\n[00:23.600]Loves gonna get you down\n[00:25.860]Sucking to hard on your lollipop\n[00:28.490]Loves gonna get you down\n[00:30.560]Say love, say love\n[00:33.500]Loves gonna get you down\n[00:35.590]Say love, say love\n[00:38.100]Loves gonna get you down\n[00:40.370]I went walking with my momma one day\n[00:42.890]When she warn me what people say\n[00:45.360]Live your life until love is found\n[00:48.100]'Cos loves gonna get you down\n[00:50.370]Take a look at the girl next door\n[00:52.880]She's a player and a downright bore\n[00:55.370]She's a slowzer, she wants more\n[00:58.600]Oh,bad girls get you down\n[01:00.370]Sing it\n[01:00.950]Sucking to hard on your lollipop\n[01:03.570]Oh, loves gonna get you down\n[01:05.850]Sucking to hard on your lollipop\n[01:08.500]Oh, loves gonna get you down\n[01:10.590]Say love, say love\n[01:13.170]Oh, loves gonna get you down\n[01:15.550]Say love, say love\n[01:18.130]Oh, loves gonna get you down\n[01:20.420]Mama told me what I should know\n[01:22.830]Too much candy gonna rot your soul\n[01:25.289]If she loves you let her go\n[01:28.190]'Cos love only gets you down\n[01:30.380]Take a look at a boy like me\n[01:32.680]Never stood on my own two feet\n[01:35.360]now I'm blue, as I can be\n[01:37.870]Oh, love only got me down\n[01:40.320]Sing it\n[01:41.390]Sucking to hard on your lollipop\n[01:43.600]Oh, loves gonna get you down\n[01:45.830]Sucking to hard on your lollipop\n[01:48.500]Oh, loves gonna get you down\n[01:50.550]Say love, say love\n[01:53.600]Oh loves gonna get you down\n[01:55.570]Say love, say love\n[01:58.190]Oh loves gonna get you down\n[02:00.610]I was walking with my momma one day\n[02:02.900]When she told me what people say\n[02:05.320]Live your life until love is found\n[02:08.110]Or loves gonna get you down\n[02:10.240]Sing it\n[02:11.120]Sucking to hard on your lollipop\n[02:13.460]Loves gonna get you down\n[02:15.720]Sucking to hard on your lollipop\n[02:18.430]Oh, loves gonna get you down\n[02:20.610]Say love, say love\n[02:23.160]Oh, loves gonna get you down\n[02:25.650]Say love, say love\n[02:28.130]Oh, loves gonna get you down\n[02:30.300]Mama told me what I should know\n[02:32.810]Too much cand gonna rot your soul\n[02:35.320]If she loves you let her go\n[02:38.230]'Cos love only gets you down\n[02:41.200]\n[02:49.740]\n[02:50.920]Sucking to hard on your lollipop\n[02:53.430]loves gonna get you down\n[02:55.680]Sucking to hard on your lollipop\n[02:58.410]loves gonna get you down\n[03:01.270]\n"
     },
     {
       src: 'http://neroht.com/Shayne Ward - Breathless.mp3',
@@ -81,11 +80,12 @@ const App = () => {
       name: 'Breathless',
       img: 'http://neroht.com/shayneWard.jpg',
       id: '66575568425467865',
-      lyric: "[by:青烟x]\n[ti:Breathless]\n[ar:Shayne Ward]\n[al:Breathless]\n[by:青烟]\n[00:00.000] 作词 : BIRGISSON, ARNTHOR/KOTECHA, SAVAN/YACOUB, RAMI\n[00:09.00]If our love was a fairy tale\n[00:13.04]I would charge in and rescue you\n[00:16.95]On a yacht baby we would sail\n[00:20.77]To an island where we'd say I do\n[00:24.52]And if we had babies they would look like you\n[00:28.44]It'd be so beautiful if that came true\n[00:32.34]You don't even know how very special you are\n[00:36.66]Chorus\n[00:37.96]You leave me breathless\n[00:42.55]You're everything good in my life\n[00:45.55]You leave me breathless\n[00:50.20]I still can't believe that you're mine\n[00:53.74]You just walked out of one of my dreams\n[00:57.83]So beautiful you're leaving me\n[01:02.11]Breathless\n[01:07.00]And if our love was a story book\n[01:11.15]We would meet on the very first page\n[01:15.01]The last chapter would be about\n[01:18.45]How I'm thankful for the life we've made\n[01:22.61]And if we had babies they would have your eyes\n[01:26.66]I would fall deeper watching you give life\n[01:30.46]You don't even know how very special you are\n[01:35.90]You leave me breathless\n[01:40.88]You're everything good in my life\n[01:43.89]You leave me breathless\n[01:48.46]I still can't believe that you're mine\n[01:51.69]You just walked out of one of my dreams\n[01:55.87]So beautiful you're leaving me\n[02:00.32]You must have been sent from heaven to earth to change me\n[02:06.38]You're like an angel\n[02:08.42]The thing that I feel is stronger than love believe me\n[02:13.84]You're something special\n[02:16.03]I only hope that I'll one day deserve what you've given me\n[02:21.49]But all I can do is try\n[02:26.00]Every day of my life\n[02:33.86]You leave me breathless\n[02:38.66]You're everything good in my life\n[02:41.93]You leave me breathless\n[02:46.47]I still can't believe that you're mine\n[02:49.78]You just walked out of one of my dreams\n[02:53.99]So beautiful you're leaving me\n[02:58.21]Breathless\n[03:02.19]You're everything good in my life\n[03:05.23]You leave me breathless\n[03:09.72]I still can't believe that you're mine\n[03:12.96]You just walked out of one of my dreams\n[03:17.44]So beautiful you're leaving me\n[03:21.37]Breathless\n"
+      lyric: "[by:青烟x]\n[ti:Breathless]\n[ar:Shayne Ward]\n[al:Breathless]\n[by:青烟]\n[00:00.000] 作词 : BIRGISSON, ARNTHOR/KOTECHA, SAVAN/YACOUB, RAMI\n[00:09.00]If our love was a fairy tale\n[00:13.04]I would charge in and rescue you\n[00:16.95]On a yacht baby we would sail\n[00:20.77]To an island where we'd say I do\n[00:24.52]And if we had babies they would look like you\n[00:28.44]It'd be so beautiful if that came true\n[00:32.34]You don't even know how very special you are\n[00:36.66]Chorus\n[00:37.96]You leave me breathless\n[00:42.55]You're everything good in my life\n[00:45.55]You leave me breathless\n[00:50.20]I still can't believe that you're mine\n[00:53.74]You just walked out of one of my dreams\n[00:57.83]So beautiful you're leaving me\n[01:02.11]Breathless\n[01:07.00]And if our love was a story book\n[01:11.15]We would meet on the very first page\n[01:15.01]The last chapter would be about\n[01:18.45]How I'm thankful for the life we've made\n[01:22.61]And if we had babies they would have your eyes\n[01:26.66]I would fall deeper watching you give life\n[01:30.46]You don't even know how very special you are\n[01:35.90]You leave me breathless\n[01:40.88]You're everything good in my life\n[01:43.89]You leave me breathless\n[01:48.46]I still can't believe that you're mine\n[01:51.69]You just walked out of one of my dreams\n[01:55.87]So beautiful you're leaving me\n[02:00.32]You must have been sent from heaven to earth to change me\n[02:06.38]You're like an angel\n[02:08.42]The thing that I feel is stronger than love believe me\n[02:13.84]You're something special\n[02:16.03]I only hope that I'll one day deserve what you've given me\n[02:21.49]But all I can do is try\n[02:26.00]Every day of my life\n[02:33.86]You leave me breathless\n[02:38.66]You're everything good in my life\n[02:41.93]You leave me breathless\n[02:46.47]I still can't believe that you're mine\n[02:49.78]You just walked out of one of my dreams\n[02:53.99]So beautiful you're leaving me\n[02:58.21]Breathless\n[03:02.19]You're everything good in my life\n[03:05.23]You leave me breathless\n[03:09.72]I still can't believe that you're mine\n[03:12.96]You just walked out of one of my dreams\n[03:17.44]So beautiful you're leaving me\n[03:21.37]Breathless\n",
     },
   ])
   const [ currentAudio, setCurrentAudio ] = useState(null)
   const [ lyric, setLyric ] = useState<string>('')
+  const [ tLyric, setTLyric ] = useState<string>('')
   const [ lyricLoading, setLyricLoading ] = useState<boolean>(false)
   const [ playing, setPlaying ] = useState<boolean>(false)
   const [ volumeLeft, setVolumeLeft ] = useState<number>(0)
@@ -110,6 +110,7 @@ const App = () => {
   }
   const onMusicChange = (id: string, currentMusic: coolPlayerTypes.IAudio) => {
     setLyric('')
+    setTLyric('')
     setCurrentAudio(currentMusic)
     if (!currentMusic.lyric) {
       setLyricLoading(true)
@@ -118,7 +119,11 @@ const App = () => {
         .then(res => {
           if (res.result) {
             setLyricLoading(false)
-            setLyric(res.data)
+            const { lyric, tLyric } = res.data
+            setLyric(lyric)
+            if (tLyric) {
+              setTLyric(tLyric)
+            }
           }
         })
     }
@@ -300,6 +305,7 @@ const App = () => {
         onMusicChange={onMusicChange}
         onVolumeChange={onVolumeChange}
         lyric={lyric}
+        tLyric={tLyric}
         lyricLoading={lyricLoading}
         musicActions={musicActions}
         actions={actions}

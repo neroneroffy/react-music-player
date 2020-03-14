@@ -1,6 +1,6 @@
 import * as React from 'react'
 import './index.less'
-import { getLyric, getTime, fixedBody, looseBody } from './utils'
+import { getLyric, getTLyric, getTime, fixedBody, looseBody } from './utils'
 import LyricNormal from './Lyric/LyricNormal/index'
 import LyricMini from './Lyric/LyricMini/index'
 import LyricDetail from './Lyric/LyricDetail/index'
@@ -63,6 +63,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
   const [ currentMusic, setCurrentMusic ] = useState<coolPlayerTypes.IAudio>(data[0] || initialMusic)
   const [ isPlayed, setIsPlayed ] = useState<boolean>(false)
   const [ lyric, setLyric ] = useState<coolPlayerTypes.ILyric[]>([])
+  const [ tLyric, setTLyric ] = useState<coolPlayerTypes.ITLyric>({})
   const [ lyricIndex, setLyricIndex ] = useState<number>(-1)
   const [ isMute, setIsMute ] = useState<boolean>(false)
   const [ detailVisible, setDetailVisible ] = useState<boolean>(false)
@@ -75,6 +76,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
   const { showLyricNormal = true,
     showLyricMini = true,
     lyric: lyricFromProps = '',
+    tLyric: tLyricFromProps = '',
     lyricLoading = false,
     lyricPlaceholder,
     avatarPlaceholder = <div className={'cool-player-avatar-placeholder'}></div>,
@@ -93,6 +95,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
   } = props
 
   let lyricList: coolPlayerTypes.ILyric[] = getLyric(currentMusic && currentMusic.lyric || lyricFromProps)
+  let tLyricList: {} = getTLyric(currentMusic && currentMusic.tLyric || tLyricFromProps)
   let indexArr: number[] = []
 
   useEffect(() => {
@@ -216,13 +219,15 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
   useEffect(() => {
     const audio = audioEl.current
     lyricList = getLyric(currentMusic && currentMusic.lyric || lyricFromProps)
+    tLyricList = getTLyric(currentMusic && currentMusic.tLyric || tLyricFromProps)
     indexArr = []
     setLyric(lyricList)
+    setTLyric(tLyricList)
     audio.addEventListener('timeupdate', setLyricHighLight)
     return () => {
       audioEl.current.removeEventListener('timeupdate', setLyricHighLight)
     }
-  }, [currentMusic, lyricFromProps])
+  }, [currentMusic, lyricFromProps, tLyricFromProps])
 
   useEffect(() => {
     setVolume(0, volume)
@@ -506,6 +511,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
         setCurrentMusic(invalidCurrent)
         setIsPlayed(false)
         setLyric([])
+        setTLyric({})
         setLyricIndex(-1)
       }
     }
@@ -763,6 +769,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
                 <div className="cool-lyric-mini-wrapper">
                   <LyricMini
                     lyric={lyric || []}
+                    tLyric={tLyric || {}}
                     lyricIndex={lyricIndex}
                   />
                 </div>
@@ -979,6 +986,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
                 showLyricNormal &&
                   <LyricNormal
                     lyric={lyric || []}
+                    tLyric={tLyric || {}}
                     lyricIndex={lyricIndex}
                     info={currentMusic}
                     loading={lyricLoading}
@@ -1032,6 +1040,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
           >
             <LyricDetail
               lyric={ lyric || [] }
+              tLyric={ tLyric || {} }
               lyricIndex={ lyricIndex }
               info={ currentMusic }
               loading={ lyricLoading }
