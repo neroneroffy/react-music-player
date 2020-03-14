@@ -93,7 +93,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
     onVolumeChange,
     playing = true,
     volume = 0.5,
-    playListPlaceholder = '暂无音乐'
+    playListPlaceholder = 'No data',
   } = props
 
   let lyricList: coolPlayerTypes.ILyric[] = getLyric(currentMusic && currentMusic.lyric || lyricFromProps)
@@ -236,8 +236,12 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
   }, [volume])
 
   useEffect(() => {
-    setMode(playModeFromProps)
-    playMode()
+    if (playModeFromProps) {
+      setMode(playModeFromProps)
+      if (playModeFromProps !== mode) {
+        playMode()
+      }
+    }
   }, [playModeFromProps])
 
   const setInitialTotalTime = () => {
