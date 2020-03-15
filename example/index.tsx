@@ -3,6 +3,7 @@ import * as ReactDOM from 'react-dom'
 import './index.less'
 import CoolPlayer from '../src/index'
 import { coolPlayerTypes } from '../src/types'
+import classnames from 'classnames'
 const { useState, useEffect, useRef } = React
 type PlayModeTypes = 'order' | 'random' | 'loop'
 enum PlayMode {
@@ -30,8 +31,8 @@ const App = () => {
     },
     {
       src: 'http://neroht.com/%E6%AD%A2%E6%88%98%E4%B9%8B%E6%AE%87-piano.mp3',
-      artist: '张斗完',
-      name: '止战之殇（纯钢琴）',
+      artist: '张斗完阿斯顿发射点发射点犯得上犯得上房贷首付范德萨范德萨',
+      name: '止战之殇（纯钢琴）犯得上发射点发射点犯得上犯得上发射点范德萨范德dsadasdas的撒大苏打萨达飒飒 的撒旦撒萨犯得上发射点非典十',
       img: 'http://neroht.com/jay.jpg',
       id: '66575568441',
     },
@@ -258,7 +259,13 @@ const App = () => {
       <div className={'audio-list'}>
         {
           dataExternal.map((item, index) => {
-            return <div key={item.id} className={'audio-item'} onClick={() => playThis(index)}>
+            return <div
+                    key={item.id}
+                    className={classnames('audio-item', {
+                      'audio-item-active': currentAudio && item.id === currentAudio.id
+                    })}
+                    onClick={() => playThis(index)}
+            >
               <div className="left">
                 <img src={item.img} alt=""/>
                 <div className={'audio-info'}>

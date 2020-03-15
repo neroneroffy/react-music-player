@@ -69,9 +69,8 @@ html, body {
   }
   .audio-list {
     width: 600px;
-    margin: 80px auto 0 auto;
+    margin: 30px auto 0 auto;
     background: #fff;
-    padding: 16px;
     border-radius: 10px;
     transition: all .3s ease-in-out;
     &:hover {
@@ -82,7 +81,7 @@ html, body {
       align-items: center;
       justify-content: space-between;
       transition: all .3s ease-in-out;
-      padding: 8px;
+      padding: 16px;
       cursor: pointer;
       &:hover {
         background: #f1f1f1;
@@ -109,6 +108,10 @@ html, body {
         }
       }
     }
+    .audio-item-active {
+      background: #f1f1f1;
+      border-radius: 10px;
+    }
   }
   .clear-play-list {
     cursor: pointer;
@@ -124,22 +127,40 @@ html, body {
   .example {
     .main {
       width: 80%;
+      margin: 0 auto;
       position: relative;
     }
     .audio-list {
-      position: absolute;
-      top: 0;
-      left: 50%;
-      margin-left: -55%;
       width: 100%;
+      margin-left: -50%;
+      margin-top: 0;
+      position: absolute;
+      top: 30px;
+      left: 50%;
+      .audio-item {
+        padding: 10px;
+        .left img {
+          width: 40px;
+          height: 40px;
+        }
+        .left .audio-info {
+          font-size: 13px;
+        }
+        .right {
+          svg {
+            width: 20px;
+            height: 20px;
+          }
+        }
+      }
     }
     .exp-operation {
       width: 100%;
       position: absolute;
-      top: 360px;
+      top: 210px;
       .control {
         .title {
-          width: 40%;
+          width: 45%;
         }
         .content {
           width: 60%;

@@ -90,7 +90,7 @@ describe('unit test for coolPlayer', () => {
     const currentAudio = _data[1]
     const coolPlayer = mount(<CoolPlayer data={_data} currentAudio={currentAudio}/>)
     const musicName = findTestWrapper(coolPlayer, 'music-name')
-    expect(musicName.text()).toBe('瑾姝Hikari 大氿歌')
+    expect(musicName.text()).toBe('大氿歌')
   })
   test('点击进度条，应该播放到相应位置', () => {
     const currentAudio = _data[1]

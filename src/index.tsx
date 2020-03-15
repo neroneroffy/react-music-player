@@ -117,6 +117,9 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
         insideCircleEl.current.setAttribute('stroke-dasharray','0,10000');
       }
     }
+    setLyricIndex(-1)
+    setLyric([])
+    setTLyric({})
   }, [currentMusic])
 
   useEffect(() => {
@@ -747,13 +750,14 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
               }
             </div>
           </div>
-          <div className="music-info">
+          <div className="cool-player-audio-info">
             <div
-              className="music-name"
+              className="cool-player-audio-name"
               data-test={'music-name'}
+              title={currentMusic && currentMusic.src && `${currentMusic.name}`}
             >
               {
-                currentMusic && currentMusic.src && (`${currentMusic.artist} ${currentMusic.name}`)
+                currentMusic && currentMusic.src && (`${currentMusic.name}`)
               }
             </div>
             <div
@@ -813,16 +817,17 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
         </div>
         {
           actions.length &&
-            <div
-              className="cool-player-actions"
-              ref={actionsEl}
-              data-test={'play-actions'}
-            >
-              {
-                actions.map(item => item(currentMusic))
-              }
-            </div>
+          <div
+            className="cool-player-actions"
+            ref={actionsEl}
+            data-test={'play-actions'}
+          >
+            {
+              actions.map(item => item(currentMusic))
+            }
+          </div>
         }
+
         <div className="right-control">
           {
             isMute ?
@@ -879,7 +884,11 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
         {
           musicListShow ?
             <div className="cool-player-list-lyric" ref={playListEl}>
-              <div className={'cool-player-list-component'}>
+              <div
+                className={classnames('cool-player-list-component', {
+                  'cool-player-list-component-half': showLyricNormal
+                })}
+              >
                 <div className="cool-player-list-title">
                   <div className="cool-player-list-title-left">
                     { playListHeader.headerLeft }
@@ -891,21 +900,19 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
                 </div>
                 {
                   data.length ?
-                    <div className="single-music-wrapper">
+                    <div className="cool-player-audio-wrapper">
                       {
                         data.map((v, i) => {
                           return (
                             <div
-                              className="single-music"
-                              style={ currentMusic && currentMusic.src === v .src && isPlayed ?
-                                { background: '#33beff', color: '#fff' }
-                                :
-                                null}
+                              className={classnames('cool-player-audio', {
+                                'cool-player-audio-active': currentMusic && currentMusic.src === v .src && isPlayed
+                              })}
                               key={v.id}
                               data-test={'single-music'}
                             >
-                              <div className={'single-music-left'}>
-                                <div className="single-music-play">
+                              <div className={'cool-player-audio-left'}>
+                                <div className="cool-player-audio-play">
                                   {
                                     currentMusic && currentMusic.src === v .src && isPlayed ?
                                       <svg
@@ -936,16 +943,16 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
 
                                 </div>
                                 <div
-                                  className="single-music-name"
+                                  className="cool-player-audio-name"
                                   onClick={() => playThis(i)}
                                   title={v.name}
                                   data-test={'play-this'}
                                 >{v.name}</div>
                               </div>
-                              <div className="single-music-right">
+                              <div className="cool-player-audio-right">
                                 {
                                   playListAudioActions.length ? <div
-                                    className={'single-music-actions'}
+                                    className={'cool-player-audio-actions'}
                                     onClick={() => {
                                       if (currentMusic.id !== v.id || !isPlayed) {
                                         playThis(i)
@@ -953,8 +960,8 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
                                     }}
                                   >
                                     <div
-                                      className={classnames('single-music-actions-content', {
-                                        'single-music-actions-actived': (currentMusic && currentMusic.id === v.id && isPlayed)
+                                      className={classnames('cool-player-audio-actions-content', {
+                                        'cool-player-audio-actions-actived': (currentMusic && currentMusic.id === v.id && isPlayed)
                                       })}
                                       data-test={'music-actions'}
                                     >
@@ -967,10 +974,10 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
                                     null
                                 }
                                 <div
-                                  className="single-music-artist"
+                                  className="cool-player-audio-artist"
                                   onClick={() => playThis(i)}
                                 >{v.artist}</div>
-                                <div className="single-music-del">
+                                <div className="cool-player-audio-del">
                                   <svg
                                     className="icon-delete"
                                     viewBox="0 0 1024 1024" version="1.1"

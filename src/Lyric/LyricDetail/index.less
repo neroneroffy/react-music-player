@@ -47,9 +47,9 @@
     opacity: 0;
     transition: all .3s ease-in-out;
     .cool-lyric-base-line {
-      background: #ccc;
+      background: @font-color-3;
       height: 1px;
-      width: 70%;
+      width: 110%;
       margin: 0 auto;
       flex-shrink: 1;
       opacity: 0.5;
@@ -61,10 +61,11 @@
       #fff 100%);
     }
     .cool-lyric-scrolled-time {
-      color: #ccc;
+      color: @font-color-3;
       width: 40px;
       padding: 16px;
       flex-shrink: 1;
+      font-size: @font-size-base;
     }
     .cool-lyric-scrolled-play {
       width: 40px;
@@ -74,7 +75,7 @@
       display: flex;
       align-items: center;
       svg {
-        color: #ccc;
+        color: @font-color-3;
         width: 18px;
         height: 18px;
         fill: currentColor;
@@ -119,10 +120,15 @@
       }
     }
     .t-lyric-item {
-      height: 28px;
-      div:nth-child(2) {
-        font-size: 12px;
-        margin-top: 2px;
+      height: 36px !important;
+      div {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        &:nth-child(2) {
+          font-size: 12px;
+          margin-top: 2px;
+        }
       }
     }
     // 超出宽度滚动，但不尽如人意
