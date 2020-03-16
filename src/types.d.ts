@@ -9,6 +9,10 @@ declare namespace coolPlayerTypes {
     currentAudio?: IAudio
     /*组件在渲染时是否自动播放*/
     autoPlay?: boolean
+    /*控制播放列表展示与隐藏*/
+    playListShow?: boolean
+    /*播放列表显示和隐藏时的回调，如果希望通过playListShow控制播放列表的显示隐藏状态，则需要在这个回调中同步设置playListShow的值*/
+    onPlayListStatusChange?: (status: boolean) => void
     /*控制组件播放状态，true播放，false暂停*/
     playing?: boolean
     /*点击歌曲图标是否展示播放详情（移动端有效）*/

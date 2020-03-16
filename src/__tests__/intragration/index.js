@@ -37,12 +37,14 @@ describe('cool player functional test', () => {
     img: 'http://neroht.com/yanyuxingzhou.jpg',
     id: '66575568444',
   }
-  test('点击播放列表按钮后，播放列表应该出现', () => {
-    const coolPlayer = mount(<CoolPlayer data={_data}/>)
+  test('点击播放列表按钮后，播放列表应该出现，onPlayListStatusChange应该被触发', () => {
+    const fn = jest.fn()
+    const coolPlayer = mount(<CoolPlayer onPlayListStatusChange={fn} data={_data}/>)
     const btn = findTestWrapper(coolPlayer, 'play-list-btn')
     btn.simulate('click')
     const playListModal = findTestWrapper(coolPlayer, 'play-list-modal')
     expect(playListModal.length).toBe(1)
+    expect(fn).toHaveBeenCalledWith(true)
   })
   test('展开播放列表，如果传入了歌曲数据，那么应该渲染出歌曲列表', () => {
     const coolPlayer = mount(<CoolPlayer data={_data}/>)

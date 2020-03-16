@@ -101,6 +101,7 @@ const App = () => {
   const [ mouseDown, setMouseDown ] = useState<boolean>(false)
   const [ playMode, setPlayMode ] = useState<PlayModeTypes>(PlayMode.Order)
   const [ currentPlayMode, setCurrentPlayMode ] = useState<PlayModeTypes>(PlayMode.Order)
+  const [ playListShow, setPlayListShow ] = useState<boolean>(false)
   const totalVolumeEl = useRef(null)
   const volumeProgressEl = useRef(null)
   useEffect(() => {
@@ -254,6 +255,13 @@ const App = () => {
       setData([])
     }
   }
+
+  const onPlayListShow = () => {
+    setPlayListShow(true)
+  }
+  const onPlayListHide = () => {
+    setPlayListShow(false)
+  }
   return <div className={'example'}>
     <div className={'main'}>
       <div className={'audio-list'}>
@@ -310,6 +318,17 @@ const App = () => {
           </div>
         </div>
         <div className={'control'}>
+          <div className={'title'}>Play list control</div>
+          <div className={'content'}>
+            <button
+              onClick={onPlayListShow}
+              className={'play-mode-control'}
+            >
+              Show PlayList
+            </button>
+          </div>
+        </div>
+        <div className={'control'}>
           <div className={'title'}>Volume control</div>
           <div className={'content'}>
             <div
@@ -362,13 +381,17 @@ const App = () => {
         volume={volumeValue}
         playListHeader={{
           headerLeft: 'Play List',
-          headerRight: <span onClick={onClearPlayList} className={'clear-play-list'}>Clear All</span>
+          headerRight: <span onClick={onPlayListHide} className={'close-play-list'}>Close</span>
         }}
         onModeChange={(currentMode, prevMode) => {
           console.log('currentMode:', currentMode, 'prevMode:', prevMode)
           setCurrentPlayMode(currentMode)
         }}
         showPlayDetail={true}
+        playListShow={playListShow}
+        onPlayListStatusChange={(status: boolean) => {
+          setPlayListShow(status)
+        }}
         playMode={playMode}
       />
     </div>

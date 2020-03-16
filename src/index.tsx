@@ -75,6 +75,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
 
   const { showLyricNormal = true,
     showLyricMini = true,
+    playListShow = false,
     lyric: lyricFromProps = '',
     tLyric: tLyricFromProps = '',
     lyricLoading = false,
@@ -95,7 +96,8 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
     volume = 0.5,
     playListPlaceholder = 'No data',
     showPlayDetail = true,
-    showProgressControlByLyricScroll = true
+    showProgressControlByLyricScroll = true,
+    onPlayListStatusChange
   } = props
 
   let lyricList: coolPlayerTypes.ILyric[] = getLyric(currentMusic && currentMusic.lyric || lyricFromProps)
@@ -248,6 +250,10 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
       }
     }
   }, [playModeFromProps])
+
+  useEffect(() => {
+    setMusicListShow(playListShow)
+  }, [ playListShow ])
 
   const setInitialTotalTime = () => {
     // 获取总时间
@@ -411,7 +417,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
     }
     // setTimeOnPc(e, action)
   }
-  // PC端拖动进度条
+  // Drag the progress bar on PC
   const onMouseDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (!e.pageX) {
       return
@@ -470,7 +476,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
       setVolume(e.touches[0].pageX)
     }
   }
-  // PC端改变音量
+  // Change the volume on PC
   const clickChangeVolume = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     setVolume(e.pageX)
   }
@@ -488,9 +494,12 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
   const mouseLeave = () => {
     setMouseDown(false)
   }
-  // 展开播放列表
+  // Show the play list wrapper
   const showMusicList = () => {
     setMusicListShow(!musicListShow)
+    if (onPlayListStatusChange) {
+      onPlayListStatusChange(!musicListShow)
+    }
   }
   const playThis = (i: number) => {
     setCurrentMusic(data[i])

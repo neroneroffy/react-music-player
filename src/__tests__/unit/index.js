@@ -102,4 +102,24 @@ describe('unit test for coolPlayer', () => {
     const audio = findTestWrapper(coolPlayer, 'audio')
     expect(audio.instance().currentTime).toBe(0)
   })
+  test('如果传入了playListShow为true，播放列表应该出现', () => {
+    const coolPlayer = mount(<CoolPlayer playListShow={true} data={_data}/>)
+    const playListModal = findTestWrapper(coolPlayer, 'play-list-modal')
+    expect(playListModal.length).toBe(1)
+  })
+  test('如果传入了playListShow为true，播放列表应该出现', () => {
+    const coolPlayer = mount(<CoolPlayer playListShow={true} data={_data}/>)
+    const playListModal = findTestWrapper(coolPlayer, 'play-list-modal')
+    expect(playListModal.length).toBe(1)
+  })
+  test('如果传入了playListShow为false，播放列表应该隐藏', () => {
+    const coolPlayer = mount(<CoolPlayer playListShow={false} data={_data}/>)
+    const playListModal = findTestWrapper(coolPlayer, 'play-list-modal')
+    expect(playListModal.length).toBe(0)
+  })
+  test('如果传入了playListShow为false，播放列表应该隐藏', () => {
+    const coolPlayer = mount(<CoolPlayer playListShow={false} data={_data}/>)
+    const playListModal = findTestWrapper(coolPlayer, 'play-list-modal')
+    expect(playListModal.length).toBe(0)
+  })
 })
