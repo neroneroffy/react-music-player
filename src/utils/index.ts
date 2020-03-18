@@ -40,7 +40,11 @@ export const fixedBody = () => {
 }
 
 export const getTime = (musicTime?: number) => {
+  if (musicTime === 0) {
+    return '00:00'
+  }
   let time
+
   if (musicTime) {
     musicTime = Math.ceil(musicTime)
     if (musicTime < 60) {
