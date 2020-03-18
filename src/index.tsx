@@ -25,7 +25,8 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
     name: '',
     img: '',
     id: '',
-    lyric: ''
+    lyric: '',
+    invalid: true,
   }
   const audioEl = useRef(null)
   const musicAvatarEl = useRef(null)
@@ -60,7 +61,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
   const [ angle, setAngle ] = useState<number>(0)
   const [ mouseDown, setMouseDown ] = useState<boolean>(false)
   const [ musicListShow, setMusicListShow ] = useState<boolean>(false)
-  const [ currentMusic, setCurrentMusic ] = useState<coolPlayerTypes.IAudio>(data[0] || initialMusic)
+  const [ currentMusic, setCurrentMusic ] = useState<coolPlayerTypes.IAudio>(data && data[0] || initialMusic)
   const [ isPlayed, setIsPlayed ] = useState<boolean>(false)
   const [ lyric, setLyric ] = useState<coolPlayerTypes.ILyric[]>([])
   const [ tLyric, setTLyric ] = useState<coolPlayerTypes.ITLyric>({})
@@ -113,11 +114,13 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
   }, [ insideCircleEl, playPercent ])
 
   useEffect(() => {
-    if (data.length && props.onAudioChange && currentMusic) {
-      props.onAudioChange(currentMusic.id, currentMusic)
+    if (currentMusic) {
       if (insideCircleEl.current) {
         insideCircleEl.current.setAttribute('stroke-dasharray','0,10000');
       }
+    }
+    if (props.onAudioChange && currentMusic) {
+      props.onAudioChange(currentMusic.id, currentMusic)
     }
     setLyricIndex(-1)
     setLyric([])
@@ -281,7 +284,11 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
   }
   const setProgress = () => {
     // 设置播放进度条
-    const playPer = audioEl.current.currentTime / audioEl.current.duration;
+    let playPer = audioEl.current.currentTime / audioEl.current.duration;
+    const { duration } = audioEl.current
+    if (duration !== duration) {
+      playPer = 0
+    }
     setPlayPercent(playPer)
     playedEl.current.style.width = playPer * 100 + '%';
     setPlayedWidth(playPer * 100)
@@ -328,7 +335,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
     }
   }
   const play = useCallback(() => {
-    if (!data.length) { return }
+    if (!currentMusic || currentMusic.invalid) { return }
     setPaused(false)
     setIsPlayed(true)
     if (onPlayStatusChange) {
@@ -908,7 +915,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
 
                 </div>
                 {
-                  data.length ?
+                  data && data.length ?
                     <div className="cool-player-audio-wrapper">
                       {
                         data.map((v, i) => {

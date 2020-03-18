@@ -2,7 +2,7 @@ type PlayMode = 'order' | 'random' | 'loop'
 declare namespace coolPlayerTypes {
   interface IPlayerProps {
     /*播放列表的音频数据*/
-    data: IAudio[]
+    data?: IAudio[]
     /*播放列表为空时候的占位文字*/
     playListPlaceholder?: string
     /*需要播放的音频，可以控制当前播放器的音频，若不传，播放器内待播放的音频默认为播放列表第一个音频*/
@@ -74,6 +74,8 @@ declare namespace coolPlayerTypes {
     lyric?: string
     /*歌词翻译*/
     tLyric?: string
+    /*是否不可用，组件内部的音频初始值会有这个值，表示当前无音频*/
+    invalid?: boolean
   }
   interface ILyric {
     /*当前歌词的时间*/
