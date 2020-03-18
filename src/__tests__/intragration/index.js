@@ -61,6 +61,14 @@ describe('cool player functional test', () => {
     playBtn.simulate('click')
     expect(audio.instance().play).toHaveBeenCalled()
   })
+  test('如果没传入音频，点击播放按钮后，音乐不应该播放', () => {
+    const coolPlayer = mount(<CoolPlayer/>)
+    const playBtn = findTestWrapper(coolPlayer, 'play-btn')
+    const audio = findTestWrapper(coolPlayer, 'audio')
+    audio.instance().play = jest.fn()
+    playBtn.simulate('click')
+    expect(audio.instance().play).toHaveBeenCalledTimes(0)
+  })
   test('点击暂停按钮后，音乐应该停止播放', () => {
     const coolPlayer = mount(<CoolPlayer data={_data}/>)
     const audio = findTestWrapper(coolPlayer, 'audio')
@@ -96,6 +104,20 @@ describe('cool player functional test', () => {
     const nextBtn = findTestWrapper(coolPlayer, 'next-btn')
     nextBtn.simulate('click')
     expect(currentMusic).toEqual(_data[0])
+  })
+  test('如果没传入音频，点击上一首，不应该播放音乐', () => {
+    const fn = jest.fn()
+    const coolPlayer = mount(<CoolPlayer onPlayStatusChange={fn}/>)
+    const prevBtn = findTestWrapper(coolPlayer, 'prev-btn')
+    prevBtn.simulate('click')
+    expect(fn).toHaveBeenCalledTimes(0)
+  })
+  test('如果没传入音频，点击下一首，不应该播放音乐', () => {
+    const fn = jest.fn()
+    const coolPlayer = mount(<CoolPlayer onPlayStatusChange={fn}/>)
+    const nextBtn = findTestWrapper(coolPlayer, 'next-btn')
+    nextBtn.simulate('click')
+    expect(fn).toHaveBeenCalledTimes(0)
   })
   test('点击播放模式切换按钮，应显示正确的播放模式', () => {
     const playMode = {
@@ -206,12 +228,14 @@ describe('cool player functional test', () => {
     expect(progressBuffered.instance().style.width).toBe('0%')
     expect(progressPlayed.instance().style.width).toBe('0%')
   })
-  test('点击音乐的头像，详情应该出现', () => {
-    const coolPlayer = mount(<CoolPlayer data={_data} playing={false}/>)
+  test('点击音乐的头像，详情应该出现，onPlayDetailStatusChange函数应该被触发', () => {
+    const fn = jest.fn()
+    const coolPlayer = mount(<CoolPlayer data={_data} onPlayDetailStatusChange={fn} playing={false}/>)
     const detailShow = findTestWrapper(coolPlayer, 'detail-show')
     detailShow.simulate('click')
     const coolPlayerDetail = findTestWrapper(coolPlayer, 'cool-player-detail-modal')
     expect(coolPlayerDetail.length).toBe(1)
+    expect(fn).toBeCalledWith(true)
   })
   test('播放详情点击歌词，歌词应该全屏', (done) => {
     const coolPlayer = mount(<CoolPlayer data={_data} playing={false}/>)

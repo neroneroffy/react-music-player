@@ -102,6 +102,7 @@ const App = () => {
   const [ playMode, setPlayMode ] = useState<PlayModeTypes>(PlayMode.Order)
   const [ currentPlayMode, setCurrentPlayMode ] = useState<PlayModeTypes>(PlayMode.Order)
   const [ playListShow, setPlayListShow ] = useState<boolean>(false)
+  const [ playDetailShow, setPlayDetailShow ] = useState<boolean>(false)
   const totalVolumeEl = useRef(null)
   const volumeProgressEl = useRef(null)
   useEffect(() => {
@@ -259,6 +260,9 @@ const App = () => {
   const onPlayListShow = () => {
     setPlayListShow(true)
   }
+  const onPlayDetailShow = () => {
+    setPlayDetailShow(true)
+  }
   const onPlayListHide = () => {
     setPlayListShow(false)
   }
@@ -328,6 +332,17 @@ const App = () => {
             </button>
           </div>
         </div>
+        <div className={'control play-detail-operation'}>
+          <div className={'title'}>Play detail control</div>
+          <div className={'content'}>
+            <button
+              onClick={onPlayDetailShow}
+              className={'play-detail-control'}
+            >
+              Show play detail
+            </button>
+          </div>
+        </div>
         <div className={'control'}>
           <div className={'title'}>Volume control</div>
           <div className={'content'}>
@@ -389,8 +404,12 @@ const App = () => {
         }}
         showPlayDetail={true}
         playListShow={playListShow}
+        playDetailShow={playDetailShow}
         onPlayListStatusChange={(status: boolean) => {
           setPlayListShow(status)
+        }}
+        onPlayDetailStatusChange={(status: boolean) => {
+          setPlayDetailShow(status)
         }}
         playMode={playMode}
       />

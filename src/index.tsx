@@ -77,6 +77,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
   const { showLyricNormal = true,
     showLyricMini = true,
     playListShow = false,
+    playDetailShow = false,
     lyric: lyricFromProps = '',
     tLyric: tLyricFromProps = '',
     lyricLoading = false,
@@ -98,7 +99,8 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
     playListPlaceholder = 'No data',
     showPlayDetail = true,
     showProgressControlByLyricScroll = true,
-    onPlayListStatusChange
+    onPlayListStatusChange,
+    onPlayDetailStatusChange
   } = props
 
   let lyricList: coolPlayerTypes.ILyric[] = getLyric(currentMusic && currentMusic.lyric || lyricFromProps)
@@ -169,7 +171,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
     }
   }, [])
   useEffect(() => {
-    if (playing) {
+    if (playing && !currentMusic.invalid) {
       play()
       setPaused(false)
     } else {
@@ -257,6 +259,14 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
   useEffect(() => {
     setMusicListShow(playListShow)
   }, [ playListShow ])
+
+  useEffect(() => {
+    if (playDetailShow) {
+      onShowDetail()
+    } else {
+      onHideDetail()
+    }
+  }, [ playDetailShow ])
 
   const setInitialTotalTime = () => {
     // 获取总时间
@@ -579,6 +589,9 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
     }
     fixedBody()
     setDetailVisible(true)
+    if (onPlayDetailStatusChange) {
+      onPlayDetailStatusChange(true)
+    }
     setTimeout(() => {
       if (detailPlayedEl.current) {
         setDetailPlayedLeft(detailPlayedEl.current.getBoundingClientRect().left)
@@ -590,6 +603,9 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
   const onHideDetail = () => {
     looseBody()
     setDetailVisible(false)
+    if (onPlayDetailStatusChange) {
+      onPlayDetailStatusChange(false)
+    }
   }
   const onSwitchPlayMode = () => {
     const singleCycle = <svg

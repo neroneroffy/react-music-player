@@ -11,12 +11,16 @@ declare namespace coolPlayerTypes {
     autoPlay?: boolean
     /*控制播放列表展示与隐藏*/
     playListShow?: boolean
-    /*播放列表显示和隐藏时的回调，如果希望通过playListShow控制播放列表的显示隐藏状态，则需要在这个回调中同步设置playListShow的值*/
+    /*播放列表显示和隐藏时的回调函数，如果希望通过playListShow控制播放列表的显示隐藏状态，则需要在这个回调中同步设置playListShow的值*/
     onPlayListStatusChange?: (status: boolean) => void
     /*控制组件播放状态，true播放，false暂停*/
     playing?: boolean
     /*点击歌曲图标是否展示播放详情（移动端有效）*/
     showPlayDetail?: boolean
+    /*点击歌曲图标是否展示播放详情（移动端有效）*/
+    playDetailShow?: boolean
+    /*播放详情展示或者隐藏时的回调函数，如果希望通过playDetailShow控制播放详情的显示隐藏状态，则需要在这个回调中同步设置playDetailShow的值*/
+    onPlayDetailStatusChange?: (status: boolean) => void
     /*删除播放列表的回调函数*/
     onDelete?: (index: number, id: string) => void
     /*音量，传入组件可以控制播放器音量大小*/

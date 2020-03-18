@@ -107,19 +107,19 @@ describe('unit test for coolPlayer', () => {
     const playListModal = findTestWrapper(coolPlayer, 'play-list-modal')
     expect(playListModal.length).toBe(1)
   })
-  test('如果传入了playListShow为true，播放列表应该出现', () => {
-    const coolPlayer = mount(<CoolPlayer playListShow={true} data={_data}/>)
-    const playListModal = findTestWrapper(coolPlayer, 'play-list-modal')
-    expect(playListModal.length).toBe(1)
-  })
   test('如果传入了playListShow为false，播放列表应该隐藏', () => {
     const coolPlayer = mount(<CoolPlayer playListShow={false} data={_data}/>)
     const playListModal = findTestWrapper(coolPlayer, 'play-list-modal')
     expect(playListModal.length).toBe(0)
   })
-  test('如果传入了playListShow为false，播放列表应该隐藏', () => {
-    const coolPlayer = mount(<CoolPlayer playListShow={false} data={_data}/>)
-    const playListModal = findTestWrapper(coolPlayer, 'play-list-modal')
-    expect(playListModal.length).toBe(0)
+  test('如果传入了playDetailShow为true，播放详情应该显示', () => {
+    const coolPlayer = mount(<CoolPlayer playDetailShow={true} data={_data}/>)
+    const coolPlayerDetail = findTestWrapper(coolPlayer, 'cool-player-detail-modal')
+    expect(coolPlayerDetail.length).toBe(1)
+  })
+  test('如果传入了playDetailShow为false，播放详情应该隐藏', () => {
+    const coolPlayer = mount(<CoolPlayer playDetailShow={false} data={_data}/>)
+    const coolPlayerDetail = findTestWrapper(coolPlayer, 'cool-player-detail-modal')
+    expect(coolPlayerDetail.length).toBe(0)
   })
 })
