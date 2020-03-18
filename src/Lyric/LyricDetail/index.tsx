@@ -31,8 +31,10 @@ const LyricDetail = (props: coolPlayerTypes.lyricDetail.ILyricDetailProps) => {
   useEffect(() => {
     if (lyricEl.current && lyricBaseLineEl.current && lyricItemEl.current) {
       if (loose) {
-        let lyricYPosition = (lyricIndex + 1 + 0.5) * lyricItemEl.current.offsetHeight
-        lyricEl.current.scrollTo(0, lyricYPosition)
+        const lyricYPosition = (lyricIndex + 1 + 0.5) * lyricItemEl.current.offsetHeight
+        if (typeof lyricEl.current.scrollTo === 'function') {
+          lyricEl.current.scrollTo(0, lyricYPosition)
+        }
       }
     }
   }, [loose, lyricIndex])
@@ -108,12 +110,13 @@ const LyricDetail = (props: coolPlayerTypes.lyricDetail.ILyricDetailProps) => {
               })}
             >
               <div>{v.lyric}</div>
-              <div>{tLyric[v.time]}</div>
+              <div data-test={'t-lyric-item'}>{tLyric[v.time]}</div>
             </li>
           })
           :
           lyric.map((v, i) => {
             return <li
+              data-test={'lyric-item'}
               key={v.time}
               className={classnames('lyric-item', {
                 ['current-lyric']: i === lyricIndex,
