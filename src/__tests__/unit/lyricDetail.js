@@ -24,6 +24,7 @@ describe('unit test for lyricDetail', () => {
 
     const coolPlayer = mount(<CoolPlayer
       data={[]}
+      showDetailLyric={true}
       currentAudio={currentAudio}
     />)
     const detailShow = findTestWrapper(coolPlayer, 'detail-show')
@@ -42,6 +43,7 @@ describe('unit test for lyricDetail', () => {
     }
     const coolPlayer = mount(<CoolPlayer
       data={[]}
+      showDetailLyric={true}
       currentAudio={currentAudio}
     />)
     const detailShow = findTestWrapper(coolPlayer, 'detail-show')

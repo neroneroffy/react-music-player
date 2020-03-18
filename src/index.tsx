@@ -98,6 +98,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
     volume = 0.5,
     playListPlaceholder = 'No data',
     showPlayDetail = true,
+    showDetailLyric = false,
     showProgressControlByLyricScroll = true,
     onPlayListStatusChange,
     onPlayDetailStatusChange
@@ -1086,25 +1087,28 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
               <img className="detailPic" ref={ detailMusicAvatarEl } src={ currentMusic && currentMusic.img } alt=""/>
             </div>
           </div>
-          <div
-            className={ classnames('cool-player-detail-lyric', {
-              'cool-player-detail-lyric-full-screen': lyricFullScreen
-            }) }
-            data-test={'lyric-full-screen'}
-            onClick={ onLyricFullScreen }
-          >
-            <LyricDetail
-              lyric={ lyric || [] }
-              tLyric={ tLyric || {} }
-              lyricIndex={ lyricIndex }
-              info={ currentMusic }
-              loading={ lyricLoading }
-              lyricPlaceholder={ lyricPlaceholder }
-              lyricFullScreen={ lyricFullScreen }
-              onSetProgressWithScroll={ onSetProgressWithScroll }
-              showProgressControlByLyricScroll={showProgressControlByLyricScroll}
-            />
-          </div>
+          {
+            showDetailLyric &&
+            <div
+              className={ classnames('cool-player-detail-lyric', {
+                'cool-player-detail-lyric-full-screen': lyricFullScreen
+              }) }
+              data-test={'lyric-full-screen'}
+              onClick={ onLyricFullScreen }
+            >
+              <LyricDetail
+                lyric={ lyric || [] }
+                tLyric={ tLyric || {} }
+                lyricIndex={ lyricIndex }
+                info={ currentMusic }
+                loading={ lyricLoading }
+                lyricPlaceholder={ lyricPlaceholder }
+                lyricFullScreen={ lyricFullScreen }
+                onSetProgressWithScroll={ onSetProgressWithScroll }
+                showProgressControlByLyricScroll={showProgressControlByLyricScroll}
+              />
+            </div>
+          }
           <div className="cool-player-detail-panel">
             <div
               className="detail-progress"

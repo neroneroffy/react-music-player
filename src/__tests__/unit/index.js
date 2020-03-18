@@ -122,4 +122,11 @@ describe('unit test for coolPlayer', () => {
     const coolPlayerDetail = findTestWrapper(coolPlayer, 'cool-player-detail-modal')
     expect(coolPlayerDetail.length).toBe(0)
   })
+  test('如果传入了showDetailLyric为false，播放详情不应展示歌词', () => {
+    const coolPlayer = mount(<CoolPlayer showDetailLyric={false} data={_data}/>)
+    const detailShow = findTestWrapper(coolPlayer, 'detail-show')
+    detailShow.simulate('click')
+    const coolLyricDetail = findTestWrapper(coolPlayer, 'lyric-full-screen')
+    expect(coolLyricDetail.length).toBe(0)
+  })
 })

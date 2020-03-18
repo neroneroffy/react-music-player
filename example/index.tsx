@@ -385,6 +385,7 @@ const App = () => {
         data={data}
         currentAudio={currentAudio}
         showLyricNormal={true}
+        showDetailLyric={true}
         onAudioChange={onAudioChange}
         onVolumeChange={onVolumeChange}
         onPlayStatusChange={onPlayStatusChange}

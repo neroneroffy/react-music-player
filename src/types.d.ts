@@ -31,6 +31,8 @@ declare namespace coolPlayerTypes {
     zIndex?: number
     /*在非移动端状态下是否展示歌词*/
     showLyricNormal?: boolean
+    /*移动端状态下是否在歌曲详情页面展示歌词*/
+    showDetailLyric?: boolean
     /*移动端状态下是否展示迷你歌词*/
     showLyricMini?: boolean
     /*播放器内音频切换触发的回调函数*/

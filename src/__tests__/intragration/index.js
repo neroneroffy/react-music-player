@@ -238,7 +238,7 @@ describe('cool player functional test', () => {
     expect(fn).toBeCalledWith(true)
   })
   test('播放详情点击歌词，歌词应该全屏', (done) => {
-    const coolPlayer = mount(<CoolPlayer data={_data} playing={false}/>)
+    const coolPlayer = mount(<CoolPlayer data={_data} showDetailLyric={true} playing={false}/>)
     const detailShow = findTestWrapper(coolPlayer, 'detail-show')
     detailShow.simulate('click')
     const lyricFullScreen = findTestWrapper(coolPlayer, 'lyric-full-screen')
