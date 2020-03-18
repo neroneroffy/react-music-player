@@ -61,7 +61,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
   const [ angle, setAngle ] = useState<number>(0)
   const [ mouseDown, setMouseDown ] = useState<boolean>(false)
   const [ musicListShow, setMusicListShow ] = useState<boolean>(false)
-  const [ currentMusic, setCurrentMusic ] = useState<coolPlayerTypes.IAudio>(data && data[0] || initialMusic)
+  const [ currentMusic, setCurrentMusic ] = useState<coolPlayerTypes.IAudio>(currentAudio || data && data[0] || initialMusic)
   const [ isPlayed, setIsPlayed ] = useState<boolean>(false)
   const [ lyric, setLyric ] = useState<coolPlayerTypes.ILyric[]>([])
   const [ tLyric, setTLyric ] = useState<coolPlayerTypes.ITLyric>({})
@@ -154,7 +154,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
   }, [document.body.clientWidth])
 
   useEffect(() => {
-    setCurrentMusic(currentAudio || initialMusic || data[0])
+    // setCurrentMusic(currentAudio || initialMusic || data[0])
     audioEl.current.addEventListener('canplay', setInitialTotalTime)
     // 设置初始音量
     volumeProgressEl.current.style.width = '50%';

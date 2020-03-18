@@ -1,7 +1,7 @@
 @import '../../common/index.less';
 .cool-lyric {
   height: 320px;
-  min-width: 50%;
+  width: 50%;
   border-left: 1px solid #e5e5e5;
   position: relative;
   .cool-lyric-title-wrapper {
@@ -65,6 +65,10 @@
     }
     .t-lyric-item-normal {
       height: 36px;
+
+      div:first-child {
+        margin-top: @padding-medium;
+      }
       &:first-child {
         margin-top: 140px;
       }
