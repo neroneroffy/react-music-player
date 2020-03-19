@@ -12,6 +12,7 @@ const LyricNormal = (props: coolPlayerTypes.lyricNormal.ILyricNormalProps) => {
     info,
     loading,
     lyricPlaceholder =  '暂无歌词',
+    primaryColor
   } = props
   const artist = info ? info.artist : ''
   const name = info ? info.name : ''
@@ -32,9 +33,8 @@ const LyricNormal = (props: coolPlayerTypes.lyricNormal.ILyricNormalProps) => {
             return <li
               key={v.time}
               ref={lyricItemEl}
-              className={classnames('lyric-item-normal t-lyric-item-normal', {
-                ['current-lyric']: i === lyricIndex,
-              })}
+              className={'lyric-item-normal t-lyric-item-normal'}
+              style={ i === lyricIndex ? { color: primaryColor } : null}
             >
               <div>{v.lyric}</div>
               <div>{tLyric[v.time]}</div>
@@ -45,9 +45,8 @@ const LyricNormal = (props: coolPlayerTypes.lyricNormal.ILyricNormalProps) => {
             return <li
               key={v.time}
               ref={lyricItemEl}
-              className={classnames('lyric-item-normal', {
-                ['current-lyric']: i === lyricIndex,
-              })}
+              className={'lyric-item-normal'}
+              style={ i === lyricIndex ? { color: primaryColor } : null}
             >{v.lyric}</li>
           })
       }

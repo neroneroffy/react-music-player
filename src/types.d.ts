@@ -66,6 +66,8 @@ declare namespace coolPlayerTypes {
       headerLeft?: React.ReactNode | string,
       headerRight?: React.ReactNode | string,
     }
+    /*主题颜色*/
+    primaryColor?: string
   }
   interface IAudio {
     /*音频链接*/
@@ -140,6 +142,8 @@ declare namespace coolPlayerTypes {
       loading: boolean
       /*歌词占位符*/
       lyricPlaceholder: React.ReactElement | React.ReactNode | string
+      /*主题颜色*/
+      primaryColor?: string
     }
   }
 }

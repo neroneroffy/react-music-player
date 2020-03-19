@@ -414,6 +414,7 @@ const App = () => {
           setPlayDetailShow(status)
         }}
         playMode={playMode}
+        primaryColor={'#f99013'}
       />
     </div>
   </div>

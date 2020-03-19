@@ -103,7 +103,8 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
     showProgressControlByLyricScroll = true,
     onPlayListStatusChange,
     onPlayDetailStatusChange,
-    detailBackground
+    detailBackground,
+    primaryColor = '#33beff',
   } = props
 
   let lyricList: coolPlayerTypes.ILyric[] = getLyric(currentMusic && currentMusic.lyric || lyricFromProps)
@@ -778,13 +779,13 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
                 />
                 <circle
                   className={'inside-circle'}
-                  ref={insideCircleEl}
+                  ref={ insideCircleEl }
                   id="J_progress_bar"
                   cx="31"
                   cy="31"
                   r="26"
                   fill="none"
-                  stroke="#017fff"
+                  stroke={ primaryColor }
                   strokeWidth="5"
                 />
               </svg>
@@ -822,7 +823,12 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
             >
               <div className="progress" >
                 <div className="progress-buffered" data-test={'progress-buffered'} ref={ bufferedEl }></div>
-                <div className="progress-played" data-test={'progress-played'}ref={ playedEl }>
+                <div
+                  className="progress-played"
+                  data-test={'progress-played'}
+                  ref={ playedEl }
+                  style={{ background: primaryColor }}
+                >
                   <div className="progress-action-point"></div>
                 </div>
               </div>
@@ -914,7 +920,11 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
               className="volume-control"
               ref={totalVolumeEl}
             >
-              <div className="volume-progress" ref={volumeProgressEl}>
+              <div
+                className="volume-progress"
+                ref={volumeProgressEl}
+                style={{ background: primaryColor }}
+              >
                 <div className="volume-progress-dot"></div>
               </div>
             </div>
@@ -953,9 +963,13 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
                         data.map((v, i) => {
                           return (
                             <div
-                              className={classnames('cool-player-audio', {
-                                'cool-player-audio-active': currentMusic && currentMusic.src === v .src && isPlayed
-                              })}
+                              className={'cool-player-audio'}
+                              style={
+                                currentMusic && currentMusic.src === v .src && isPlayed ?
+                                  { background: primaryColor, color: '#fff' }
+                                  :
+                                  null
+                              }
                               key={v.id}
                               data-test={'single-music'}
                             >
@@ -1062,6 +1076,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
                     info={currentMusic}
                     loading={lyricLoading}
                     lyricPlaceholder={lyricPlaceholder}
+                    primaryColor={primaryColor}
                   />
               }
             </div>
@@ -1145,7 +1160,11 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
               <div className={'progress-time'}>{ remainTime }</div>
               <div className="progress" ref={ detailProgressBarEl }>
                 <div className="progress-buffered" ref={ detailBufferedEl }></div>
-                <div className="progress-played" ref={ detailPlayedEl }>
+                <div
+                  className="progress-played"
+                  ref={ detailPlayedEl }
+                  style={{ background: primaryColor }}
+                >
                   <div className={'progress-action-point'}></div>
                 </div>
               </div>
