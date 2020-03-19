@@ -395,6 +395,7 @@ const App = () => {
         playListAudioActions={playListAudioActions}
         actions={actions}
         volume={volumeValue}
+        detailBackground={<div className={'blur-filter'}></div>}
         playListHeader={{
           headerLeft: 'Play List',
           headerRight: <span onClick={onPlayListHide} className={'close-play-list'}>Close</span>

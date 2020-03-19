@@ -17,6 +17,8 @@ declare namespace coolPlayerTypes {
     playing?: boolean
     /*点击歌曲图标是否展示播放详情（移动端有效）*/
     showPlayDetail?: boolean
+    /*播放详情页面的背景*/
+    detailBackground?: React.ReactNode
     /*点击歌曲图标是否展示播放详情（移动端有效）*/
     playDetailShow?: boolean
     /*播放详情展示或者隐藏时的回调函数，如果希望通过playDetailShow控制播放详情的显示隐藏状态，则需要在这个回调中同步设置playDetailShow的值*/

@@ -129,4 +129,11 @@ describe('unit test for coolPlayer', () => {
     const coolLyricDetail = findTestWrapper(coolPlayer, 'lyric-full-screen')
     expect(coolLyricDetail.length).toBe(0)
   })
+  test('如果没有传入任何音频数据，播放详情的音频头像不应该展示', () => {
+    const coolPlayer = mount(<CoolPlayer/>)
+    const detailShow = findTestWrapper(coolPlayer, 'detail-show')
+    detailShow.simulate('click')
+    const coolLyricDetailAvatar = findTestWrapper(coolPlayer, 'cool-player-detail-avatar')
+    expect(coolLyricDetailAvatar.length).toBe(0)
+  })
 })

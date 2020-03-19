@@ -217,7 +217,6 @@
       left: 0;
       height: 4px;
       background: linear-gradient(90deg, #01e4ff, #017fff);
-      z-index: 9999;
       border-radius: 5px;
       .progress-action-point {
         width: 15px;
@@ -705,8 +704,12 @@
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 3000;
     background: rgba(0, 0, 0, 0.8);
+    .cool-player-detail-bg {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
     .cool-player-detail-img {
       width: 220px;
       height: 220px;
@@ -743,6 +746,7 @@
     .cool-player-detail-music-info {
       margin-top: 20px;
       text-align: center;
+      position: relative;
       .title {
         width: 50%;
         margin: 0 auto;

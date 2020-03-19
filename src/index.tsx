@@ -50,6 +50,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
   const avatarEl = useRef(null)
   const coolPlayerInnerEl = useRef(null)
   const coolPlayerDetailEl = useRef(null)
+  const coolPlayerDetailAudioInfoEl = useRef(null)
   const detailPicWrapperEl = useRef(null)
   const [ isPaused, setPaused ] = useState<boolean>(true)
   const [ totalTime, setTotalTime ] = useState<number | string>('00:00')
@@ -101,7 +102,8 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
     showDetailLyric = false,
     showProgressControlByLyricScroll = true,
     onPlayListStatusChange,
-    onPlayDetailStatusChange
+    onPlayDetailStatusChange,
+    detailBackground
   } = props
 
   let lyricList: coolPlayerTypes.ILyric[] = getLyric(currentMusic && currentMusic.lyric || lyricFromProps)
@@ -145,9 +147,6 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
     if (actionsEl.current ) {
       actionsEl.current.style.zIndex = zIndex + 300
     }
-    if (coolPlayerDetailEl.current) {
-      coolPlayerDetailEl.current.style.zIndex = zIndex + 4000
-    }
     if (detailPicWrapperEl.current) {
       detailPicWrapperEl.current.style.zIndex = zIndex + 700
     }
@@ -155,6 +154,16 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
       coolPlayListWrapper.current.style.zIndex = zIndex - 100
     }
   }, [document.body.clientWidth])
+
+  useEffect(() => {
+    const { zIndex = 1000 } = props
+    if (coolPlayerDetailEl.current) {
+      coolPlayerDetailEl.current.style.zIndex = zIndex + 4000
+    }
+    if (coolPlayerDetailAudioInfoEl.current) {
+      coolPlayerDetailAudioInfoEl.current.style.zIndex = zIndex + 100
+    }
+  }, [ detailVisible ])
 
   useEffect(() => {
     // setCurrentMusic(currentAudio || initialMusic || data[0])
@@ -1074,19 +1083,29 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
       transitionLeaveTimeout={300}
     >
       {
-        detailVisible && <div className="cool-player-detail" data-test={'cool-player-detail-modal'} ref={ coolPlayerDetailEl }>
-          <div className="cool-player-detail-music-info">
+        detailVisible &&
+        <div className="cool-player-detail" data-test={'cool-player-detail-modal'} ref={ coolPlayerDetailEl }>
+          <div className={'cool-player-detail-bg'}>
+            { detailBackground }
+          </div>
+          <div className="cool-player-detail-music-info" ref={ coolPlayerDetailAudioInfoEl }>
             <div className="title">{ currentMusic && currentMusic.name }</div>
             <div className="artist">{ currentMusic && currentMusic.artist }</div>
           </div>
-          <div className={ classnames('cool-player-detail-img', {
-            'cool-player-detail-img-hidden': lyricFullScreen
-          }) }>
-            <div className="album-border" ></div>
-            <div className="detail-pic-wrapper" ref={ detailPicWrapperEl }>
-              <img className="detailPic" ref={ detailMusicAvatarEl } src={ currentMusic && currentMusic.img } alt=""/>
+          {
+            currentMusic && !currentMusic.invalid &&
+            <div
+              data-test={'cool-player-detail-avatar'}
+              className={ classnames('cool-player-detail-img', {
+                'cool-player-detail-img-hidden': lyricFullScreen
+              }) }
+            >
+              <div className="album-border" ></div>
+              <div className="detail-pic-wrapper" ref={ detailPicWrapperEl }>
+                <img className="detailPic" ref={ detailMusicAvatarEl } src={ currentMusic && currentMusic.img } alt=""/>
+              </div>
             </div>
-          </div>
+          }
           {
             showDetailLyric &&
             <div
