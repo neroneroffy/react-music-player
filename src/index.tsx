@@ -213,6 +213,12 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
   }, [angle, isPaused])
 
   useEffect(() => {
+    if (detailMusicAvatarEl.current) {
+      detailMusicAvatarEl.current.style.transform = `rotate(${angle}deg)`;
+    }
+  }, [ detailVisible ])
+
+  useEffect(() => {
     const audio = audioEl.current
     if (!isPaused) {
       audio.play()
