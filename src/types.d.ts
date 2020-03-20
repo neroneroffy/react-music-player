@@ -68,6 +68,9 @@ declare namespace coolPlayerTypes {
     }
     /*主题颜色*/
     primaryColor?: string
+    icons?: {
+      [ name: string ]: React.ReactNode
+    }
   }
   interface IAudio {
     /*音频链接*/

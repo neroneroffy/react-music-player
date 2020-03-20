@@ -248,6 +248,7 @@
   .icon-mute, .icon-volume {
     width: 20px;
     height: 20px;
+    line-height: 0;
     fill: currentColor;
   }
   .icon-volume {
@@ -327,11 +328,13 @@
     padding-bottom: 40px;
     margin-top: 8px;
     margin-bottom: 20px;
-    .icon-delete {
-      width: 18px;
-      height: 18px;
-      fill: currentColor;
-      padding-top: 12px;
+    .cool-player-audio-del {
+      svg {
+        width: 18px;
+        height: 18px;
+        fill: currentColor;
+        padding-top: 12px;
+      }
     }
   }
   .play-list-placeholder {
@@ -392,8 +395,8 @@
     width: 10%;
     text-align: left;
     margin-right: 10px;
+    line-height: 0;
     .icon-playing, .icon-play {
-      margin-top: 14px;
       width: 20px;
       height: 20px;
       fill: currentColor;
@@ -777,6 +780,9 @@
       }
       .operation {
         color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
         svg {
           width: 40px;
           height: 40px;

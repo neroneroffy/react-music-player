@@ -42,7 +42,7 @@ describe('unit test for coolPlayer', () => {
   })
   test('删除播放列表中的某一首音乐，应触发onDelete函数', () => {
     const fn = jest.fn()
-    const coolPlayer = shallow(<CoolPlayer
+    const coolPlayer = mount(<CoolPlayer
       onDelete={fn}
       data={_data}
     />)
