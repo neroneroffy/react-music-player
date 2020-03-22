@@ -64,6 +64,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
   const actionsEl = useRef(null)
   const insideCircleEl = useRef(null)
   const avatarEl = useRef(null)
+  const coolPlayerModalEl = useRef(null)
   const coolPlayerInnerEl = useRef(null)
   const coolPlayerDetailEl = useRef(null)
   const coolPlayerDetailAudioTopEl = useRef(null)
@@ -102,6 +103,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
     avatarPlaceholder = <div className={'cool-player-avatar-placeholder'}></div>,
     playListAudioActions = [],
     actions = [],
+    detailActionsBottom = [],
     detailActionTopRight,
     playListHeader = {
       headerLeft: '播放列表',
@@ -202,6 +204,13 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
       coolPlayerDetailAudioTopEl.current.style.zIndex = zIndex + 100
     }
   }, [ detailVisible ])
+
+  useEffect(() => {
+    const { zIndex = 1000 } = props
+    if (coolPlayerModalEl.current && musicListShow) {
+      coolPlayerModalEl.current.style.zIndex = zIndex + 4500
+    }
+  }, [ musicListShow ])
 
   useEffect(() => {
     // setCurrentMusic(currentAudio || initialMusic || data[0])
@@ -567,12 +576,6 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
   }
   // Show the play list wrapper
   const showMusicList = () => {
-    setMusicListShow(!musicListShow)
-    if (onPlayListStatusChange) {
-      onPlayListStatusChange(!musicListShow)
-    }
-  }
-  const showMusicListInDetail = () => {
     setMusicListShow(!musicListShow)
     if (onPlayListStatusChange) {
       onPlayListStatusChange(!musicListShow)
@@ -1028,8 +1031,8 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
       transitionLeaveTimeout={300}
     >
       {
-        (musicListShow && !detailVisible) ?
-          <div className="cool-player-modal" data-test="play-list-modal" onClick={showMusicList}></div>
+        musicListShow ?
+          <div className="cool-player-modal" data-test="play-list-modal" ref={coolPlayerModalEl} onClick={showMusicList}></div>
           :
           null
       }
@@ -1094,6 +1097,11 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
             </div>
           }
           <div className="cool-player-detail-panel">
+            <div className="cool-player-detail-panel-actions">
+              {
+                detailActionsBottom.length && detailActionsBottom.map(item => item(currentMusic))
+              }
+            </div>
             <div
               className="detail-progress"
               ref={ detailProgressEl }

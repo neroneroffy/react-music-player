@@ -61,6 +61,8 @@ declare namespace coolPlayerTypes {
     actions?: Array<(data: IAudio) => React.ReactNode>
     /*移动端状态下，展示在播放详情内部右上角的操作元素*/
     detailActionTopRight?: (data: IAudio) => React.ReactNode
+    /*移动端状态下，展示在播放详情内部进度条上方的操作组*/
+    detailActionsBottom?: Array<(data: IAudio) => React.ReactNode>
     /*播放列表内每首音频的操作组，在歌曲名称右侧，移动端激活状态下显示，非移动端hover时显示*/
     playListAudioActions?: Array<(data: IAudio, active?: boolean) => React.ReactNode>
     /*播放列表顶部的左右两个元素*/

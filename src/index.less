@@ -436,7 +436,7 @@
   width: 100%;
   height: 100%;
   background: #000;
-  opacity: 0.3;
+  opacity: 0.1;
   position: fixed;
   top: 0;
   display: none;
@@ -445,11 +445,11 @@
   opacity: 0;
 }
 .cool-player-list-model-enter.cool-player-list-model-enter-active {
-  opacity: 0.3;
+  opacity: 0.1;
   transition: all 300ms ease-in;
 }
 .cool-player-list-model-leave {
-  opacity: 0.3;
+  opacity: 0.1;
 }
 .cool-player-list-model-leave.cool-player-list-model-leave-active {
   opacity: 0;
@@ -780,14 +780,19 @@
     .cool-player-detail-panel {
       width: 90%;
       position: absolute;
-      bottom: 40px;
+      bottom: 12px;
       left: 50%;
       margin-left: -45%;
+      .cool-player-detail-panel-actions {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
       .detail-progress {
         width: 100%;
         height: 2px;
         padding: 3px 0;
-        margin-top: 60px;
+        margin-top: 14px;
         -webkit-tap-highlight-color: transparent;
         -webkit-touch-callout: none;
         -webkit-user-select: none;
@@ -991,7 +996,7 @@
     }
     .cool-player-detail-lyric {
       height: 30vh;
-      margin-top: 20px;
+      margin-top: 10px;
       overflow: hidden;
     }
     .cool-player-operate {
@@ -1093,7 +1098,7 @@
         width: 100%;
         height: 2px;
         padding: 3px 0;
-        margin-top: 60px;
+
         -webkit-tap-highlight-color: transparent;
         -webkit-touch-callout: none;
         -webkit-user-select: none;
@@ -1187,7 +1192,6 @@
         width: 100%;
         height: 2px;
         padding: 3px 0;
-        margin-top: 60px;
         .progress {
           .progress-buffered {
             top: 0;
