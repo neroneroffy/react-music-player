@@ -69,7 +69,20 @@ declare namespace coolPlayerTypes {
     /*主题颜色*/
     primaryColor?: string
     icons?: {
-      [ name: string ]: React.ReactNode
+      playList?: React.ReactNode
+      playListPlay?: React.ReactNode
+      playListPlaying?: React.ReactNode
+      deleteIcon?: React.ReactNode
+      playIcon?: React.ReactNode
+      pauseIcon?: React.ReactNode
+      prevIcon?: React.ReactNode
+      nextIcon?: React.ReactNode
+      modeOrder?: React.ReactNode
+      modeRandom?: React.ReactNode
+      modeLoop?: React.ReactNode
+      volumeIcon?: React.ReactNode
+      muteIcon?: React.ReactNode
+      detailHide?: React.ReactNode
     }
   }
   interface IAudio {

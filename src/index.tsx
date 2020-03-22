@@ -121,23 +121,25 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
     onPlayDetailStatusChange,
     detailBackground,
     primaryColor = '#33beff',
-    icons = {
-      playList: IconMenu,
-      playListPlay: IconPlaylistPlay,
-      playListPlaying: IconPlaylistPlaying,
-      delete: IconDelete,
-      play: IconPlay,
-      pause: IconPause,
-      prev: IconPrev,
-      next: IconNext,
-      modeOrder: IconModeOrder,
-      modeRandom: IconModeRandom,
-      modeLoop: IconModeLoop,
-      volume: IconVolume,
-      mute: IconMute,
-      detailHide: IconDetailHide,
-    }
+    icons = {}
   } = props
+  const {
+    playList = IconMenu,
+    playListPlay = IconPlaylistPlay,
+    playListPlaying = IconPlaylistPlaying,
+    deleteIcon = IconDelete,
+    playIcon = IconPlay,
+    pauseIcon = IconPause,
+    prevIcon = IconPrev,
+    nextIcon = IconNext,
+    modeOrder = IconModeOrder,
+    modeRandom = IconModeRandom,
+    modeLoop = IconModeLoop,
+    volumeIcon = IconVolume,
+    muteIcon = IconMute,
+    detailHide = IconDetailHide,
+  } = icons
+
 
   let lyricList: coolPlayerTypes.ILyric[] = getLyric(currentMusic && currentMusic.lyric || lyricFromProps)
   let tLyricList: {} = getTLyric(currentMusic && currentMusic.tLyric || tLyricFromProps)
@@ -657,9 +659,9 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
     }
   }
   const onSwitchPlayMode = () => {
-    const singleCycle = <div data-test={'loop'}>{ icons.modeLoop }</div>
-    const playInOrder = <div data-test={'order'}>{ icons.modeOrder }</div>
-    const playInRandom = <div data-test={'random'}>{ icons.modeRandom }</div>
+    const singleCycle = <div data-test={'loop'}>{ modeLoop }</div>
+    const playInOrder = <div data-test={'order'}>{ modeOrder }</div>
+    const playInRandom = <div data-test={'random'}>{ modeRandom }</div>
     switch (mode) {
       case PlayMode.Order:
         return playInOrder
@@ -702,20 +704,20 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
         <div className="cool-player-control" ref={playControlEl}>
           <div className={'cool-player-control-btn'}>
             <div className="icon-prev" onClick={last} data-test={'prev-btn'}>
-              { icons.prev }
+              { prevIcon }
             </div>
             {
               !isPaused && currentMusic && currentMusic.src ?
                 <div className="icon-puase" onClick={pause} data-test={'pause-btn'}>
-                  { icons.pause }
+                  { pauseIcon }
                 </div>
                 :
                 <div className="icon-play" onClick={play} data-test={'play-btn'}>
-                  { icons.play }
+                  { playIcon }
                 </div>
             }
             <div className="icon-next" onClick={next} data-test={'next-btn'}>
-              { icons.next }
+              { nextIcon }
             </div>
           </div>
         </div>
@@ -818,7 +820,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
           </div>
           <div className="cool-player-list-mode-btn">
             <div className="icon-menu" onClick={showMusicList}>
-              { icons.playList }
+              { playList }
             </div>
             <div className="cool-player-mode">
               <div className="mode" data-test={'play-mode-btn'} onClick={ playMode }>
@@ -845,11 +847,11 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
           {
             isMute ?
               <div className={'icon-mute'} onClick={onToggleMute} data-test={'icon-mute'}>
-                { icons.volume }
+                { volumeIcon }
               </div>
               :
               <div className={'icon-volume'} onClick={onToggleMute} data-test={'icon-volume'}>
-                { icons.mute }
+                { muteIcon }
               </div>
           }
 
@@ -928,7 +930,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
                                         className="icon-playing"
                                         data-test={'icon-playing'}
                                       >
-                                        { icons.playListPlaying }
+                                        { playListPlaying }
                                       </div>
                                       :
                                       <div
@@ -936,7 +938,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
                                         onClick={() => playThis(i)}
                                         data-test={'icon-play'}
                                       >
-                                        { icons.playListPlay }
+                                        { playListPlay }
                                       </div>
                                   }
 
@@ -977,7 +979,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
                                   onClick={() => playThis(i)}
                                 >{v.artist}</div>
                                 <div className="cool-player-audio-del" onClick={() => delMusic(i, v.id)} data-test={'icon-delete'}>
-                                  { icons.delete }
+                                  { deleteIcon }
                                 </div>
                               </div>
                             </div>
@@ -1101,24 +1103,24 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
               </div>
               <div className="operation">
                 <div className="icon-prev" onClick={last}>
-                  { icons.prev }
+                  { prevIcon }
                 </div>
                 {
                   !isPaused && currentMusic && currentMusic.src ?
                     <div className="icon-puase" onClick={pause}>
-                      { icons.pause }
+                      { pauseIcon }
                     </div>
                     :
                     <div className="icon-play" onClick={play}>
-                      { icons.play }
+                      { playIcon }
                     </div>
                 }
                 <div className="icon-next" onClick={next}>
-                  { icons.next }
+                  { nextIcon }
                 </div>
               </div>
               <div className="close-detail" data-test={'close-detail'} onClick={ onHideDetail }>
-                { icons.detailHide }
+                { detailHide }
               </div>
             </div>
           </div>
