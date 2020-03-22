@@ -431,8 +431,8 @@
   top: 20px;
   transition: all 300ms ease-in;
 }
-/* 模态层 */
-.modal {
+/* model */
+.cool-player-modal {
   width: 100%;
   height: 100%;
   background: #000;
@@ -685,7 +685,7 @@
     top: 20px;
     transition: all 300ms ease-in;
   }
-  .modal {
+  .cool-player-modal {
     display: block;
   }
   .cool-player-detail {
@@ -733,53 +733,29 @@
         }
       }
     }
-    .cool-player-detail-music-info {
-      margin-top: 20px;
-      text-align: center;
-      position: relative;
-      .title {
-        width: 50%;
-        margin: 0 auto;
-        font-size: 18px;
-        color: #fff;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        overflow: hidden;
-      }
-      .artist {
-        width: 50%;
-        margin: 10px auto 0 auto;
-        font-size: 12px;
-        color: #8a8a8a;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        overflow: hidden;
-      }
-    }
     .cool-player-detail-lyric {
       height: 30vh;
       margin-top: 20px;
       overflow: hidden;
       transition: all .3s ease-in-out;
     }
-    .operate {
+    .cool-player-operate {
       margin-top: 10px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      color: #fff;
-      .close-detail {
+      .play-list-show-btn {
         padding: 4px;
         svg {
           fill: currentColor;
-          color: #ccc;
+          color: @icons-color;
           width: 20px;
           height: 20px;
           transform: rotate(180deg);
         }
       }
       .operation {
-        color: #fff;
+        color: @icons-color;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -862,6 +838,43 @@
         display: flex;
         justify-content: space-between;
         color: #a3a3a3;
+      }
+    }
+    .cool-player-detail-top {
+      width: 90%;
+      margin: 0 auto;
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .cool-player-detail-close {
+        width: 30px;
+        color: @icons-color;
+        svg {
+          fill: currentColor;
+        }
+      }
+      .cool-player-detail-music-info {
+        width: 50%;
+        margin-top: 20px;
+        text-align: center;
+        position: relative;
+        .title {
+          margin: 0 auto;
+          font-size: 18px;
+          color: #fff;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
+        }
+        .artist {
+          margin: 10px auto 0 auto;
+          font-size: 12px;
+          color: #8a8a8a;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
+        }
       }
     }
   }
@@ -981,8 +994,8 @@
       margin-top: 20px;
       overflow: hidden;
     }
-    .operate {
-      .close-detail {
+    .cool-player-operate {
+      .play-list-show-btn {
         width: 30px;
         text-align: right;
         padding-right: 2px;
@@ -1055,17 +1068,11 @@
       height: 30vh;
       margin-top: 20px;
     }
-    .operate {
+    .cool-player-operate {
       display: flex;
       justify-content: space-between;
       align-items: center;
       color: #fff;
-      .close-detail {
-        width: 30px;
-        img {
-          width: 30px;
-        }
-      }
       .operation {
         color: #fff;
         svg {
@@ -1160,15 +1167,9 @@
       height: 160px;
       margin-top: 10px;
     }
-    .operate {
-      .close-detail {
-        width: 30px;
-        img {
-          width: 30px;
-        }
-      }
+    .cool-player-operate {
       .operation {
-        color: #fff;
+        color: @icons-color;
         svg {
           width: 40px;
           height: 40px;

@@ -11,6 +11,17 @@ enum PlayMode {
   Random = 'random',
   Loop = 'loop'
 }
+const IconMore = <svg
+  viewBox="0 0 1024 1024"
+  version="1.1"
+  xmlns="http://www.w3.org/2000/svg"
+  width="30"
+  height="30"
+  fill={'#bfbfbf'}
+>
+  <path d="M746.662019 512c0 51.835575 42.044582 93.865831 93.865831 93.865831 51.851948 0 93.865831-42.029232 93.865831-93.865831 0-51.836599-42.013883-93.865831-93.865831-93.865831C788.706601 418.135192 746.662019 460.163401 746.662019 512z" p-id="1150"></path><path d="M89.604272 512c0 51.835575 42.043558 93.865831 93.864808 93.865831 51.822272 0 93.865831-42.029232 93.865831-93.865831 0-51.836599-42.043558-93.865831-93.865831-93.865831C131.648854 418.135192 89.604272 460.163401 89.604272 512z" p-id="1151"></path><path d="M418.132634 512c0 51.835575 42.013883 93.865831 93.866854 93.865831 51.821249 0 93.864808-42.029232 93.864808-93.865831 0-51.836599-42.043558-93.865831-93.864808-93.865831C460.146517 418.135192 418.132634 460.163401 418.132634 512z" p-id="1152">
+  </path>
+</svg>
 
 const App = () => {
   const [ data, setData ] = useState([
@@ -186,6 +197,11 @@ const App = () => {
       </div>
   },
   ]
+  const detailActionTopRight = (music: any) => {
+    return <div onClick={() => console.log(music)}>
+      { IconMore }
+    </div>
+  }
   const playThis = (index: number) => {
     setCurrentAudio(dataExternal[index])
     setPlaying(true)
@@ -415,6 +431,7 @@ const App = () => {
         }}
         playMode={playMode}
         primaryColor={'#f99013'}
+        detailActionTopRight={detailActionTopRight}
       />
     </div>
   </div>
