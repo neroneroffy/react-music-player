@@ -323,7 +323,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
     // 获取总时间
     const musicTotalTime = parseInt(audioEl.current.duration, 0);
     setTotalTime(getTime(musicTotalTime))
-    setRemainTime(getTime(musicTotalTime))
+    setRemainTime(getTime(0))
     setPlayedLeft(playedEl.current.getBoundingClientRect().left)
     setVolumeLeft(totalVolumeEl.current.getBoundingClientRect().left)
     if (detailPlayedEl.current) {
@@ -369,7 +369,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
       detailBufferedEl.current.style.width = bufferedPer * 100 + '%';
     }
     // 设置剩余时间
-    const musicRemainTime = parseInt(`${audioEl.current.duration - audioEl.current.currentTime}`, 0);
+    const musicRemainTime = parseInt(`${audioEl.current.currentTime}`, 0);
     setTimeout(() => {
       setRemainTime(getTime(musicRemainTime))
     })
@@ -804,9 +804,10 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
 
             </div>
             <div className="time">
-              <div className="total-time" data-test={'total-time'}>{ currentMusic && currentMusic.src ? totalTime : '00:00'}</div>
-              <span>/</span>
               <div className="remain-time">{ currentMusic && currentMusic.src ? remainTime : '00:00'}</div>
+              <span>/</span>
+              <div className="total-time" data-test={'total-time'}>{ currentMusic && currentMusic.src ? totalTime : '00:00'}</div>
+
             </div>
             {
               showLyricMini &&
