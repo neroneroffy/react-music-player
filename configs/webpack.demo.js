@@ -10,8 +10,8 @@ const demoConfig = {
   entry: path.join(__dirname, '../example/index.tsx'),
   output: {
     filename: 'js/bundle.[contenthash].js',
-    path: path.join(__dirname, '../public/static'),
-    publicPath: './'
+    path: path.join(__dirname, '../cool-player/static'),
+    publicPath: './static/'
   },
   module: {
     rules: [
@@ -48,7 +48,7 @@ const demoConfig = {
       filename: 'css/bundle.[contenthash].css',
     }),
     new htmlWebpackPlugin({
-      filename: path.join(__dirname, '../public/static/index.html'),
+      filename: path.join(__dirname, '../cool-player/index.html'),
       template: path.join(__dirname, '../example/index.html'),
       title: 'ReactCoolMusicPlayer'
     })

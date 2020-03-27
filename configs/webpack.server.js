@@ -6,7 +6,7 @@ module.exports = {
   entry: path.join(__dirname, '../server/index.js'),
   output: {
     filename: 'server.js',
-    path: path.join(__dirname, '../public')
+    path: path.join(__dirname, '../cool-player')
   },
   module: {
     rules: [

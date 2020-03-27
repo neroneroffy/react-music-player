@@ -12,7 +12,7 @@
     "test": "jest --watch",
     "coverage": "jest --coverage",
     "clear:dist": "rimraf dist",
-    "clear:public": "rimraf public",
+    "clear:public": "rimraf cool-player",
     "lint:ts": "eslint ./src --ext .js,.ts,.tsx",
     "lint:ts-fix": "eslint ./src --ext .js,.ts,.tsx --fix",
     "lint:style": "stylelint **/*.less --syntax less",
@@ -23,7 +23,7 @@
     "build": "npm run clear:dist && webpack --progress --config configs/webpack.prod.js",
     "build:demo": "npm run clear:public && webpack --progress --config configs/webpack.demo.js",
     "build:server": "webpack --progress --config configs/webpack.server.js",
-    "start": "npm run build:demo && npm run build:server && node ./public/server.js"
+    "start": "npm run build:demo && npm run build:server && node ./cool-player/server.js"
   },
   "author": "",
   "license": "ISC",
