@@ -91,7 +91,6 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
   const [ playedWidth, setPlayedWidth ] = useState<number>(0)
   const [ bufferedWidth, setBufferedWidth ] = useState<number>(0)
   const [ playPercent, setPlayPercent ] = useState<number>(0)
-
   const { showLyricNormal = true,
     showLyricMini = true,
     playListShow = false,
@@ -114,17 +113,16 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
     onModeChange,
     playMode: playModeFromProps = PlayMode.Order,
     onVolumeChange,
-    playing = true,
     volume = 0.5,
     playListPlaceholder = 'No data',
     showPlayDetail = true,
     showDetailLyric = false,
     showProgressControlByLyricScroll = true,
-    onPlayListStatusChange,
     onPlayDetailStatusChange,
     detailBackground,
     primaryColor = '#33beff',
-    icons = {}
+    icons = {},
+    onPlayListStatusChange,
   } = props
   const {
     playList = IconMenu,
@@ -142,7 +140,6 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
     muteIcon = IconMute,
     detailHide = IconDetailHide,
   } = icons
-
   let lyricList: coolPlayerTypes.ILyric[] = getLyric(currentMusic && currentMusic.lyric || lyricFromProps)
   let tLyricList: {} = getTLyric(currentMusic && currentMusic.tLyric || tLyricFromProps)
   let indexArr: number[] = []
@@ -167,15 +164,15 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
     setLyricIndex(-1)
     setLyric([])
     setTLyric({})
+    setAngle(0)
   }, [currentMusic])
-
   useEffect(() => {
     const { zIndex = 1000 } = props
     coolPlayerEl.current.style.zIndex = zIndex
     coolPlayerInnerEl.current.style.zIndex = zIndex
     musicBoxEl.current.style.zIndex = zIndex + 100
     playControlEl.current.style.zIndex = zIndex + 200
-    coolPlayListWrapper.current.style.zIndex = zIndex + 100
+    coolPlayListWrapper.current.style.zIndex = zIndex - 100
     progressEl.current.style.zIndex = zIndex + 200
     playedEl.current.style.zIndex = zIndex + 300
     if (avatarEl.current ) {
@@ -187,8 +184,8 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
     if (detailPicWrapperEl.current) {
       detailPicWrapperEl.current.style.zIndex = zIndex + 700
     }
-    if (document.body.clientWidth > 680) {
-      coolPlayListWrapper.current.style.zIndex = zIndex - 100
+    if (document.body.clientWidth <= 680) {
+      coolPlayListWrapper.current.style.zIndex = zIndex + 5000
     }
   }, [document.body.clientWidth])
 
@@ -196,9 +193,6 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
     const { zIndex = 1000 } = props
     if (coolPlayerDetailEl.current) {
       coolPlayerDetailEl.current.style.zIndex = zIndex + 4000
-    }
-    if (coolPlayListWrapper.current) {
-      coolPlayListWrapper.current.style.zIndex = zIndex + 5000
     }
     if (coolPlayerDetailAudioTopEl.current) {
       coolPlayerDetailAudioTopEl.current.style.zIndex = zIndex + 100
@@ -215,49 +209,50 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
   useEffect(() => {
     // setCurrentMusic(currentAudio || initialMusic || data[0])
     audioEl.current.addEventListener('canplay', setInitialTotalTime)
-    // 设置初始音量
     volumeProgressEl.current.style.width = '50%';
     audioEl.current.volume = volume
     setVolumeValue(volume)
-    if (autoPlay) {
-      play()
-    }
     return () => {
       audioEl.current.removeEventListener('canplay', setInitialTotalTime)
       audioEl.current.removeEventListener('timeupdate', setProgress)
     }
   }, [])
-  useEffect(() => {
-    if (playing && !currentMusic.invalid) {
-      play()
-      setPaused(false)
-    } else {
-      setPaused(true)
-    }
-  }, [playing])
 
   useEffect(() => {
-    setCurrentMusic(currentAudio)
+    if (autoPlay) {
+      play()
+    }
+  }, [autoPlay, currentMusic])
+  useEffect(() => {
+    if (currentAudio) {
+      setCurrentMusic(currentAudio)
+    }
   }, [ currentAudio ])
+  const rotate = () => {
+    rotateTimer = setTimeout(() => {
+      rotate()
+      setAngle(angle + 1)
+      if (musicAvatarEl.current) {
+        musicAvatarEl.current.style.transform = `rotate(${angle}deg)`;
+      }
+      if (detailMusicAvatarEl.current) {
+        detailMusicAvatarEl.current.style.transform = `rotate(${angle}deg)`;
+      }
+    }, 25)
+  }
 
   useEffect(() => {
     if (!isPaused) {
-      clearInterval(rotateTimer)
-      rotateTimer = setInterval(() => {
-        setAngle(angle + 1)
-        if (musicAvatarEl.current) {
-          musicAvatarEl.current.style.transform = `rotate(${angle}deg)`;
-        }
-
-        if (detailMusicAvatarEl.current) {
-          detailMusicAvatarEl.current.style.transform = `rotate(${angle}deg)`;
-        }
-      }, 33)
+      clearTimeout(rotateTimer)
+      if (!currentMusic || (currentMusic && currentMusic.disabled)) {
+        return
+      }
+      rotate()
     }
     return () => {
-      clearInterval(rotateTimer)
+      clearTimeout(rotateTimer)
     }
-  }, [angle, isPaused])
+  }, [ angle, isPaused, currentMusic])
 
   useEffect(() => {
     if (detailMusicAvatarEl.current) {
@@ -276,7 +271,6 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
     return () => {
       audio.removeEventListener('timeupdate', setProgress)
     }
-
   }, [isPaused, currentMusic, mode])
 
   useEffect(() => {
@@ -386,7 +380,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
       setRemainTime(getTime(musicRemainTime))
     })
     if (audioEl.current.ended) {
-      clearInterval(rotateTimer)
+      clearTimeout(rotateTimer)
       setPlayPercent(0)
       playedEl.current.style.width = '0%';
       setPlayedWidth(0)
@@ -407,21 +401,21 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
       setAngle(0)
     }
   }
-  const play = useCallback(() => {
-    if (!currentMusic || currentMusic.invalid) { return }
+  const play = () => {
+    if (!currentMusic || currentMusic.invalid || currentMusic.disabled) { return }
     setPaused(false)
     setIsPlayed(true)
     if (onPlayStatusChange) {
       onPlayStatusChange(currentMusic, true)
     }
-  }, [])
+  }
   const pause = () => {
     setPaused(true)
     if (onPlayStatusChange) {
       onPlayStatusChange(currentMusic, false)
     }
   }
-  const last = () => {
+  const last = (index?: number) => {
     setAngle(0)
     setLyricIndex(-1)
     if (!currentMusic || !currentMusic.src) {
@@ -429,30 +423,48 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
     }
     let current
 
-    current = data.findIndex(item => item.src === currentMusic.src)
+    current = index || data.findIndex(item => item.src === currentMusic.src)
     if (current > 0) {
+      if (data[current - 1].disabled) {
+        last(current - 1)
+        return
+      }
       setCurrentMusic(data[current - 1])
     } else {
+      if (data[data.length - 1].disabled) {
+        return
+      }
       setCurrentMusic(data[data.length - 1])
     }
   }
-  const next = () => {
+  const next = (index?: number) => {
     setAngle(0)
     setLyricIndex(-1)
     if (!currentMusic || !currentMusic.src) {
       return
     }
     let current
-    current = data.findIndex(item => item.id === currentMusic.id)
+    current = index || data.findIndex(item => item.id === currentMusic.id)
     if (current < data.length - 1) {
+      if (data[current + 1].disabled) {
+        next(current + 1)
+        return
+      }
       setCurrentMusic(data[current + 1])
     } else {
+      if (data[0].disabled) {
+        return
+      }
       setCurrentMusic(data[0])
     }
   }
   const random = () => {
     if(data.length !== 0){
       let randomIndex = Math.ceil(Math.random() * data.length - 1);
+      if (data[ randomIndex ].disabled) {
+        random()
+        return
+      }
       setCurrentMusic(data[ randomIndex ])
       setAngle(0)
       play()
@@ -582,6 +594,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
     }
   }
   const playThis = (i: number) => {
+    if (data[i].disabled) { return }
     setCurrentMusic(data[i])
     play()
   }
@@ -595,11 +608,11 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
         setCurrentMusic(data[i + 1])
       } else if (!data[i + 1] && data[i - 1]) {
         // 删除的是最后一首
-        clearInterval(rotateTimer);
+        clearTimeout(rotateTimer);
         setCurrentMusic(data[0])
       } else {
         // 都删除完了
-        clearInterval(rotateTimer);
+        clearTimeout(rotateTimer);
         audio.currentTime = 0;
         bufferedEl.current.style.width = 0;
         if (detailBufferedEl.current) {
@@ -715,12 +728,12 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
       <div className="cool-player-inner" ref={coolPlayerInnerEl}>
         <div className="cool-player-control" ref={playControlEl}>
           <div className={'cool-player-control-btn'}>
-            <div className="icon-prev" onClick={last} data-test={'prev-btn'}>
+            <div className="icon-prev" onClick={() => last()} data-test={'prev-btn'}>
               { prevIcon }
             </div>
             {
               !isPaused && currentMusic && currentMusic.src ?
-                <div className="icon-puase" onClick={pause} data-test={'pause-btn'}>
+                <div className="icon-puase" onClick={() => { pause() }} data-test={'pause-btn'}>
                   { pauseIcon }
                 </div>
                 :
@@ -728,7 +741,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
                   { playIcon }
                 </div>
             }
-            <div className="icon-next" onClick={next} data-test={'next-btn'}>
+            <div className="icon-next" onClick={() => next()} data-test={'next-btn'}>
               { nextIcon }
             </div>
           </div>
@@ -758,17 +771,21 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
                   strokeWidth="5"
                   strokeLinecap="round"
                 />
-                <circle
-                  className={'inside-circle'}
-                  ref={ insideCircleEl }
-                  id="J_progress_bar"
-                  cx="31"
-                  cy="31"
-                  r="26"
-                  fill="none"
-                  stroke={ primaryColor }
-                  strokeWidth="5"
-                />
+                {
+                  currentMusic &&
+                  <circle
+                    className={'inside-circle'}
+                    ref={ insideCircleEl }
+                    id="J_progress_bar"
+                    cx="31"
+                    cy="31"
+                    r="26"
+                    fill="none"
+                    stroke={ primaryColor }
+                    strokeWidth="5"
+                  />
+
+                }
               </svg>
               {
                 currentMusic && currentMusic.src ?
@@ -916,14 +933,41 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
                   <div className="cool-player-list-title-left">
                     { playListHeader.headerRight }
                   </div>
-
                 </div>
                 {
                   data && data.length ?
                     <div className="cool-player-audio-wrapper">
                       {
                         data.map((v, i) => {
-                          return (
+                          return v.disabled ?
+                            <div
+                              className={'cool-player-audio cool-player-audio-disabled'}
+                              key={v.id}
+                            >
+                              <div className={'cool-player-audio-left'}>
+                                <div className="cool-player-audio-play">
+                                  <div className="icon-play">
+                                    { playListPlay }
+                                  </div>
+                                </div>
+                                <div className="cool-player-audio-name" title={v.name}>{v.name}</div>
+                              </div>
+                              <div className="cool-player-audio-right">
+                                {
+                                  (v.disabled && v.disabledReason) &&
+                                    <div className={'cool-player-disabled-reason'}>
+                                      { v.disabledReason }
+                                    </div>
+                                }
+                                <div
+                                  className="cool-player-audio-artist"
+                                >{v.artist}</div>
+                                <div className="cool-player-audio-del" onClick={() => delMusic(i, v.id)} data-test={'icon-delete'}>
+                                  { deleteIcon }
+                                </div>
+                              </div>
+                            </div>
+                            :
                             <div
                               className={'cool-player-audio'}
                               style={
@@ -996,7 +1040,6 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
                                 </div>
                               </div>
                             </div>
-                          )
                         })
                       }
                     </div>
@@ -1127,7 +1170,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
                 { onSwitchPlayMode() }
               </div>
               <div className="operation">
-                <div className="icon-prev" onClick={last}>
+                <div className="icon-prev" onClick={() => last()}>
                   { prevIcon }
                 </div>
                 {
@@ -1140,7 +1183,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
                       { playIcon }
                     </div>
                 }
-                <div className="icon-next" onClick={next}>
+                <div className="icon-next" onClick={() => next()}>
                   { nextIcon }
                 </div>
               </div>

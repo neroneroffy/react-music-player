@@ -53,8 +53,24 @@ describe('cool player functional test', () => {
     const singleMusic = findTestWrapper(coolPlayer, 'single-music')
     expect(singleMusic.length).toBe(_data.length)
   })
+  test('如果歌曲被禁用，点击播放按钮后，音乐不应该播放', () => {
+    const dataDisabled = {
+      src: 'http://neroht.com/%E7%91%BE%E5%A7%9DHikari%20-%20%E5%A4%A7%E6%B0%BF%E6%AD%8C%EF%BC%88%E6%88%8F%E8%85%94%E7%89%88%EF%BC%89%EF%BC%88Cover%EF%BC%9Ailem%EF%BC%89.mp3',
+      artist: '瑾姝Hikari',
+      name: '大氿歌',
+      img: 'http://neroht.com/daguige.jpg',
+      id: '66575568442',
+      disabled: true,
+    }
+    const coolPlayer = mount(<CoolPlayer data={_data} currentAudio={dataDisabled} playing={false}/>)
+    const playBtn = findTestWrapper(coolPlayer, 'play-btn')
+    const audio = findTestWrapper(coolPlayer, 'audio')
+    audio.instance().play = jest.fn()
+    playBtn.simulate('click')
+    expect(audio.instance().play).toHaveBeenCalledTimes(0)
+  })
   test('点击播放按钮后，音乐应该播放', () => {
-    const coolPlayer = mount(<CoolPlayer data={_data} playing={false}/>)
+    const coolPlayer = mount(<CoolPlayer data={_data}/>)
     const playBtn = findTestWrapper(coolPlayer, 'play-btn')
     const audio = findTestWrapper(coolPlayer, 'audio')
     audio.instance().play = jest.fn()

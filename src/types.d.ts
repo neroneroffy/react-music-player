@@ -107,6 +107,10 @@ declare namespace coolPlayerTypes {
     tLyric?: string
     /*是否不可用，组件内部的音频初始值会有这个值，表示当前无音频*/
     invalid?: boolean
+    /*是否禁用*/
+    disabled?: boolean
+    /*禁用的原因*/
+    disabledReason?: string | React.ReactNode
   }
   interface ILyric {
     /*当前歌词的时间*/

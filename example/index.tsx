@@ -46,6 +46,8 @@ const App = () => {
       name: '止战之殇（纯钢琴）',
       img: 'http://neroht.com/jay.jpg',
       id: '66575568441',
+      disabled: true,
+      disabledReason: '版权问题，无法播放'
     },
     {
       src: 'http://neroht.com/%E7%91%BE%E5%A7%9DHikari%20-%20%E8%B5%A4%E4%BC%B6%EF%BC%88Cover%EF%BC%9AHITA%EF%BC%89.mp3',
@@ -92,6 +94,7 @@ const App = () => {
       name: 'Lollipop',
       img: 'http://neroht.com/mika.jpg',
       id: '66575568425354321',
+      // disabled: true,
     },
     {
       src: 'http://neroht.com/Shayne Ward - Breathless.mp3',
@@ -131,12 +134,17 @@ const App = () => {
   const onAudioChange = (id: string, currentMusic: coolPlayerTypes.IAudio) => {
     setLyric('')
     setTLyric('')
+    console.log(currentMusic.name);
     setCurrentAudio(currentMusic)
     if (!currentMusic.lyric) {
       setLyricLoading(true)
       fetch(`/api/lyric/${id}`)
-        .then(res => res.json())
         .then(res => {
+          const cloneRes = res.clone()
+          return cloneRes.json()
+        })
+        .then(res => {
+          console.log('lyric data is:', res);
           setLyricLoading(false)
           if (res.result && res.data) {
             const { lyric, tLyric } = res.data
@@ -257,9 +265,7 @@ const App = () => {
     setCurrentAudio(dataExternal[index])
     setPlaying(true)
   }
-  const onPlayStatusChange = (_currentAudio: coolPlayerTypes.IAudio, isPlaying: boolean) => {
-    setPlaying(isPlaying)
-  }
+
   const onPlayModeControl = () => {
     switch (currentPlayMode){
       case PlayMode.Order:
@@ -369,14 +375,6 @@ const App = () => {
         }
       </div>
       <div className={'exp-operation'}>
-        <div className="control">
-          <div className={'title'}>Play control</div>
-          <div className={'content'}>
-            <button onClick={onTogglePlaying}>
-              { playing ? 'Pause' : 'Play' }
-            </button>
-          </div>
-        </div>
         <div className={'control'}>
           <div className={'title'}>Play mode control</div>
           <div className={'content'}>
@@ -414,14 +412,14 @@ const App = () => {
           <div className={'title'}>Volume control</div>
           <div className={'content'}>
             <div
-                className="volume-control-wrapper"
-                onTouchMove={moveVolume}
-                onTouchStart={startMoveVolume}
-                onMouseDown={mouseDownVolume}
-                onMouseMove={slideChangeVolume}
-                onMouseUp={mouseUpVolume}
-                onMouseLeave={mouseLeave}
-                onClick={clickChangeVolume}
+              className="volume-control-wrapper"
+              onTouchMove={moveVolume}
+              onTouchStart={startMoveVolume}
+              onMouseDown={mouseDownVolume}
+              onMouseMove={slideChangeVolume}
+              onMouseUp={mouseUpVolume}
+              onMouseLeave={mouseLeave}
+              onClick={clickChangeVolume}
             >
               <div
                 className={'volume-control'}
@@ -448,14 +446,12 @@ const App = () => {
         playListPlaceholder={'No Data'}
         onDelete={onDelete}
         autoPlay={false}
-        playing={playing}
         data={data}
         currentAudio={currentAudio}
         showLyricNormal={true}
         showDetailLyric={true}
         onAudioChange={onAudioChange}
         onVolumeChange={onVolumeChange}
-        onPlayStatusChange={onPlayStatusChange}
         lyric={lyric}
         tLyric={tLyric}
         lyricLoading={lyricLoading}
