@@ -123,6 +123,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
     primaryColor = '#33beff',
     icons = {},
     onPlayListStatusChange,
+    play: beginPlay
   } = props
   const {
     playList = IconMenu,
@@ -217,6 +218,14 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
       audioEl.current.removeEventListener('timeupdate', setProgress)
     }
   }, [])
+
+  useEffect(() => {
+    if (beginPlay) {
+      play()
+    } else {
+      pause()
+    }
+  }, [ beginPlay ])
 
   useEffect(() => {
     if (autoPlay) {
@@ -401,10 +410,12 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
       setAngle(0)
     }
   }
+  const checkNoData = () => !currentAudio && !currentMusic && !data.length
   const play = () => {
     if (!currentMusic || currentMusic.invalid || currentMusic.disabled) { return }
     setPaused(false)
     setIsPlayed(true)
+    if (checkNoData()) { return }
     if (onPlayStatusChange) {
       onPlayStatusChange(currentMusic, true)
     }
@@ -416,6 +427,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
     }
   }
   const last = (index?: number) => {
+    if (checkNoData()) { return }
     setAngle(0)
     setLyricIndex(-1)
     if (!currentMusic || !currentMusic.src) {
@@ -431,13 +443,16 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
       }
       setCurrentMusic(data[current - 1])
     } else {
-      if (data[data.length - 1].disabled) {
+      let prevIndex = data.length - 1
+      if (data[prevIndex].disabled) {
+        last(prevIndex)
         return
       }
-      setCurrentMusic(data[data.length - 1])
+      setCurrentMusic(data[prevIndex])
     }
   }
   const next = (index?: number) => {
+    if (checkNoData()) { return }
     setAngle(0)
     setLyricIndex(-1)
     if (!currentMusic || !currentMusic.src) {

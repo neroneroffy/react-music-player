@@ -3,6 +3,8 @@ declare namespace coolPlayerTypes {
   interface IPlayerProps {
     /*播放列表的音频数据*/
     data?: IAudio[]
+    /*是否开始播放*/
+    play?: boolean
     /*播放列表为空时候的占位文字*/
     playListPlaceholder?: string
     /*需要播放的音频，可以控制当前播放器的音频，若不传，播放器内待播放的音频默认为播放列表第一个音频*/
@@ -40,7 +42,7 @@ declare namespace coolPlayerTypes {
     /*播放器内音频切换触发的回调函数*/
     onAudioChange?: (id: string, currentMusic: IAudio) => void
     /*切换播放和暂停触发的回调函数*/
-    onPlayStatusChange?: (currentMusic: IAudio, isPlaying: boolean) => void
+    onPlayStatusChange?: (currentMusic: IAudio, isPlayed: boolean) => void
     /*切换播放模式触发的回调函数*/
     onModeChange?: (currentMode: PlayMode, prevMode: PlayMode) => void
     /*播放模式，传入可控制播放器内播放列表的播放模式（顺序播放、随机播放、单曲循环）*/

@@ -76,6 +76,7 @@ const App = () => {
       name: 'Take Your Time',
       img: 'http://neroht.com/alexander.png',
       id: '66575568446',
+      disabled: true,
     },
   ])
   const [ dataExternal, setDataExternal ] = useState([
@@ -375,6 +376,14 @@ const App = () => {
         }
       </div>
       <div className={'exp-operation'}>
+        <div className="control">
+          <div className={'title'}>Play control</div>
+          <div className={'content'}>
+            <button onClick={onTogglePlaying}>
+              { playing ? 'Pause' : 'Play' }
+            </button>
+          </div>
+        </div>
         <div className={'control'}>
           <div className={'title'}>Play mode control</div>
           <div className={'content'}>
@@ -448,6 +457,7 @@ const App = () => {
         autoPlay={false}
         data={data}
         currentAudio={currentAudio}
+        play={playing}
         showLyricNormal={true}
         showDetailLyric={true}
         onAudioChange={onAudioChange}
@@ -466,6 +476,10 @@ const App = () => {
         onModeChange={(currentMode, prevMode) => {
           console.log('currentMode:', currentMode, 'prevMode:', prevMode)
           setCurrentPlayMode(currentMode)
+        }}
+        onPlayStatusChange={(currentAudio, isPlayed) => {
+          console.log('currentAudio:', currentAudio, 'isPlayed:', isPlayed)
+          setPlaying(isPlayed)
         }}
         showPlayDetail={true}
         playListShow={playListShow}
