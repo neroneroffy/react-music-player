@@ -454,7 +454,6 @@ const App = () => {
       <CoolPlayer
         playListPlaceholder={'No Data'}
         onDelete={onDelete}
-        autoPlay={false}
         data={data}
         currentAudio={currentAudio}
         play={playing}

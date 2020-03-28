@@ -109,7 +109,6 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
       headerRight: '',
     },
     onPlayStatusChange,
-    autoPlay = false,
     onModeChange,
     playMode: playModeFromProps = PlayMode.Order,
     onVolumeChange,
@@ -227,11 +226,6 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
     }
   }, [ beginPlay ])
 
-  useEffect(() => {
-    if (autoPlay) {
-      play()
-    }
-  }, [autoPlay, currentMusic])
   useEffect(() => {
     if (currentAudio) {
       setCurrentMusic(currentAudio)

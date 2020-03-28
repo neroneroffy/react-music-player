@@ -7,10 +7,8 @@ declare namespace coolPlayerTypes {
     play?: boolean
     /*播放列表为空时候的占位文字*/
     playListPlaceholder?: string
-    /*需要播放的音频，可以控制当前播放器的音频，若不传，播放器内待播放的音频默认为播放列表第一个音频*/
+    /*需要播放的音频，可以控制当前播放器的音频，若不传入，播放器内待播放的音频默认为播放列表第一个音频*/
     currentAudio?: IAudio
-    /*组件在渲染时是否自动播放*/
-    autoPlay?: boolean
     /*控制播放列表展示与隐藏*/
     playListShow?: boolean
     /*播放列表显示和隐藏时的回调函数，如果希望通过playListShow控制播放列表的显示隐藏状态，则需要在这个回调中同步设置playListShow的值*/
