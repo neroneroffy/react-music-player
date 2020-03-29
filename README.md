@@ -34,10 +34,7 @@ react-cool-music-player
    - 音量为0时，音量图标切换为静音
 
 # Usage
-安装依赖
-```
-npm install react-cool-player
-```
+
 在代码中使用
 ```javascript
 import React from 'react'
