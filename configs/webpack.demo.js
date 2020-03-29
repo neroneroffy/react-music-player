@@ -50,7 +50,8 @@ const demoConfig = {
     new htmlWebpackPlugin({
       filename: path.join(__dirname, '../cool-player/index.html'),
       template: path.join(__dirname, '../example/index.html'),
-      title: 'ReactCoolMusicPlayer'
+      title: 'ReactCoolMusicPlayer',
+      favicon: path.join(__dirname, '../example/assets/favicon.ico')
     })
 
   ]

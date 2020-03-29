@@ -1,11 +1,11 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import './index.less'
-import CoolMusicPlayer from '../src'
-// import CoolMusicPlayer from '../dist'
-// import '../dist/index.css'
+// import CoolMusicPlayer from '../src'
+import CoolMusicPlayer from '../dist'
+import '../dist/index.css'
 import { coolPlayerTypes } from '../index'
-const logo = require('./logo.png').default
+const logo = require('./assets/logo.png').default
 import classnames from 'classnames'
 import IAudio = coolPlayerTypes.IAudio;
 const { useState, useEffect, useRef } = React
