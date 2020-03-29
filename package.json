@@ -1,13 +1,19 @@
 {
   "name": "react-cool-music-player",
   "version": "1.0.0",
-  "description": "",
+  "description": "A music player build with react and typescript for mobile and PC",
   "sideEffects": [
     "*.css",
     "*.less"
   ],
   "main": "./dist/index.js",
-  "types": "./src/types.d.ts",
+  "typing": "index.d.ts",
+  "files": [
+    "dist/",
+    "LICENCE",
+    "package.json",
+    "index.d.ts"
+  ],
   "scripts": {
     "test": "jest --watch",
     "coverage": "jest --coverage",
@@ -25,7 +31,30 @@
     "build:server": "webpack --progress --config configs/webpack.server.js",
     "start": "npm run build:demo && npm run build:server && node ./cool-player/server.js"
   },
-  "author": "axizs",
+  "author": "axizs <anxizcs@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/neroneroffy/react-music-player"
+  },
+  "homepage": "https://github.com/neroneroffy/react-music-player",
+  "bugs": {
+    "url": "https://github.com/neroneroffy/react-music-player/issues"
+  },
+  "keywords": [
+    "react",
+    "reactjs",
+    "player",
+    "music",
+    "audio",
+    "react-player",
+    "react-cool-music-player",
+    "react-music-player",
+    "react-audio-player",
+    "cd-player",
+    "music-player",
+    "audio-player",
+    "component"
+  ],
   "license": "MIT",
   "dependencies": {
     "@types/classnames": "^2.2.9",
