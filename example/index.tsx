@@ -5,6 +5,7 @@ import CoolMusicPlayer from '../src'
 // import CoolMusicPlayer from '../dist'
 // import '../dist/index.css'
 import { coolPlayerTypes } from '../index'
+const logo = require('./logo.png').default
 import classnames from 'classnames'
 import IAudio = coolPlayerTypes.IAudio;
 const { useState, useEffect, useRef } = React
@@ -109,7 +110,7 @@ const App = () => {
       lyric: "[by:青烟x]\n[ti:Breathless]\n[ar:Shayne Ward]\n[al:Breathless]\n[by:青烟]\n[00:00.000] 作词 : BIRGISSON, ARNTHOR/KOTECHA, SAVAN/YACOUB, RAMI\n[00:09.00]If our love was a fairy tale\n[00:13.04]I would charge in and rescue you\n[00:16.95]On a yacht baby we would sail\n[00:20.77]To an island where we'd say I do\n[00:24.52]And if we had babies they would look like you\n[00:28.44]It'd be so beautiful if that came true\n[00:32.34]You don't even know how very special you are\n[00:36.66]Chorus\n[00:37.96]You leave me breathless\n[00:42.55]You're everything good in my life\n[00:45.55]You leave me breathless\n[00:50.20]I still can't believe that you're mine\n[00:53.74]You just walked out of one of my dreams\n[00:57.83]So beautiful you're leaving me\n[01:02.11]Breathless\n[01:07.00]And if our love was a story book\n[01:11.15]We would meet on the very first page\n[01:15.01]The last chapter would be about\n[01:18.45]How I'm thankful for the life we've made\n[01:22.61]And if we had babies they would have your eyes\n[01:26.66]I would fall deeper watching you give life\n[01:30.46]You don't even know how very special you are\n[01:35.90]You leave me breathless\n[01:40.88]You're everything good in my life\n[01:43.89]You leave me breathless\n[01:48.46]I still can't believe that you're mine\n[01:51.69]You just walked out of one of my dreams\n[01:55.87]So beautiful you're leaving me\n[02:00.32]You must have been sent from heaven to earth to change me\n[02:06.38]You're like an angel\n[02:08.42]The thing that I feel is stronger than love believe me\n[02:13.84]You're something special\n[02:16.03]I only hope that I'll one day deserve what you've given me\n[02:21.49]But all I can do is try\n[02:26.00]Every day of my life\n[02:33.86]You leave me breathless\n[02:38.66]You're everything good in my life\n[02:41.93]You leave me breathless\n[02:46.47]I still can't believe that you're mine\n[02:49.78]You just walked out of one of my dreams\n[02:53.99]So beautiful you're leaving me\n[02:58.21]Breathless\n[03:02.19]You're everything good in my life\n[03:05.23]You leave me breathless\n[03:09.72]I still can't believe that you're mine\n[03:12.96]You just walked out of one of my dreams\n[03:17.44]So beautiful you're leaving me\n[03:21.37]Breathless\n",
     },
   ])
-  const [ currentAudio, setCurrentAudio ] = useState(null)
+  const [ currentAudio, setCurrentAudio ] = useState<coolPlayerTypes.IAudio>(dataExternal[0])
   const [ lyric, setLyric ] = useState<string>('')
   const [ tLyric, setTLyric ] = useState<string>('')
   const [ lyricLoading, setLyricLoading ] = useState<boolean>(false)
@@ -138,7 +139,6 @@ const App = () => {
   const onAudioChange = (id: string, currentMusic: coolPlayerTypes.IAudio) => {
     setLyric('')
     setTLyric('')
-    console.log(currentMusic.name);
     setCurrentAudio(currentMusic)
     if (!currentMusic.lyric) {
       setLyricLoading(true)
@@ -345,6 +345,15 @@ const App = () => {
   }
   return <div className={'example'}>
     <div className={'main'}>
+      <div className="logo">
+        <img src={logo} alt="logo"/>
+        <p>
+          A music player component build with react and typescript for mobile and PC
+        </p>
+        <p>
+          <a href="https://github.com/neroneroffy/react-music-player">Documentation</a>
+        </p>
+      </div>
       <div className={'audio-list'}>
         {
           dataExternal.map((item, index) => {
@@ -440,7 +449,7 @@ const App = () => {
               >
                 <div
                   className="volume-slider"
-                  style={{ background: '#017fff' }}
+                  style={{ background: '#33beff' }}
                   ref={volumeProgressEl}
                 >
                   <div
@@ -480,7 +489,7 @@ const App = () => {
           setCurrentPlayMode(currentMode)
         }}
         onPlayStatusChange={(currentAudio: IAudio, isPlayed: boolean) => {
-          console.log('currentAudio:', currentAudio, 'isPlayed:', isPlayed)
+          // console.log('currentAudio:', currentAudio, 'isPlayed:', isPlayed)
           setPlaying(isPlayed)
         }}
         showPlayDetail={true}
@@ -494,7 +503,6 @@ const App = () => {
           setPlayDetailShow(status)
         }}
         playMode={playMode}
-        primaryColor={'#f99013'}
         detailActionTopRight={detailActionTopRight}
         detailActionsBottom={detailActionsBottom}
       />

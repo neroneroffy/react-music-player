@@ -5,9 +5,18 @@ html, body {
   background: #e4e4e4;
 }
 .example {
+  padding-bottom: 120px;
   .main {
     width: 600px;
     margin: 0 auto;
+    .logo {
+      margin-top: @padding-medium;
+      text-align: center;
+      img {
+        width: 80px;
+        height: 80px;
+      }
+    }
     .operation {
       margin-top: 16px;
       display: flex;
@@ -117,7 +126,6 @@ html, body {
       border-radius: 10px;
     }
   }
-
   .close-play-list {
     cursor: pointer;
   }
@@ -140,7 +148,7 @@ html, body {
       margin-left: -50%;
       margin-top: 0;
       position: absolute;
-      top: 30px;
+      top: 190px;
       left: 50%;
       .audio-item {
         padding: 10px;
@@ -162,7 +170,7 @@ html, body {
     .exp-operation {
       width: 100%;
       position: absolute;
-      top: 210px;
+      top: 370px;
       .control {
         .title {
           width: 45%;

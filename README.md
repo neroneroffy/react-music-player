@@ -10,6 +10,11 @@ react-cool-music-player
 适配PC端与移动设备的响应式音频播放组件
 </h4>
 
+<p align="center">
+  <img alt="license MIT" src="https://img.shields.io/badge/license-MIT-green">
+  <img alt="version 1.0.0" src="https://img.shields.io/badge/version-1.0.0-orange">
+</p>
+
 **React@16.12.0** **TypeScript@3.7.3**
 
 [点击查看演示](http://coolplayer.neroht.com/)</br>
