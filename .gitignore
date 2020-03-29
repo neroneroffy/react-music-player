@@ -12,6 +12,8 @@
 /build
 /dist
 /public
+/cool-player
+cool-player.zip
 
 # misc
 .DS_Store
