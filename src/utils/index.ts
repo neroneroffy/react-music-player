@@ -1,4 +1,4 @@
-import { coolPlayerTypes } from '../types'
+import { coolPlayerTypes } from '../../index'
 export const getLyric = (lyric: string): coolPlayerTypes.ILyric[] => {
   const lyricList: coolPlayerTypes.ILyric[] = []
   if (!lyric) {

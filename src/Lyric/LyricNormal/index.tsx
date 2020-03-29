@@ -1,6 +1,6 @@
 import * as React from 'react';
 import classnames from 'classnames'
-import { coolPlayerTypes } from '../../types'
+import { coolPlayerTypes } from '../../../index'
 import './index.less'
 
 const { useEffect, useRef } = React

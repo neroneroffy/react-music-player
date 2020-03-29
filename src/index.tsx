@@ -5,7 +5,7 @@ import LyricNormal from './Lyric/LyricNormal/index'
 import LyricMini from './Lyric/LyricMini/index'
 import LyricDetail from './Lyric/LyricDetail/index'
 import classnames from 'classnames'
-import { coolPlayerTypes } from './types'
+import { coolPlayerTypes } from '../index'
 import {
   IconPlaylistPlaying,
   IconPlaylistPlay,

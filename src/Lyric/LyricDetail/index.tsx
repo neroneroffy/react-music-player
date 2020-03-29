@@ -2,7 +2,7 @@ import * as React from 'react';
 import classnames from 'classnames';
 import { getTime } from '../../utils/index'
 import './index.less'
-import { coolPlayerTypes } from '../../types'
+import { coolPlayerTypes } from '../../../index'
 
 const { useEffect, useRef, useState } = React
 let looseTimeout: NodeJS.Timeout
