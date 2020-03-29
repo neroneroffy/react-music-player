@@ -39,7 +39,7 @@ react-cool-music-player
 ```javascript
 import React from 'react'
 import ReactDOM from 'react-dom'
-import CoolPlayer from 'react-cool-music-player'
+import CoolMusicPlayer from 'react-cool-music-player'
 import 'node_modules/react-cool-music-player/dist/index.css'
 const App = () => {
   const data = [
@@ -59,7 +59,7 @@ const App = () => {
     },
   ]
   return <div className={'wrapper'}>
-      <CoolPlayer data={data}/>
+      <CoolMusicPlayer data={data}/>
     </div>
 }
 const root = document.getElementById('root')
@@ -179,7 +179,7 @@ const App = () => {
     },
   ]
   return <div className={'wrapper'}>
-      <CoolPlayer
+      <CoolMusicPlayer
         data={data}
         icons={{
           playIcon: <svg
@@ -250,7 +250,7 @@ const App = () => {
     },
   ]
   return <div className={'wrapper'}>
-      <CoolPlayer
+      <CoolMusicPlayer
         data={data}
         showLyricNormal={true}
         showDetailLyric={true}
@@ -304,7 +304,7 @@ const App = () => {
     }
   }
   return <div className={'wrapper'}>
-      <CoolPlayer
+      <CoolMusicPlayer
         data={data}
         lyric={lyric}
         tLyric={tLyric}
@@ -338,7 +338,7 @@ const App = () => {
     },
   ]
   return <div className={'wrapper'}>
-      <CoolPlayer data={data}/>
+      <CoolMusicPlayer data={data}/>
     </div>
 }
 ```
@@ -363,7 +363,7 @@ const App = () => {
      <button onClick={onTogglePlaying}>
         { play ? 'Pause' : 'Play' }
      </button>
-     <CoolPlayer data={data} play={play}/>
+     <CoolMusicPlayer data={data} play={play}/>
     </div>
 }
 ```

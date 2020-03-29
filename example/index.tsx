@@ -1,9 +1,12 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import './index.less'
-import CoolPlayer from '../src/index'
-import { coolPlayerTypes } from '../src/types'
+import CoolMusicPlayer from '../src'
+// import CoolMusicPlayer from '../dist'
+// import '../dist/index.css'
+import { coolPlayerTypes } from '../index'
 import classnames from 'classnames'
+import IAudio = coolPlayerTypes.IAudio;
 const { useState, useEffect, useRef } = React
 type PlayModeTypes = 'order' | 'random' | 'loop'
 enum PlayMode {
@@ -451,7 +454,7 @@ const App = () => {
         </div>
     </div>
     <div className={'wrapper'}>
-      <CoolPlayer
+      <CoolMusicPlayer
         playListPlaceholder={'No Data'}
         onDelete={onDelete}
         data={data}
@@ -472,11 +475,11 @@ const App = () => {
           headerLeft: 'Play List',
           headerRight: <span onClick={onPlayListHide} className={'close-play-list'}>Close</span>
         }}
-        onModeChange={(currentMode, prevMode) => {
+        onModeChange={(currentMode: PlayModeTypes, prevMode: PlayModeTypes) => {
           console.log('currentMode:', currentMode, 'prevMode:', prevMode)
           setCurrentPlayMode(currentMode)
         }}
-        onPlayStatusChange={(currentAudio, isPlayed) => {
+        onPlayStatusChange={(currentAudio: IAudio, isPlayed: boolean) => {
           console.log('currentAudio:', currentAudio, 'isPlayed:', isPlayed)
           setPlaying(isPlayed)
         }}
