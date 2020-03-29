@@ -481,6 +481,7 @@ const App = () => {
           setPlaying(isPlayed)
         }}
         showPlayDetail={true}
+        showLyricMini={true}
         playListShow={playListShow}
         playDetailShow={playDetailShow}
         onPlayListStatusChange={(status: boolean) => {

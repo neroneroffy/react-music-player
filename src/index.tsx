@@ -91,8 +91,8 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
   const [ playedWidth, setPlayedWidth ] = useState<number>(0)
   const [ bufferedWidth, setBufferedWidth ] = useState<number>(0)
   const [ playPercent, setPlayPercent ] = useState<number>(0)
-  const { showLyricNormal = true,
-    showLyricMini = true,
+  const { showLyricNormal = false,
+    showLyricMini = false,
     playListShow = false,
     playDetailShow = false,
     lyric: lyricFromProps = '',
@@ -105,7 +105,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
     detailActionsBottom = [],
     detailActionTopRight,
     playListHeader = {
-      headerLeft: '播放列表',
+      headerLeft: 'Play list',
       headerRight: '',
     },
     onPlayStatusChange,
@@ -125,7 +125,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
     play: beginPlay
   } = props
   const {
-    playList = IconMenu,
+    playListIcon = IconMenu,
     playListPlay = IconPlaylistPlay,
     playListPlaying = IconPlaylistPlaying,
     deleteIcon = IconDelete,
@@ -859,7 +859,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
           </div>
           <div className="cool-player-list-mode-btn">
             <div className="icon-menu" onClick={showMusicList}>
-              { playList }
+              { playListIcon }
             </div>
             <div className="cool-player-mode">
               <div className="mode" data-test={'play-mode-btn'} onClick={ playMode }>
@@ -1198,7 +1198,7 @@ const CoolPlayer = (props: coolPlayerTypes.IPlayerProps) => {
               </div>
               <div className="play-list-show-btn">
                 <div className="icon-menu" onClick={showMusicList}>
-                  { playList }
+                  { playListIcon }
                 </div>
               </div>
             </div>

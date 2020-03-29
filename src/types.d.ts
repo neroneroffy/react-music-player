@@ -13,21 +13,19 @@ declare namespace coolPlayerTypes {
     playListShow?: boolean
     /*播放列表显示和隐藏时的回调函数，如果希望通过playListShow控制播放列表的显示隐藏状态，则需要在这个回调中同步设置playListShow的值*/
     onPlayListStatusChange?: (status: boolean) => void
-    /*控制组件播放状态，true播放，false暂停*/
-    playing?: boolean
     /*点击歌曲图标是否展示播放详情（移动端有效）*/
     showPlayDetail?: boolean
     /*播放详情页面的背景*/
     detailBackground?: React.ReactNode
-    /*点击歌曲图标是否展示播放详情（移动端有效）*/
+    /*便于外部控制播放详情的显示与隐藏*/
     playDetailShow?: boolean
     /*播放详情展示或者隐藏时的回调函数，如果希望通过playDetailShow控制播放详情的显示隐藏状态，则需要在这个回调中同步设置playDetailShow的值*/
     onPlayDetailStatusChange?: (status: boolean) => void
-    /*删除播放列表的回调函数*/
+    /*删除播放列表音频的回调函数*/
     onDelete?: (index: number, id: string) => void
     /*音量，传入组件可以控制播放器音量大小*/
     volume?: number
-    /*组件内部音量变化时的回调函数*/
+    /*音量变化时的回调函数*/
     onVolumeChange?: (volume: number) => void
     /*播放器整体容器的z-index值*/
     zIndex?: number
@@ -37,7 +35,7 @@ declare namespace coolPlayerTypes {
     showDetailLyric?: boolean
     /*移动端状态下是否展示迷你歌词*/
     showLyricMini?: boolean
-    /*播放器内音频切换触发的回调函数*/
+    /*播放器内音频改变触发的回调函数*/
     onAudioChange?: (id: string, currentMusic: IAudio) => void
     /*切换播放和暂停触发的回调函数*/
     onPlayStatusChange?: (currentMusic: IAudio, isPlayed: boolean) => void
@@ -74,19 +72,33 @@ declare namespace coolPlayerTypes {
     primaryColor?: string
     /*自定义图标*/
     icons?: {
-      playList?: React.ReactNode
+      /*控制播放列表显示或隐藏的图标*/
+      playListIcon?: React.ReactNode
+      /*播放列表每个音频前面的播放按钮*/
       playListPlay?: React.ReactNode
+      /*播放列表中每个音频正在播放的图标*/
       playListPlaying?: React.ReactNode
+      /*播放列表中删除音频的删除图标*/
       deleteIcon?: React.ReactNode
+      /*播放*/
       playIcon?: React.ReactNode
+      /*暂停*/
       pauseIcon?: React.ReactNode
+      /*上一首*/
       prevIcon?: React.ReactNode
+      /*下一首*/
       nextIcon?: React.ReactNode
+      /*顺序播放*/
       modeOrder?: React.ReactNode
+      /*随机播放*/
       modeRandom?: React.ReactNode
+      /*单曲循环*/
       modeLoop?: React.ReactNode
+      /*音量*/
       volumeIcon?: React.ReactNode
+      /*静音*/
       muteIcon?: React.ReactNode
+      /*隐藏播放详情*/
       detailHide?: React.ReactNode
     }
   }
