@@ -1,3 +1,5 @@
+import * as React from 'react'
+
 type PlayMode = 'order' | 'random' | 'loop'
 declare namespace coolPlayerTypes {
   interface IPlayerProps {
@@ -186,3 +188,8 @@ declare namespace coolPlayerTypes {
 }
 
 export { coolPlayerTypes }
+
+export default class CoolPlayer extends React.PureComponent<
+  coolPlayerTypes.IPlayerProps,
+  any
+  > {}

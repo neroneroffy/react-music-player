@@ -82,7 +82,7 @@ ReactDOM.render(<App/>, root)
     name: string
     /*音频图片*/
     img: string
-    /*唯一标识*/
+    /*音频的id*/
     id: string
     /*歌词*/
     lyric?: string
@@ -240,7 +240,7 @@ interface Iicon {
 const lyricExample = '[00:18.220]Oh, loves gonna get you down\n[00:20.880]Sucking to hard on your lollipop\n[00:23.600]Loves gonna get you down'
 ```
 ### 自带歌词
-自带的歌词需要存储在音频数据的lyric字段中，如需显示歌词译文，则需要将它存储在tLyric字段中。
+自带的歌词需要存储在音频数据的lyric字段中，如需显示歌词译文，则需要将它存储在tLyric字段中。注意：当在移动端显示迷你歌词时，不会显示歌词译文
 ```javascript
 const App = () => {
   const data = [
