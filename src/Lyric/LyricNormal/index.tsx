@@ -20,7 +20,7 @@ const LyricNormal = (props: coolPlayerTypes.lyricNormal.ILyricNormalProps) => {
   const lyricItemEl = useRef(null)
   useEffect(() => {
     if (lyricEl.current) {
-      if (lyricEl.current.scrollTo) {
+      if (lyricEl.current.scrollTo && lyricIndex > 0) {
         lyricEl.current.scrollTo(0, (lyricIndex + 1 + 0.5) * lyricItemEl.current.offsetHeight)
       }
     }

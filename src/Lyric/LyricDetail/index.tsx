@@ -29,7 +29,7 @@ const LyricDetail = (props: coolPlayerTypes.lyricDetail.ILyricDetailProps) => {
   const [ lyricIndexStandby, setLyricIndexStandby ] = useState<number>(-1)
   const tLyricReceived = Object.keys(tLyric).length
   useEffect(() => {
-    if (lyricEl.current && lyricBaseLineEl.current && lyricItemEl.current) {
+    if (lyricEl.current && lyricBaseLineEl.current && lyricItemEl.current && lyricIndex > 0) {
       if (loose) {
         const lyricYPosition = (lyricIndex + 1 + 0.5) * lyricItemEl.current.offsetHeight
         if (typeof lyricEl.current.scrollTo === 'function') {
