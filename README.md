@@ -12,7 +12,7 @@ react-cool-music-player
 
 <p align="center">
   <img alt="license MIT" src="https://img.shields.io/badge/license-MIT-green">
-  <img alt="version 1.0.0" src="https://img.shields.io/badge/version-1.0.0-orange">
+  <img alt="version 1.0.0" src="https://img.shields.io/badge/version-1.0.2-orange">
 </p>
 
 **React@16.12.0** **TypeScript@3.7.3**
@@ -39,12 +39,17 @@ react-cool-music-player
    - 音量为0时，音量图标显示为静音图标
 
 # Usage
+安装
+```
+npm install react-cool-music-player
+```
 
 在代码中使用
+
 ```javascript
 import React from 'react'
 import ReactDOM from 'react-dom'
-import CoolMusicPlayer from 'react-cool-music-player'
+import CoolPlayer from 'react-cool-music-player'
 import 'react-cool-music-player/dist/index.css'
 const App = () => {
   const data = [
@@ -64,7 +69,7 @@ const App = () => {
     },
   ]
   return <div className={'wrapper'}>
-      <CoolMusicPlayer data={data}/>
+      <CoolPlayer data={data}/>
     </div>
 }
 const root = document.getElementById('root')
@@ -184,7 +189,7 @@ const App = () => {
     },
   ]
   return <div className={'wrapper'}>
-      <CoolMusicPlayer
+      <CoolPlayer
         data={data}
         icons={{
           playIcon: <svg
@@ -255,7 +260,7 @@ const App = () => {
     },
   ]
   return <div className={'wrapper'}>
-      <CoolMusicPlayer
+      <CoolPlayer
         data={data}
         showLyricNormal={true}
         showDetailLyric={true}
@@ -300,7 +305,7 @@ const App = () => {
     }
   }
   return <div className={'wrapper'}>
-      <CoolMusicPlayer
+      <CoolPlayer
         data={data}
         lyric={lyric}
         tLyric={tLyric}
@@ -334,7 +339,7 @@ const App = () => {
     },
   ]
   return <div className={'wrapper'}>
-      <CoolMusicPlayer data={data}/>
+      <CoolPlayer data={data}/>
     </div>
 }
 ```
@@ -359,7 +364,7 @@ const App = () => {
      <button onClick={onTogglePlaying}>
         { play ? 'Pause' : 'Play' }
      </button>
-     <CoolMusicPlayer data={data} play={play}/>
+     <CoolPlayer data={data} play={play}/>
     </div>
 }
 ```
@@ -386,7 +391,7 @@ const App = () => {
     audio => <div key={'b'} onClick={() => onActionsClick(audio)}>action B</div>
   ]
   return <div className={'wrapper'}>
-     <CoolMusicPlayer data={data} actions={actions}/>
+     <CoolPlayer data={data} actions={actions}/>
     </div>
 }
 ```
