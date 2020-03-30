@@ -45,7 +45,7 @@ react-cool-music-player
 import React from 'react'
 import ReactDOM from 'react-dom'
 import CoolMusicPlayer from 'react-cool-music-player'
-import 'node_modules/react-cool-music-player/dist/index.css'
+import 'react-cool-music-player/dist/index.css'
 const App = () => {
   const data = [
     {
