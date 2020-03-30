@@ -1,6 +1,6 @@
 {
   "name": "react-cool-music-player",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "A music player component build with react and typescript for mobile and PC",
   "sideEffects": [
     "*.css",

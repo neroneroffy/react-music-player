@@ -12,7 +12,7 @@ react-cool-music-player
 
 <p align="center">
   <img alt="license MIT" src="https://img.shields.io/badge/license-MIT-green">
-  <img alt="version 1.0.0" src="https://img.shields.io/badge/version-1.0.2-orange">
+  <img alt="version 1.0.0" src="https://img.shields.io/badge/version-1.0.4-orange">
 </p>
 
 **React@16.12.0** **TypeScript@3.7.3**
