@@ -8,7 +8,7 @@ const prodConfig = {
   mode: 'production',
   entry: path.join(__dirname, '../src/index.tsx'),
   output: {
-    library: 'CoolMusicPlayer',
+    library: 'CoolPlayer',
     libraryTarget: 'umd'
   },
   externals: [ 'react', 'react-dom', 'react-addons-css-transition-group' ],
