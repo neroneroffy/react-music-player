@@ -130,6 +130,7 @@ const App = () => {
   const [ currentPlayMode, setCurrentPlayMode ] = useState<PlayModeTypes>(PlayMode.Order)
   const [ playListShow, setPlayListShow ] = useState<boolean>(false)
   const [ playDetailShow, setPlayDetailShow ] = useState<boolean>(false)
+  const [ noActionsShow, setNoActionsShow ] = useState<boolean>(false)
   const totalVolumeEl = useRef(null)
   const volumeProgressEl = useRef(null)
   useEffect(() => {
@@ -168,26 +169,26 @@ const App = () => {
         })
     }
   }
+  const noActions = () => {
+    setNoActionsShow(true)
+    setTimeout(() => {
+      setNoActionsShow(false)
+    }, 2000)
+  }
   const playListAudioActions = [
     (music: any, active: boolean) => {
-      return <span key={'favourite'} onClick={() => {
-        console.log(music, active)
-      }}>收藏</span>
+      return <span key={'favourite'} onClick={noActions}>收藏</span>
     },
     (music: any) => {
-      return <span style={{ margin: '0 8px' }} key={'share'} onClick={() => {
-        console.log(music)
-      }}>分享</span>
+      return <span style={{ margin: '0 8px' }} key={'share'} onClick={noActions}>分享</span>
     },
     (music: any) => {
-      return <span key={'download'} onClick={() => {
-        console.log(music)
-      }}>下载</span>
+      return <span key={'download'} onClick={noActions}>下载</span>
     },
   ]
   const actions = [
     (music: any) => {
-      return <div style={{ fontSize: 22, marginRight: 8 }} key={'a'}>
+      return <div style={{ fontSize: 22, marginRight: 8 }} key={'a'} onClick={noActions}>
         <svg
           className="icon"
           style={{width: "1em", height: "1em", verticalAlign: "middle", fill: "currentColor", overflow: "hidden", color: '#868686'}}
@@ -204,7 +205,7 @@ const App = () => {
       </div>
     },
     (music: any) => {
-      return <div style={{ fontSize: 22 }} key={'b'}>
+      return <div style={{ fontSize: 22 }} key={'b'} onClick={noActions}>
         <svg
           className="icon"
           style={{width: "1em", height: "1em", verticalAlign: "middle", fill: "currentColor", overflow: "hidden", color: '#868686'}}
@@ -219,7 +220,7 @@ const App = () => {
   ]
   const detailActionsBottom = [
     (music: any) => {
-      return <div className={'detail-bottom-actions-icon'} key={'detail-a'}>
+      return <div className={'detail-bottom-actions-icon'} key={'detail-a'} onClick={noActions}>
         <svg
           viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
           p-id="1279"
@@ -234,7 +235,7 @@ const App = () => {
       </div>
     },
     (music: any) => {
-      return <div className={'detail-bottom-actions-icon'} key={'detail-b'}>
+      return <div className={'detail-bottom-actions-icon'} key={'detail-b'} onClick={noActions}>
         <svg
           viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3936">
           <path
@@ -245,7 +246,7 @@ const App = () => {
       </div>
     },
     (music: any) => {
-      return <div className={'detail-bottom-actions-icon'} key={'detail-c'}>
+      return <div className={'detail-bottom-actions-icon'} key={'detail-c'} onClick={noActions}>
         <svg
           viewBox="0 0 1265 1024"
           version="1.1"
@@ -258,7 +259,7 @@ const App = () => {
       </div>
     },
     (music: any) => {
-      return <div className={'detail-bottom-actions-icon comment-icon'} key={'detail-d'}>
+      return <div className={'detail-bottom-actions-icon comment-icon'} key={'detail-d'} onClick={noActions}>
         <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
           <path d="M525.473684 1024L296.421053 808.421053H161.684211c-88.926316 0-161.684211-72.757895-161.684211-161.684211V161.684211c0-88.926316 72.757895-161.684211 161.684211-161.684211h700.631578c88.926316 0 161.684211 72.757895 161.684211 161.684211v485.052631c0 88.926316-72.757895 161.684211-161.684211 161.684211h-110.48421l-226.357895 215.578947z m0-110.484211l172.463158-164.378947 24.252632-21.557895H862.315789c45.810526 0 80.842105-35.031579 80.842106-80.842105V161.684211c0-45.810526-35.031579-80.842105-80.842106-80.842106H161.684211C115.873684 80.842105 80.842105 115.873684 80.842105 161.684211v485.052631c0 45.810526 35.031579 80.842105 80.842106 80.842105h167.073684l24.252631 21.557895 172.463158 164.378947z"></path>
           <path d="M269.473684 404.210526m-80.842105 0a80.842105 80.842105 0 1 0 161.68421 0 80.842105 80.842105 0 1 0-161.68421 0Z"></path>
@@ -269,7 +270,7 @@ const App = () => {
     },
   ]
   const detailActionTopRight = (music: any) => {
-    return <div onClick={() => console.log(music)}>
+    return <div onClick={noActions}>
       { IconMore }
     </div>
   }
@@ -353,6 +354,9 @@ const App = () => {
   }
   return <div className={'example'}>
     <div className={'main'}>
+      <div className={'tip'} style={ noActionsShow? { display: 'block' } : { display: 'none' }}>
+        User-defined action
+      </div>
       <div className="logo">
         <img src={logo} alt="logo"/>
         <p>

@@ -7,7 +7,7 @@ react-cool-music-player
 </h1>
 
 <h4 align="center">
-适配PC端与移动设备的响应式音频播放组件。所有图标可自定义，主题颜色可以修改，支持歌词同步滚动。
+适配PC端与移动设备的响应式音频播放组件。所有图标和文字可自定义，主题颜色可以修改，支持歌词同步滚动。
 </h4>
 
 <p align="center">
@@ -97,7 +97,7 @@ ReactDOM.render(<App/>, root)
 ## 完整的API列表
 | API                                      | 说明                                                                                             | 类型                                                                                         | 默认值                    |
 | :--------------------------------------- |:-------------------------------------------------------------------------------------------------| :--------------------------------------------------------------------------------------------| :-------------------------|
-| data                                     | 传入组件的音频数据， 会展示在播放列表中                                                          | IAudio[]                                                                                     | -                         |
+| data                                     | 传入组件的音频数据，会展示在播放列表中                                                           | IAudio[]                                                                                     | -                         |
 | play                                     | 控制播放器开始和停止播放                                                                         | boolean                                                                                      | false                     |
 | playListPlaceholder                      | 播放列表为空时候的占位文字                                                                       | string                                                                                       | 'No data'                 |
 | currentAudio                             | 可以控制当前播放器的音频，若不传入，播放器内待播放的音频默认为播放列表第一个音频                 | IAudio                                                                                       | -                         |
@@ -113,7 +113,7 @@ ReactDOM.render(<App/>, root)
 | playMode                                 | 播放模式，传入可控制播放器内播放列表的播放模式（顺序播放、随机播放、单曲循环）                   | `order`,`random`,`loop`                                                                      | `order`                   |
 | lyric                                    | 异步加载歌词时，传入的歌词数据                                                                   | string                                                                                       | -                         |
 | tLyric                                   | 异步加载歌词时，如需要展示歌词翻译，传入的歌词翻译                                               | string                                                                                       | -                         |
-| lyricLoading                             | 异步加载歌词时的loading状态                                                                      | boolean                                                                                      | false                     |
+| lyricLoading                             | 用于异步加载歌词时的加载状态显示                                                                 | boolean                                                                                      | false                     |
 | lyricPlaceholder                         | 歌词数据为空时的占位元素                                                                         | `React.ReactNode` or `string`                                                                | false                     |
 | showProgressControlByLyricScroll         | 移动端状态下，播放详情中是否需要通过手动滚动歌词调整播放进度                                     | boolean                                                                                      | true                      |
 | avatarPlaceholder                        | 歌曲图片为空时歌曲图标的占位元素                                                                 | `React.ReactNode`                                                                            | <div></div>               |
@@ -171,7 +171,7 @@ npm run lint-fix
 ```
 
 ## 自定义图标
-如果你对于组件中的任何图标不满意，那么可以将自定义的图标传入组件替换掉不想要的图标：
+如果你对于组件中的任何图标不满意，那么可以将自定义的图标传入组件替换掉不想要的图标。
 ```javascript
 const App = () => {
   const data = [
@@ -264,19 +264,10 @@ const App = () => {
 }
 ```
 ### 远程加载歌词
-支持单独传入对应音频的歌词，可以在onAudioChange函数中获取当前的音频，然后远程加载歌词传到播放器内显示，但应该注意，应在onAudioChange函数中将之前的歌词重置为空。
+支持单独传入当前音频的歌词，可以在onAudioChange函数中获取当前的音频信息，然后远程加载相应歌词传到播放器内显示，但应该注意，在onAudioChange函数中应该将之前的歌词重置为空。
 ```javascript
 const App = () => {
   const data = [
-    {
-      src: 'http://neroht.com/Shawn Mendes - Señorita.mp3',
-      artist: 'Señorita',
-      name: 'Shawn Mendes',
-      img: 'http://neroht.com/Señorita.jpg',
-      id: '66575568423123',
-      lyric: "[by:Trap_Girl]\n[00:00.000] 作曲 : Shawn Mendes/Camila Cabello/Andrew Wotman/Benjamin Levin/Ali Tamposi/Charlotte Emma Aitchison/Jack Patterson/Magnus August Höiberg\n[00:01.000] 作词 : Shawn Mendes/Camila Cabello/Andrew Wotman/Benjamin Levin/Ali Tamposi/Charlotte Emma Aitchison/Jack Patterson/Magnus August Höiberg\n[00:12.22]Camila Cabello：\n[00:15.29]I love it when you call me Señorita\n[00:19.36]I wish I could pretend I didn't need ya\n[00:23.43]But every touch is ooh la la la\n[00:26.54]It's true la la la\n[00:28.51]Ooh I should be runnin'\n[00:30.57]Ooh you keep me coming for ya\n[00:32.95]Shawn Mendes：\n[00:33.29]Land in miami\n[00:35.22]The air was hot from summer rain\n[00:37.27]Sweat dripping off me\n[00:39.44]Before I even knew her name la la la\n[00:44.41]It felt like ooh la la la\n[00:47.07]Yeah noo\n[00:49.47]Sapphire moonlight\n[00:51.50]We danced for hours in the sand\n[00:53.65]Tequila sunrise\n[00:55.71]Her body fit right in my hands la la la\n[01:00.85]It felt like ooh la la la yeah\n[01:04.28]Both：\n[01:04.47]I love it when you call me Señorita\n[01:08.54]I wish I could pretend I didn't need ya\n[01:12.64]But every touch is ooh la la la\n[01:15.76]It's true la la la\n[01:17.86]Ooh I should be runnin'\n[01:19.85]Oohh you know I love it when you call me Señorita\n[01:25.05]I wish it wasn't so d**n hard to leave ya\n[01:29.12]But every touch is ooh la la la\n[01:32.26]It's true la la la\n[01:34.16]Ooh I should be runnin'\n[01:36.18]Ooh you keep me coming for ya\n[01:38.54]Camila Cabello：\n[01:38.86]Locked in the hotel\n[01:40.86]There's just somethings that never change\n[01:42.92]You say we're just friends\n[01:44.92]But friends don't know the way you taste la la la\n[01:50.63]God knows it's been a long time coming don't ya let me fall ooh\n[01:54.50]Both：\n[01:55.08]Hooked on your lips undress me\n[01:57.03]Hooked on your tongue\n[01:58.99]Oh I love your kiss is deadly don't stop\n[02:02.11]I love it when you call me Señorita\n[02:06.04]I wish I could pretend I didn't need ya\n[02:10.04]But every touch is ooh la la la\n[02:13.11]It's true la la la\n[02:15.21]Ooh I should be runnin'\n[02:17.23]Ooh you know I love it when you call me Señorita\n[02:22.42]I wish it wasn't so d**n hard to leave ya\n[02:26.48]But every touch is ooh la la la\n[02:29.60]It's true la la la\n[02:31.61]Ooh I should be runnin'\n[02:33.68]Ooh you keep me coming for ya\n[02:37.44]All along I've been coming for ya\n[02:40.31]For you\n[02:41.70]And I hope it means something to you\n[02:45.75]Call my name I'll be coming for ya\n[02:48.36]Coming for ya\n[02:49.42]Calling for ya\n[02:50.50]Coming for ya\n[02:51.81]For ya\n[02:55.80]For ya\n[02:57.87]Oh she loves it when I call her\n[02:59.94]For ya\n[03:04.55]Ooh I should be runnin'\n[03:06.51]Ooh you keep me coming for ya\n",
-      tLyric: "[by:咆哮的小清新___]\n[00:12.22]\n[00:15.29]我爱你称我为\"我的小姐\"时的样子\n[00:19.36]多希望我可以假装不需要你\n[00:23.43]但每一次触碰都妙不可语\n[00:26.54]真实无比 lalala\n[00:28.51]噢 我想我应该逃走\n[00:30.57]噢但你却将我牢牢吸引掌控\n[00:32.95]\n[00:33.29]着陆在迈阿密\n[00:35.22]盛夏雨季的空气炙热难息\n[00:37.27]汗流不停\n[00:39.44]在我知道她的名字之前就汗流不停\n[00:44.41]那感觉就像 噢\n[00:47.07]\n[00:49.47]午夜里的蓝宝石璀璨不息\n[00:51.50]你我在沙滩上久久共舞\n[00:53.65]配上龙舌兰日出\n[00:55.71]她的身躯线条刚好适合你的手掌一握\n[01:00.85]那感觉一如 噢妙不可语\n[01:04.28]\n[01:04.47]我爱你称我为\"我的小姐\"时的样子\n[01:08.54]多希望我可以假装不需要你\n[01:12.64]但每一次触碰都妙不可语\n[01:15.76]真实无比 lalala\n[01:17.86]噢 我想我应该逃走\n[01:19.85]但你知道你称我为\"我的小姐\"时我有多么享受\n[01:25.05]多希望我可以轻易就离开你\n[01:29.12]但每一次触碰都妙不可语\n[01:32.26]真实无比 lalala\n[01:34.16]噢 我想我应该逃走\n[01:36.18]噢但你却将我牢牢吸引掌控\n[01:38.54]\n[01:38.86]把自己锁在房间里\n[01:40.86]始终有一些无法改变的事情\n[01:42.92]你说我们只是朋友\n[01:44.92]但朋友又怎么知道你有多么可口\n[01:50.63]你知道我们也这样维持了许久 别让我失望难过\n[01:54.50]\n[01:55.08]当你的双唇将我衣裳剥落\n[01:57.03]噢在你舌尖沦陷的我\n[01:58.99]噢亲爱的 你的吻教人销魂 别停下来\n[02:02.11]我爱你称我为\"我的小姐\"时的样子\n[02:06.04]多希望我可以假装不需要你\n[02:10.04]但每一次触碰都妙不可语\n[02:13.11]但每一次触碰都真实无比 lalala\n[02:15.21]噢 我想我应该逃走\n[02:17.23]但你知道你称我为\"我的小姐\"时我有多么享受\n[02:22.42]希望我可以轻易就离开你\n[02:26.48]但每一次触碰都妙不可语\n[02:29.60]真实无比 lalala\n[02:31.61]噢 我想我应该逃走\n[02:33.68]噢但你却将我牢牢吸引掌控\n[02:37.44]一直以来我都那么戒不掉你\n[02:40.31]为你\n[02:41.70]希望那对你来说有所意义\n[02:45.75]我会随叫随到只要你呼唤我名\n[02:48.36]只为你(我到来时她总是无比欣喜)\n[02:49.42]只为你\n[02:50.50]只为你\n[02:51.81]只为你\n[02:55.80]只为你\n[02:57.87](我到来时她总是无比欣喜)\n[02:59.94]只为你\n[03:04.55]噢我想我应该逃走\n[03:06.51]但你却将我牢牢吸引掌控\n"
-    },
     {
       src: 'http://neroht.com/MIKA - Lollipop.mp3',
       artist: 'Mika',
@@ -320,8 +311,8 @@ const App = () => {
 }
 ```
 ## 音频禁用状态
-如果音频因为某些原因不可播放（例如没有版权许可），则可以在音频数据结构中添加disabled字段，值为Boolean类型。此时播放列表内如果有被禁用的音频，那么它将会被置灰，点击无法被播放出来，
-但可以被移出播放列表。如果想表明被禁用的原因，可以添加disabledReason字段，字段值将展示在音频名称后面。
+如果音频因为某些原因不可播放（例如没有版权许可），则可以在音频数据结构中添加disabled字段，值为Boolean类型。此时播放列表内如果有被禁用的音频，那么它将会被置灰，点击无法被播放出来。切换上一首下一首时，如果遇到被禁用的音频，则会跳过它。
+禁用状态可以被移出播放列表。如果想表明被禁用的原因，可以添加disabledReason字段，字段值将展示在音频名称后面。
 ```javascript
 const App = () => {
   const data = [
@@ -369,6 +360,33 @@ const App = () => {
         { play ? 'Pause' : 'Play' }
      </button>
      <CoolMusicPlayer data={data} play={play}/>
+    </div>
+}
+```
+
+## 传入操作组
+如果当前播放器的功能不满足的你需求，你可以传入操作组来进行功能扩展。以actions为例，操作组是一个数组，数组的每个元素使用render-props的方式接收
+当前播放的音频信息，并返回一个ReactNode。其余的操作组有：detailActionTopRight（类型为函数，参照上方API列表）、detailActionsBottom、playListAudioActions
+```javascript
+const App = () => {
+  const data = [
+    {
+      src: 'http://audio-cdn/MIKA - Lollipop.mp3',
+      artist: 'Mika',
+      name: 'Lollipop',
+      img: 'http://audio-avatar-cdn/mika.jpg',
+      id: '66575568425354321',
+    },
+  ]
+  const onActionsClick = audio => {
+    console.log(audio) // data[0]
+  }
+  const actions = [
+    audio => <div key={'a'} onClick={() => onActionsClick(audio)}>action A </div>,
+    audio => <div key={'b'} onClick={() => onActionsClick(audio)}>action B</div>
+  ]
+  return <div className={'wrapper'}>
+     <CoolMusicPlayer data={data} actions={actions}/>
     </div>
 }
 ```
