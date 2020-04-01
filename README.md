@@ -12,7 +12,7 @@ Responsive audio play assembly adaptive with PCs and mobile devices. All icons a
 
 <p align="center">
   <img alt="license MIT" src="https://img.shields.io/badge/license-MIT-green">
-  <img alt="version 1.0.5" src="https://img.shields.io/badge/version-1.0.5-orange">
+  <img alt="version 1.0.6" src="https://img.shields.io/badge/version-1.0.6-orange">
 </p>
 
 <p align="center">
