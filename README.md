@@ -1,4 +1,4 @@
-﻿<p align="center">
+﻿﻿<p align="center">
   <img alt="logo" src="http://neroht.com/logo.png" width="100" max-width="100%">
 </p>
 
@@ -7,44 +7,46 @@ react-cool-music-player
 </h1>
 
 <h4 align="center">
-适配PC端与移动设备的响应式音频播放组件。所有图标和文字可自定义，主题颜色可以修改，支持歌词同步滚动。
+Responsive audio play assembly adaptive with PCs and mobile devices. All icons and texts are customizable. Theme colors can be modified. Synchronized scrolling of lyrics is supported.
 </h4>
 
 <p align="center">
   <img alt="license MIT" src="https://img.shields.io/badge/license-MIT-green">
-  <img alt="version 1.0.0" src="https://img.shields.io/badge/version-1.0.4-orange">
+  <img alt="version 1.0.5" src="https://img.shields.io/badge/version-1.0.5-orange">
 </p>
 
-**React@16.12.0** **TypeScript@3.7.3**
+<p align="center">
+  <a style="margin-right: 8px" href="http://coolplayer.neroht.com/">Click here to view a demonstration</a> |
+  <a style="margin-left: 8px" href="https://github.com/neroneroffy/react-music-player/blob/master/CN.md">中文文档</a>
+</p>
 
-[点击查看演示](http://coolplayer.neroht.com/)</br>
 
-## 功能
-适配PC端与移动设备，移动设备支持弹出播放详情页面
-1. 播放控制
-   - 上一曲，下一曲
-   - 播放暂停
-   - 滑动或者点击歌曲进度条实现音乐的快进快退
-   - 滚动歌词定位播放位置，实现快进快退功能
-   - 播放列表内音乐播放，删除，当前播放音乐高亮显示
-2. 音量控制
-   - 拖动、点击音量控制条控制音量
-   - 点击音量图标切换静音状态
-3. 状态展示
-   - 播放音乐时封面图片旋转，暂停时停止旋转
-   - 音乐剩余时间显示
-   - 缓冲进度条
-   - 播放进度条
-   - 歌词同步滚动且当前歌词高亮
-   - 音量为0时，音量图标显示为静音图标
+## Functions
+Adaptive with PCs and mobile devices. Popup of the play detail page is supported on mobile devices.
+1. Play control
+   - Previous song,next song
+   - Pause
+   - Scroll or click on the progress bar of the song to realize fast forward and fast backward of the music.
+   - Scroll the lyrics to locate the play position and implement functions of fast forward and fast backward.
+   -  Play, delete music in the playlist, and the currently playing music is highlighted.
+2. Volume control
+   - Drag, click on the volume control bar to control the volume.
+   - Click on the volume icon to switch the mute status. 3. 状态展示
+3. Status display
+   - The cover picture rotates when music is playing and stops rotating when music pauses.
+   - Remaining time of the music is displayed.
+   - Buffer bar.
+   - Play progress bar.
+   - Lyrics synchronously scroll and the current lyrics are highlighted.
+   - When the volume is 0, the volume icon is displayed as a mute icon.
 
 # Usage
-安装
+install
 ```
 npm install react-cool-music-player
 ```
 
-在代码中使用
+Use in code
 
 ```javascript
 import React from 'react'
@@ -76,107 +78,107 @@ const root = document.getElementById('root')
 ReactDOM.render(<App/>, root)
 ```
 # API
-播放器内音频的数据结构：
+Audio data structure in the player:
 ```typescript
   interface IAudio {
-    /*音频链接*/
+    /*Audio link*/
     src: string
-    /*歌手*/
+    /*author*/
     artist: string
-    /*音频名称*/
+    /*audio name*/
     name: string
-    /*音频图片*/
+    /*audio image*/
     img: string
-    /*音频的id*/
+    /*audio ID*/
     id: string
-    /*歌词*/
+    /*lyrics*/
     lyric?: string
-    /*歌词翻译*/
+    /*lyric translation*/
     tLyric?: string
-    /*是否禁用*/
+    /*disabled or not*/
     disabled?: boolean
-    /*禁用的原因*/
+    /*reasons for being disabled*/
     disabledReason?: string | React.ReactNode
   }
 ```
-## 完整的API列表
+## Complete API list
 | API                                      | 说明                                                                                             | 类型                                                                                         | 默认值                    |
 | :--------------------------------------- |:-------------------------------------------------------------------------------------------------| :--------------------------------------------------------------------------------------------| :-------------------------|
-| data                                     | 传入组件的音频数据，会展示在播放列表中                                                           | IAudio[]                                                                                     | -                         |
-| play                                     | 控制播放器开始和停止播放                                                                         | boolean                                                                                      | false                     |
-| playListPlaceholder                      | 播放列表为空时候的占位文字                                                                       | string                                                                                       | 'No data'                 |
-| currentAudio                             | 可以控制当前播放器的音频，若不传入，播放器内待播放的音频默认为播放列表第一个音频                 | IAudio                                                                                       | -                         |
-| playListShow                             | 便于外部控制播放列表展示与隐藏                                                                   | boolean                                                                                      | false                     |
-| showPlayDetail                           | 点击歌曲图标是否展示播放详情（移动端有效）                                                       | boolean                                                                                      | true                      |
-| playDetailShow                           | 便于外部控制播放详情的显示与隐藏（移动端有效）                                                   | boolean                                                                                      | false                     |
-| detailBackground                         | 播放详情页面的背景（移动端有效）                                                                 | `React.ReactNode`                                                                            | -                         |
-| volume                                   | 音量，传入组件可以控制播放器音量大小，范围是0到1                                                 | number                                                                                       | 0.5                       |
-| zIndex                                   | 播放器整体容器的z-index值                                                                        | number                                                                                       | 1000                      |
-| showLyricNormal                          | 在非移动端状态下是否展示歌词                                                                     | boolean                                                                                      | false                     |
-| showDetailLyric                          | 移动端状态下是否在歌曲详情页面展示歌词                                                           | boolean                                                                                      | false                     |
-| showLyricMini                            | 移动端状态下是否展示迷你歌词                                                                     | boolean                                                                                      | false                     |
-| playMode                                 | 播放模式，传入可控制播放器内播放列表的播放模式（顺序播放、随机播放、单曲循环）                   | `order`,`random`,`loop`                                                                      | `order`                   |
-| lyric                                    | 异步加载歌词时，传入的歌词数据                                                                   | string                                                                                       | -                         |
-| tLyric                                   | 异步加载歌词时，如需要展示歌词翻译，传入的歌词翻译                                               | string                                                                                       | -                         |
-| lyricLoading                             | 用于异步加载歌词时的加载状态显示                                                                 | boolean                                                                                      | false                     |
-| lyricPlaceholder                         | 歌词数据为空时的占位元素                                                                         | `React.ReactNode` or `string`                                                                | false                     |
-| showProgressControlByLyricScroll         | 移动端状态下，播放详情中是否需要通过手动滚动歌词调整播放进度                                     | boolean                                                                                      | true                      |
-| avatarPlaceholder                        | 歌曲图片为空时歌曲图标的占位元素                                                                 | `React.ReactNode`                                                                            | <div></div>               |
-| actions                                  | 非移动端状态下，展示在播放器内部的操作组，在播放模式按钮与音量控制按钮之间                       | `Array<(data: IAudio) => React.ReactNode>`                                                   | []                        |
-| detailActionTopRight                     | 移动端状态下，展示在播放详情内部右上角的操作元素                                                 | `(data: IAudio) => React.ReactNode`                                                          | -                         |
-| detailActionsBottom                      | 移动端状态下，展示在播放详情内部进度条上方的操作组                                               | `Array<(data: IAudio) => React.ReactNode>`                                                   | []                        |
-| playListAudioActions                     | 播放列表内每首音频的操作组，在歌曲名称右侧，移动端激活状态下显示，非移动端hover时显示            | `Array<(data: IAudio, active?: boolean) => React.ReactNode>`                                 | []                        |
-| playListHeader                           | 播放列表顶部的左右两个元素                                                                       | { headerLeft?: ` React.ReactNode or string`, headerRight?: `React.ReactNode or string` }     | headerLeft: 'Play list', headerRight: '' |
-| primaryColor                             | 主题颜色                                                                                         | string                                                                                       | '#33beff'                  |
-| icons                                    | 自定义图标                                                                                       | Object                                                                                       | 见下方描述                 |
-| onPlayListStatusChange                   | 播放列表显示和隐藏时的回调函数，如果希望通过playListShow控制播放列表的显示隐藏状态，则需要在这个回调中同步设置playListShow的值 | (status: boolean) => void                                      | -                          |
-| onPlayDetailStatusChange                 | 播放详情展示或者隐藏时的回调函数，如果希望通过playDetailShow控制播放详情的显示隐藏状态，则需要在这个回调中同步设置playDetailShow的值 | (status: boolean) => void                                | -                          |
-| onDelete                                 | 删除播放列表音频的回调函数                                                                       | (index: number, id: string) => void                                                          | -                          |
-| onVolumeChange                           | 音量变化时的回调函数                                                                             | (volume: number) => void                                                                     | -                          |
-| onAudioChange                            | 播放器内音频改变触发的回调函数                                                                   | (id: string, currentMusic: IAudio) => void                                                   | -                          |
-| onPlayStatusChange                       | 切换播放和暂停触发的回调函数                                                                     | (currentMusic: IAudio, isPlayed: boolean) => void                                            | -                          |
-| onModeChange                             | 切换播放模式触发的回调函数                                                                       | (currentMode: PlayMode, prevMode: PlayMode) => void                                          | -                          |
+| data                                     | Audio data introduced into the assembly, which is displayed in the playlist                                                           | IAudio[]                                                                                     | -                         |
+| play                                     | Controls the player to start and stop playing                                                                         | boolean                                                                                      | false                     |
+| playListPlaceholder                      | Placeholder text when the playlist is empty                                                                       | string                                                                                       | 'No data'                 |
+| currentAudio                             | Can control audio of the current player. If it is not introduced, the audio to be played in the player is the first audio in the playlist by default                 | IAudio                                                                                       | -                         |
+| playListShow                             | Facilitates externally controlling display and hiding of the playlist                                                                   | boolean                                                                                      | false                     |
+| showPlayDetail                           | Whether play details are displayed upon click on the song icon (valid on mobile devices)                                                       | boolean                                                                                      | true                      |
+| playDetailShow                           | Facilitates externally controlling display and hiding of the play details (valid on mobile devices)                                                   | boolean                                                                                      | false                     |
+| detailBackground                         | Background of the play detail page (valid on mobile devices)                                                                | `React.ReactNode`                                                                            | -                         |
+| volume                                   | Volume, which, after being introduced into the assembly, can control the volume size of the player, ranging from 0 to 1                                               | number                                                                                       | 0.5                       |
+| zIndex                                   | z-index value of the player                                                                        | number                                                                                       | 1000                      |
+| showLyricNormal                          | Whether to display lyrics on non-mobile devices                                                                     | boolean                                                                                      | false                     |
+| showDetailLyric                          | Whether to display lyrics on the song detail page on mobile devices                                                           | boolean                                                                                      | false                     |
+| showLyricMini                            | Whether to display mini lyrics on mobile devices                                                                     | boolean                                                                                      | false                     |
+| playMode                                 | Play mode, which, after being introduced, can control the play modes of the playlist in the player (play in order, random play, single cycle)                   | `order`,`random`,`loop`                                                                      | `order`                   |
+| lyric                                    | Introduced lyric data when lyrics are loaded asynchronously                                                                   | string                                                                                       | -                         |
+| tLyric                                   | Introduced lyric translation when lyrics are loaded asynchronously if it is needed to display lyric translation                                             | string                                                                                       | -                         |
+| lyricLoading                             | Loading status display for loading lyrics asynchronously                                                                 | boolean                                                                                      | false                     |
+| lyricPlaceholder                         | Placeholder element when lyric data is empty                                                                         | `React.ReactNode` or `string`                                                                | false                     |
+| showProgressControlByLyricScroll         | Whether it is needed to manually scroll lyrics to adjust the play progress in play details on mobile devices                                     | boolean                                                                                      | true                      |
+| avatarPlaceholder                        | Placeholder element of the song icon when the song image is empty                                                                 | `React.ReactNode`                                                                            | <div></div>               |
+| actions                                  | An action group displayed in the player on non-mobile devices, between the play mode button and the volume control button                       | `Array<(data: IAudio) => React.ReactNode>`                                                   | []                        |
+| detailActionTopRight                     | An action element displayed at the upper right corner in the play details on mobile devices                                                 | `(data: IAudio) => React.ReactNode`                                                          | -                         |
+| detailActionsBottom                      | An action group displayed above the progress bar in the play details on mobile devices                                               | `Array<(data: IAudio) => React.ReactNode>`                                                   | []                        |
+| playListAudioActions                     | An action group of each piece of audio in the playlist, located on the right side of the song name, displayed in the activated status on a mobile terminal and when a non-mobile devices hovers            | `Array<(data: IAudio, active?: boolean) => React.ReactNode>`                                 | []                        |
+| playListHeader                           | Two (left and right) elements on the top of the playlist                                                                       | { headerLeft?: ` React.ReactNode or string`, headerRight?: `React.ReactNode or string` }     | headerLeft: 'Play list', headerRight: '' |
+| primaryColor                             | Theme colors                                                                                         | string                                                                                       | '#33beff'                  |
+| icons                                    | Customized icon                                                                                       | Object                                                                                       | See descriptions below                 |
+| onPlayListStatusChange                   | A callback function when the playlist is displayed and hidden. If you wish to control the display and hiding statuses of the playlist through playListShow, you need to set the value of playListShow synchronously in this callback function | (status: boolean) => void                                      | -                          |
+| onPlayDetailStatusChange                 | A callback function when play details are displayed or hidden. If you wish to control the display and hiding statuses of play details through playDetailShow, you need to set the value of playDetailShow synchronously in this callback function | (status: boolean) => void                                | -                          |
+| onDelete                                 | Deletes the callback function of the audio in the playlist                                                                       | (index: number, id: string) => void                                                          | -                          |
+| onVolumeChange                           | A callback function when the volume changes                                                                             | (volume: number) => void                                                                     | -                          |
+| onAudioChange                            | A callback function triggered by audio change in the player                                                                   | (id: string, currentMusic: IAudio) => void                                                   | -                          |
+| onPlayStatusChange                       | A callback function triggered by switch between play and pause                                                                     | (currentMusic: IAudio, isPlayed: boolean) => void                                            | -                          |
+| onModeChange                             | A callback function triggered by switch between play modes                                                                       | (currentMode: PlayMode, prevMode: PlayMode) => void                                          | -                          |
 
-## 构建命令
-* 安装依赖
+## Build commands
+* Installing dependency
 ```
 npm install
 ```
-* 启动开发环境
+* Starting the development environment
 ```
 npm run dev
 ```
-* 本地访问
+* Local access
 ```
 http://localhost:8080
 ```
-* 打包构建
+* Packing construction
 ```
 npm run build
 ```
-* 打包并在本地启动express服务器访问
+* Packing and starting the express server access locally
 ```
 npm start
 ```
-* 自动化测试
+* Automated testing
 ```
 npm run test
 ```
-* 生成测试覆盖率报告
+* Generating a test coverage report
 ```
 npm run coverage
 ```
-* 代码风格检查
+* Code style check
 ```
 npm run lint
 ```
-* 代码风格自动修复
+* Automatic restoration of the code style
 ```
 npm run lint-fix
 ```
 
-## 自定义图标
-如果你对于组件中的任何图标不满意，那么可以将自定义的图标传入组件替换掉不想要的图标。
+## Customized icons
+If you are unsatisfied with any icon in the assembly, you can introduce a customized icon into the assembly to replace the undesired one.
 ```javascript
 const App = () => {
   const data = [
@@ -206,46 +208,46 @@ const App = () => {
     </div>
 }
 ```
-完整的图标列表：
+Complete icon list：
 ```typescript
 interface Iicon {
-      /*控制播放列表显示或隐藏的图标*/
+      /*An icon that controls the playlist to be displayed or hidden*/
       playListIcon?: React.ReactNode
-      /*播放列表每个音频前面的播放按钮*/
+      /*A play button in front of each of the audio in the playlist*/
       playListPlay?: React.ReactNode
-      /*播放列表中每个音频正在播放的图标*/
+      /*An icon of each of the audio that is being played in the playlist*/
       playListPlaying?: React.ReactNode
-      /*播放列表中删除音频的删除图标*/
+      /*An icon for deleting audio in the playlis*/
       deleteIcon?: React.ReactNode
-      /*播放*/
+      /*Play*/
       playIcon?: React.ReactNode
-      /*暂停*/
+      /*Pause*/
       pauseIcon?: React.ReactNode
-      /*上一首*/
+      /*Previous*/
       prevIcon?: React.ReactNode
-      /*下一首*/
+      /*Next*/
       nextIcon?: React.ReactNode
-      /*顺序播放*/
+      /*Order*/
       modeOrder?: React.ReactNode
-      /*随机播放*/
+      /*Random*/
       modeRandom?: React.ReactNode
-      /*单曲循环*/
+      /*Single circle*/
       modeLoop?: React.ReactNode
-      /*音量*/
+      /*Volume*/
       volumeIcon?: React.ReactNode
-      /*静音*/
+      /*Mute*/
       muteIcon?: React.ReactNode
-      /*隐藏播放详情*/
+      /*Hide play details*/
       detailHide?: React.ReactNode
 }
 ```
-## 歌词显示功能
-播放器支持音频数据自带歌词与远程加载歌词两种方式，这两种方式都可以支持歌词的译文显示。歌词与歌词译文必须是以下这种形式：
+## Lyrics display function
+The player supports two manners: build-in lyrics of audio data and remote loading lyrics. Both of the manners can support display of translations of lyrics. Lyrics and translations thereof must be in the following form:
 ```javascript
 const lyricExample = '[00:18.220]Oh, loves gonna get you down\n[00:20.880]Sucking to hard on your lollipop\n[00:23.600]Loves gonna get you down'
 ```
-### 自带歌词
-自带的歌词需要存储在音频数据的lyric字段中，如需显示歌词译文，则需要将它存储在tLyric字段中。注意：当在移动端显示迷你歌词时，不会显示歌词译文
+### Build-in lyrics
+Build-in lyrics need to be stored in the lyric filed of the audio data. If the lyric translation needs to be displayed, it is necessary to store it in the tLyric field.
 ```javascript
 const App = () => {
   const data = [
@@ -268,8 +270,8 @@ const App = () => {
     </div>
 }
 ```
-### 远程加载歌词
-支持单独传入当前音频的歌词，可以在onAudioChange函数中获取当前的音频信息，然后远程加载相应歌词传到播放器内显示，但应该注意，在onAudioChange函数中应该将之前的歌词重置为空。
+### Remote loading lyrics
+Separate introduction of lyrics of the current audio is supported. Current audio information may be obtained in the onAudioChange function, corresponding lyrics are then remotely loaded and introduced into the player for display. However, it should be noted that the preceding lyrics should be reset to be empty in the onAudioChange function.
 ```javascript
 const App = () => {
   const data = [
@@ -315,9 +317,11 @@ const App = () => {
     </div>
 }
 ```
-## 音频禁用状态
-如果音频因为某些原因不可播放（例如没有版权许可），则可以在音频数据结构中添加disabled字段，值为Boolean类型。此时播放列表内如果有被禁用的音频，那么它将会被置灰，点击无法被播放出来。切换上一首下一首时，如果遇到被禁用的音频，则会跳过它。
-禁用状态可以被移出播放列表。如果想表明被禁用的原因，可以添加disabledReason字段，字段值将展示在音频名称后面。
+## Audio disabled status
+If audio cannot be played for certain reasons (such as no copyright permission), a disabled field can be added in the audio data structure, the value of which field is of type Boolean. In this case, if the playlist contains disabled audio, the playlist will be set to be grey and fail to play upon click. Disabled audio, if any, is skipped in switching between a previous song and a next one.
+
+The disabled status can be removed from the playlist. If you wish to indicate reasons for being disabled, you may add a disabledReason field. The field value will be displayed following the name of each audio in the playlist.
+
 ```javascript
 const App = () => {
   const data = [
@@ -343,8 +347,8 @@ const App = () => {
     </div>
 }
 ```
-## 外部控制播放状态
-播放器提供play属性来支持从外部控制播放与暂停。
+## External control of the play status
+The player provides a play attribute to support externally controlling play and pause.
 ```javascript
 const App = () => {
   const data = [
@@ -369,9 +373,9 @@ const App = () => {
 }
 ```
 
-## 传入操作组
-如果当前播放器的功能不满足的你需求，你可以传入操作组来进行功能扩展。以actions为例，操作组是一个数组，数组的每个元素使用render-props的方式接收
-当前播放的音频信息，并返回一个ReactNode。其余的操作组有：detailActionTopRight（类型为函数，参照上方API列表）、detailActionsBottom、playListAudioActions
+## Introduction of an action group
+If functions of the current player cannot satisfy your needs, you may introduce an action group to extend functions. With actions as an example, its action group is an array, and each element of the array receives information of the currently playing audio in a manner of render-props and returns a ReactNode. The remaining action groups are: detailActionTopRight (the type is a function, referring to the above API list)
+
 ```javascript
 const App = () => {
   const data = [
