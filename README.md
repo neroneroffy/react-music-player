@@ -31,7 +31,7 @@ Adaptive with PCs and mobile devices. Popup of the play detail page is supported
    -  Play, delete music in the playlist, and the currently playing music is highlighted.
 2. Volume control
    - Drag, click on the volume control bar to control the volume.
-   - Click on the volume icon to switch the mute status. 3. 状态展示
+   - Click on the volume icon to switch the mute status.
 3. Status display
    - The cover picture rotates when music is playing and stops rotating when music pauses.
    - Remaining time of the music is displayed.
