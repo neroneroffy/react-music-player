@@ -7,7 +7,7 @@ react-cool-music-player
 </h1>
 
 <h4 align="center">
-Responsive audio play assembly adaptive with PCs and mobile devices. All icons and texts are customizable. Theme colors can be modified. Synchronized scrolling of lyrics is supported.
+Responsive audio play assembly adaptive with PC and mobile devices. All icons and texts are customizable. Theme colors can be modified. Synchronized scrolling of lyrics is supported.
 </h4>
 
 <p align="center">
